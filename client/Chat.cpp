@@ -7,7 +7,11 @@
 
 Chat::Chat()
 {
-   _message = "";
+    for ( int i = 0; i < 5; ++i )
+    {
+        _message[i] = _player[i] = "";
+        _time[i] = 0;
+    }
    EventManager::instance().addListener<ChatEvent>(this);
 }
 
@@ -17,7 +21,11 @@ Chat::~Chat()
 
 void Chat::draw()
 {
-    Display::instance().draw( 20, 20, _message );
+    for ( int i = 0; i < 5; ++i )
+    {
+        if ( _time[i] > SDL_GetTicks() )
+            Display::instance().draw( 20, 20+(i*15), _message[i] );
+    }
     Display::instance().draw( 20, 400, _input );
 }
 
@@ -35,5 +43,11 @@ void Chat::sendMessage( std::string text )
 
 void Chat::handleEvent(ChatEvent& e)
 {
-   _message = e.getPlayerName() + "> " + e.getMessage();
+    for ( int i = 4; i > 0; --i )
+    {
+        _message[i] = _message[i-1];
+        _time[i] = _time[i-1];
+    }
+   _message[0] = e.getPlayerName() + "->" + e.getMessage();
+   _time[0] = SDL_GetTicks() + 20000;
 }

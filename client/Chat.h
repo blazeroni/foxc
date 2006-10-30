@@ -10,8 +10,10 @@ class Chat : public IEventListener, public Singleton<Chat>
     friend class Singleton<Chat>;
 
     private:
-      std::string _message;
-      std::string _input;
+      string _message[5];
+      uint32 _time[5];
+      string _player[5];
+      string _input;
     
     public:
       Chat();

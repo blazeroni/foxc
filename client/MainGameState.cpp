@@ -578,3 +578,5 @@ int MainGameState::getShroud( int x, int y ) const
     if ( !_map.get() ) return true;
     return _shroud[x*_map->getWidth()+y];
 }
+
+spPlayer MainGameState::getLocalPlayer() { return _localPlayer; }

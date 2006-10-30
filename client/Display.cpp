@@ -176,15 +176,25 @@ void Display::drawGUI()
         draw( _screenWidth - 155 - ClientUnit::_image->w/2, 40 - ClientUnit::_image->h/2, ClientUnit::_image ); 
         draw( _screenWidth - 65, 20, activeUnit->getName(), true );
         stringstream ss;
-        string text;
-        ss << max ( activeUnit->getHealth(), 0 );
-        ss >> text;
+        string text = "";
+        if ( gs->getLocalPlayer()->getID() == activeUnit->getPlayerID() )
+        {
+            ss << max ( activeUnit->getHealth(), 0 );
+            ss >> text;
+        }
+        else
+            text = "?";
         text = "HP:"+text;
         draw( _screenWidth - 90, 45, text, true );
         ss.clear(stringstream::goodbit);
         text = "";
-        ss << max ( activeUnit->getActionPoints(), 0 );
-        ss >> text;
+        if ( gs->getLocalPlayer()->getID() == activeUnit->getPlayerID() )
+        {
+            ss << max ( activeUnit->getActionPoints(), 0 );
+            ss >> text;
+        }
+        else
+            text = "?";
         text = "AP:"+text;
         draw( _screenWidth - 35, 45, text, true );
         if ( selectedUnit.get() && selectedUnit != activeUnit )

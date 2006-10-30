@@ -73,6 +73,7 @@ class MainGameState : public GameState, public IEventListener
       virtual void handleEvent(UnitInvSwapEvent& e);
       int getFog( int x, int y ) const;
       int getShroud( int x, int y ) const;
+      spPlayer getLocalPlayer();
 
    private:
       spPlayer getPlayer() const;

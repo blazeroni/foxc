@@ -262,7 +262,6 @@ void Display::highlightUsable( spMapTile tile, int radius, int ox, int oy )
         for ( int j = 0; j < map->getHeight(); ++j )
         {
             tile2 = map->getTile(i,j);
-            cout << tile->getDistance(tile2) << endl;
             if ( tile->getDistance(tile2) <= radius )
                 draw( tile2->getScreenX()-ox, tile2->getScreenY()-oy, _usableHighlight );
         }

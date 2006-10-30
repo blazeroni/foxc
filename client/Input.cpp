@@ -195,10 +195,8 @@ Point Input::getMousePosition() const
     return p;
 }
 
-int Input::getMode() const
-{
-    return _mode;
-}
+int Input::getMode() const { return _mode; }
+int Input::getHand() const { return _hand; }
 
 bool Input::GUIInput( SDL_Event& event )
 {
@@ -220,11 +218,9 @@ bool Input::GUIInput( SDL_Event& event )
         {
             if ( event.button.button == SDL_BUTTON_LEFT && activeUnit->getLeft().get() )
             {
-                cout << "click" << endl;
                 _hand = 1;
                 if ( activeUnit->getLeft()->getRange() == 0 )
                 {
-                    cout << "bad" << endl;
                     ((MainGameState*)gs)->fire(((MainGameState*)gs)->getActiveUnit(),
                                           ((MainGameState*)gs)->getMap()->getTile(0,0), _hand);
                     return true;

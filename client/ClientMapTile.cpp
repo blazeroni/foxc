@@ -2,15 +2,19 @@
 #include "ClientMapTile.h"
 #include "ClientTerrain.h"
 #include "Display.h"
+#include "XClient.h"
+#include "MainGameState.h"
 
 int ClientMapTile::_width = 80;
 int ClientMapTile::_height = 42;
 
 SDL_Surface* ClientMapTile::_highlight = NULL;
 SDL_Surface* ClientMapTile::_highlightMove = NULL;
+SDL_Surface* ClientMapTile::_highlightFog = NULL;
 
 #define TILE_HIGHLIGHT "resources/images/tile_highlight.png"
 #define TILE_MOVEABLE "resources/images/tile_moveable.png"
+#define TILE_FOG "resources/images/tile_fog.png"
 
 ClientMapTile::ClientMapTile(TerrainType type, int x, int y) :
    MapTile(type, x, y)
@@ -25,6 +29,7 @@ ClientMapTile::ClientMapTile(TerrainType type, int x, int y) :
    {
       _highlight = Display::instance().loadImage(TILE_HIGHLIGHT);
       _highlightMove = Display::instance().loadImage(TILE_MOVEABLE);
+      _highlightFog = Display::instance().loadImage(TILE_FOG);
    }
 
    setTerrain(makeTerrain(type));
@@ -85,6 +90,9 @@ void ClientMapTile::drawObjects(Point offset) const
 {
    Point dim(_width, _height);
    Point position(_screenX - offset.x, _screenY - offset.y);
+   bool isFog = ((MainGameState*)XClient::instance().getCurrentGameState())->getFog(getX(),getY());
+   if ( isFog )
+        Display::instance().draw( position.x, position.y, _highlightFog ); 
    if (!_objects.empty())
    {
       //_objects.front()->draw(position, dim);
@@ -95,6 +103,7 @@ void ClientMapTile::drawObjects(Point offset) const
             (*iter)->draw(position, dim);
         }
    }
+   if ( isFog ) return;
    if (_unit.get())
    {
       _unit->draw(position, dim);

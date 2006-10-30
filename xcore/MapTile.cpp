@@ -270,8 +270,8 @@ void MapTile::takeDamage( int damage )
 #include <cmath>
 int MapTile::getDistance( spMapTile tile )
 {
-    double x = max ( _x - tile->getX(), tile->getX() - _x );
-    double y = max ( _y - tile->getY(), tile->getX() - _y );
+    int x = max ( _x - tile->getX(), tile->getX() - _x );
+    int y = max ( _y - tile->getY(), tile->getY() - _y );
     return int(sqrt ( x*x + y*y ));
 }
 

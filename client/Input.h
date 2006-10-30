@@ -16,6 +16,7 @@ class Input : public Singleton<Input>
       Point getMousePosition() const;
       ///  Return the current InputMode
       int getMode() const;
+      int getHand() const;
       void setMode( InputMode mode );
 
    private:

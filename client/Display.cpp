@@ -32,6 +32,7 @@ void Display::init()
    _guiInv = loadImage( "resources/images/gui/inventory_gui.png" );
    _guiUnit = loadImage( "resources/images/gui/unit_gui.png" );
    _cartridge = loadImage( "resources/images/gui/cartridge_gui.png" );
+   _usableHighlight = loadImage( "resources/images/tile_usable.png" );
    _cursor = NULL;
 }
 
@@ -249,4 +250,21 @@ void Display::setCursor( SDL_Surface *image )
     SDL_ShowCursor( SDL_DISABLE );
     if ( !image ) 
         SDL_ShowCursor( SDL_ENABLE );
+}
+
+void Display::highlightUsable( spMapTile tile, int radius, int ox, int oy )
+{
+    MainGameState* gs = (MainGameState*)XClient::instance().getCurrentGameState();
+    spMap map = gs->getMap();
+    spMapTile tile2;
+    for ( int i = 0; i < map->getWidth(); ++i )
+    {
+        for ( int j = 0; j < map->getHeight(); ++j )
+        {
+            tile2 = map->getTile(i,j);
+            cout << tile->getDistance(tile2) << endl;
+            if ( tile->getDistance(tile2) <= radius )
+                draw( tile2->getScreenX()-ox, tile2->getScreenY()-oy, _usableHighlight );
+        }
+    }
 }

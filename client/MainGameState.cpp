@@ -35,13 +35,12 @@ MainGameState::MainGameState(Game* game) :
   _readyToLoad(false), // change to false when event stuff is ready
   _localPlayer(spPlayer())
 {
-
 }
 
 
 MainGameState::~MainGameState()
 {
-
+    delete [] _fog;
 }
 
 
@@ -116,6 +115,9 @@ void MainGameState::update(uint32 deltaTime)
          stream << (*iter2).second;
          Display::instance().draw((*iter2).first->getCenterX()-offset.x, (*iter2).first->getCenterY()-offset.y, stream.str());
       }
+
+    if ( Input::instance().getMode() == USE )
+       Display::instance().highlightUsable( _map->getTile(_activeUnit->getX(),_activeUnit->getY()), _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y ); 
 
       _map->highlightMouseOverTile(offset);
       _map->drawObjectLayer(offset);
@@ -427,6 +429,9 @@ void MainGameState::handleEvent(UnitCreateEvent& e)
 {
    createUnit(e.getPlayerID(), e.getX(), e.getY());
    cout << "new unit: " << e.getX() << "," << e.getY() << endl;
+   // why does this crash?  are units created before the map?
+   //if ( e.getPlayerID() == _localPlayer->getID() )
+       //updateFog();
 }
 
 void MainGameState::handleEvent(UnitMoveEvent& e)
@@ -440,6 +445,7 @@ void MainGameState::handleEvent(UnitMoveEvent& e)
    if (u->getPlayerID() == _localPlayer->getID())
    {
       u->updatePossibleMoves();
+      updateFog();
    }
    else {
       u->clearPossibleMoves();
@@ -453,6 +459,10 @@ void MainGameState::handleEvent(StartGameEvent& e)
    getActiveUnit()->markSelected();
    _readyToLoad = true;
    cout << "start game" << endl;
+   _fog = new bool[_map->getWidth()*_map->getHeight()];
+    for ( int i = 0; i < _map->getWidth()*_map->getHeight(); ++i )
+        _fog[i] = true;
+   updateFog();
 }
 
 void MainGameState::handleEvent(GameOverEvent& e)
@@ -522,4 +532,41 @@ bool MainGameState::isMyTurn() const
     if ( !_activeUnit.get() )
         return false;
     return ( _activeUnit->getPlayerID() == _localPlayer->getID() );
+}
+
+void MainGameState::updateFog()
+{
+    if ( !_map.get() || !_activeUnit.get() ) return;
+    for ( int i = 0; i < _map->getWidth()*_map->getHeight(); ++i )
+        _fog[i] = true;
+    int width = _map->getWidth(), height = _map->getHeight(), sightRadius = 10;
+    spUnit unit;
+    spMapTile tile, tile2;
+    for ( int i = 0; i < width; ++i )
+    {
+        for ( int j = 0; j < height; ++j )
+        {
+            tile = _map->getTile(i,j);
+            unit = tile->getUnit();
+            if ( unit.get() && unit->getPlayerID() == _localPlayer->getID() )
+            {
+                for ( int k = 0; k < width; ++k )
+                {
+                    for ( int l = 0; l < height; ++l )
+                    {
+                        tile2 = _map->getTile(k,l);
+                        if ( tile->getDistance(tile2) <= sightRadius )  
+                            _fog[k*width+l] = false;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int MainGameState::getFog( int x, int y ) const
+{
+    if ( !_map.get() ) return true;
+    return _fog[x*_map->getWidth()+y];
+    //return true;
 }

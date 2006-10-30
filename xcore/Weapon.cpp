@@ -109,7 +109,7 @@ Grenade::Grenade(uint32 entityID) : Weapon(entityID)
     _name = "Grenade";
     _baseDamage = 200;
     _damageRange = 20;
-    _effectiveRange = 12;
+    _effectiveRange = 8;
     _baseAccuracy = 30;
     _clipSize = 1;
     _turnCost = 40;

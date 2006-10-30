@@ -4,6 +4,7 @@
 #include "includes.h"
 #include "xcore/Singleton.h"
 #include "Sprite.h"
+#include "xcore/MapTile.h"
 
 class Display;
 typedef boost::shared_ptr<Display> spDisplay;
@@ -31,6 +32,8 @@ class Display : public Singleton<Display>
       /// draw the most beautiful gui ever made
       void Display::drawGUI();
       SDL_Surface *_crosshair;
+      /// highlights the usable radius for an item
+      void highlightUsable( spMapTile tile, int radius, int offsetx, int offsety );
 
    private:
       Display();
@@ -38,7 +41,7 @@ class Display : public Singleton<Display>
       int _screenHeight;
       SDL_Surface *_screen, *_cursor;
       SDL_Surface *_guiHands, *_guiInv, *_guiUnit;
-      SDL_Surface *_cartridge;
+      SDL_Surface *_cartridge, *_usableHighlight;
       TTF_Font* _font;
 };
 

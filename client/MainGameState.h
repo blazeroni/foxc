@@ -72,6 +72,7 @@ class MainGameState : public GameState, public IEventListener
       virtual void handleEvent(UnitFireEvent& e);
       virtual void handleEvent(UnitInvSwapEvent& e);
       int getFog( int x, int y ) const;
+      int getShroud( int x, int y ) const;
 
    private:
       spPlayer getPlayer() const;
@@ -79,7 +80,7 @@ class MainGameState : public GameState, public IEventListener
       Mix_Music* MusicTheme;
 
       spClientMap _map;
-      bool *_fog;
+      bool *_fog, *_shroud;
       void updateFog();
       
       spPlayer _localPlayer;

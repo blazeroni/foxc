@@ -83,7 +83,11 @@ int ClientMapTile::getHeight()
 
 void ClientMapTile::drawTerrain(Point offset) const
 {
-   getTerrain()->draw(_screenX - offset.x, _screenY - offset.y);
+    bool isShroud = ((MainGameState*)XClient::instance().getCurrentGameState())->getShroud(getX(),getY());
+    if ( isShroud )
+        Display::instance().draw(_screenX - offset.x, _screenY - offset.y, _highlightFog);
+    else
+        getTerrain()->draw(_screenX - offset.x, _screenY - offset.y);
 }
 
 void ClientMapTile::drawObjects(Point offset) const
@@ -91,8 +95,10 @@ void ClientMapTile::drawObjects(Point offset) const
    Point dim(_width, _height);
    Point position(_screenX - offset.x, _screenY - offset.y);
    bool isFog = ((MainGameState*)XClient::instance().getCurrentGameState())->getFog(getX(),getY());
+   bool isShroud = ((MainGameState*)XClient::instance().getCurrentGameState())->getShroud(getX(),getY());
    if ( isFog )
         Display::instance().draw( position.x, position.y, _highlightFog ); 
+   if ( isShroud ) return;
    if (!_objects.empty())
    {
       //_objects.front()->draw(position, dim);

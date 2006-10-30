@@ -460,8 +460,9 @@ void MainGameState::handleEvent(StartGameEvent& e)
    _readyToLoad = true;
    cout << "start game" << endl;
    _fog = new bool[_map->getWidth()*_map->getHeight()];
+   _shroud = new bool[_map->getWidth()*_map->getHeight()];
     for ( int i = 0; i < _map->getWidth()*_map->getHeight(); ++i )
-        _fog[i] = true;
+        _fog[i] = _shroud[i] = true;
    updateFog();
 }
 
@@ -556,7 +557,10 @@ void MainGameState::updateFog()
                     {
                         tile2 = _map->getTile(k,l);
                         if ( tile->getDistance(tile2) <= sightRadius )  
+                        {
                             _fog[k*width+l] = false;
+                            _shroud[k*width+l] = false;
+                        }
                     }
                 }
             }
@@ -568,5 +572,9 @@ int MainGameState::getFog( int x, int y ) const
 {
     if ( !_map.get() ) return true;
     return _fog[x*_map->getWidth()+y];
-    //return true;
+}
+int MainGameState::getShroud( int x, int y ) const
+{
+    if ( !_map.get() ) return true;
+    return _shroud[x*_map->getWidth()+y];
 }

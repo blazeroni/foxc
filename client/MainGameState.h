@@ -74,6 +74,8 @@ class MainGameState : public GameState, public IEventListener
       int getFog( int x, int y ) const;
       int getShroud( int x, int y ) const;
       spPlayer getLocalPlayer();
+	  // gets a unit from _units given an id
+	  spUnit getUnitFromID(uint32 id);
 
    private:
       spPlayer getPlayer() const;

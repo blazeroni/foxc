@@ -87,6 +87,9 @@ void ServerGame::createInitialUnits()
       first = false;
 
       spUnit u = _factory->makeUnit(iter->second->getPlayerID(), _map->getTile(x, y));
+	  u->addItem(_factory->makePistol());
+	  u->addItem(_factory->makeGrenade());
+	  //u->addItem(_factory->makePistolClip());
       addUnit(u);
       send(UnitCreateEvent(iter->second->getPlayerID(), x, y));
    }

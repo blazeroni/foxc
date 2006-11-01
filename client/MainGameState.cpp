@@ -148,8 +148,10 @@ spUnit MainGameState::createUnit(int playerID, int x, int y)
 {
    ClientEntityFactory& cef = ClientEntityFactory::instance();
    spUnit u = cef.makeUnit(playerID, _map->getTile(x, y));
+   // all items added here must be added in server as well so that itemids match
    u->addItem(cef.makePistol());
    u->addItem(cef.makeGrenade());
+   //u->addItem(cef.makePistolClip());
    vector<Player>::iterator iter;
 
    //for (iter = _players.begin(); iter != _players.end(); ++iter)
@@ -435,7 +437,8 @@ void MainGameState::handleEvent(UnitCreateEvent& e)
 
 void MainGameState::handleEvent(UnitMoveEvent& e)
 {
-   spUnit u = _units[e.getUnitID()];
+   //spUnit u = _units[e.getUnitID()];
+	spUnit u = getUnitFromID(e.getUnitID());
    spMapTile t = _map->getTile(e.getX(), e.getY());
    //u->updatePossibleMoves();
    u->updatePossibleMoves();
@@ -477,18 +480,17 @@ void MainGameState::handleEvent(GameOverEvent& e)
 
 void MainGameState::handleEvent(UnitActiveEvent& e)
 {
-   _activeUnit = _units[e.getUnitID()];
-   if ( _activeUnit.get() )
-		_activeUnit->markActive();
-   else
-	   cout << "bad news" << endl;
-   
+   //_activeUnit = _units[e.getUnitID()];
+	spUnit u = getUnitFromID(e.getUnitID());
+	u->markActive();
+	_activeUnit = u;
    // this could probably be replaced by a single function call for each unit that regens a certain number of times
    //      instead of looping a bunch
    map<uint32, spUnit>::iterator iter;
    for (iter = _units.begin(); iter != _units.end(); ++iter)
    {
-      iter->second->regenActionPoints(e.getNumberOfRegens());
+		if (iter->second.get())
+			iter->second->regenActionPoints(e.getNumberOfRegens());
    }
 
    if (_activeUnit->getPlayerID() == _localPlayer->getID()) {
@@ -501,7 +503,8 @@ void MainGameState::handleEvent(UnitActiveEvent& e)
 
 void MainGameState::handleEvent(UnitWaitEvent& e)
 {
-   spUnit u = _units[e.getUnitID()];
+   //spUnit u = _units[e.getUnitID()];
+	spUnit u = getUnitFromID(e.getUnitID());
    u->wait();
    if (_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
    {
@@ -513,7 +516,8 @@ void MainGameState::handleEvent(UnitWaitEvent& e)
 
 void MainGameState::handleEvent(UnitFireEvent& e)
 {
-   spUnit u = _units[e.getUnitID()];
+   //spUnit u = _units[e.getUnitID()];
+	spUnit u = getUnitFromID(e.getUnitID());
    u->use(_map->getTile(e.getX(), e.getY()), e.getHand());
    if (_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
       u->updatePossibleMoves();
@@ -521,7 +525,8 @@ void MainGameState::handleEvent(UnitFireEvent& e)
 
 void MainGameState::handleEvent(UnitInvSwapEvent& e)
 {
-   spUnit u = _units[e.getUnitID()];
+   //spUnit u = _units[e.getUnitID()];
+   spUnit u = getUnitFromID(e.getUnitID());
    u->swapEq(e.getSlot1(), e.getSlot2());
    // debug
    if (_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
@@ -582,3 +587,15 @@ int MainGameState::getShroud( int x, int y ) const
 }
 
 spPlayer MainGameState::getLocalPlayer() { return _localPlayer; }
+
+spUnit MainGameState::getUnitFromID(uint32 id)
+{
+	map<uint32, spUnit>::iterator iter;
+   for (iter = _units.begin(); iter != _units.end(); ++iter)
+   {
+      if ( iter->second->getID() == id )
+		  return iter->second;
+   }
+   // this should never happen
+	return _units[0];
+}

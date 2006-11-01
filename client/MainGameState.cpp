@@ -250,7 +250,7 @@ void MainGameState::processSDLEvent(SDL_Event& event)
    {
       spUnit u = getActiveUnit();
       spMapTile t = _map->getMouseOverTile();
-      if (t.get() && t->hasUnit())
+      if (t.get() && !_fog[t->getX()*_map->getWidth()+t->getY()] && t->hasUnit())
       {
          selectUnit(t->getUnit());
       }
@@ -344,8 +344,7 @@ spMap MainGameState::getMap()
 
 void MainGameState::fire(spUnit target, spMapTile t, int hand)
 {
-   if (_activeUnit->getPlayerID() == _localPlayer->getID() &&  t.get() && t->getUnit().get() &&
-      t->getUnit()->getPlayerID() != _localPlayer->getID())
+   if (_activeUnit->getPlayerID() == _localPlayer->getID() &&  t.get() )
    {
       ClientNetwork::instance().send(UnitFireEvent(_activeUnit->getID(), t->getX(), t->getY(), hand));
    }
@@ -479,7 +478,10 @@ void MainGameState::handleEvent(GameOverEvent& e)
 void MainGameState::handleEvent(UnitActiveEvent& e)
 {
    _activeUnit = _units[e.getUnitID()];
-   _activeUnit->markActive();
+   if ( _activeUnit.get() )
+		_activeUnit->markActive();
+   else
+	   cout << "bad news" << endl;
    
    // this could probably be replaced by a single function call for each unit that regens a certain number of times
    //      instead of looping a bunch
@@ -514,9 +516,7 @@ void MainGameState::handleEvent(UnitFireEvent& e)
    spUnit u = _units[e.getUnitID()];
    u->use(_map->getTile(e.getX(), e.getY()), e.getHand());
    if (_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
-   {
       u->updatePossibleMoves();
-   }
 }
 
 void MainGameState::handleEvent(UnitInvSwapEvent& e)
@@ -524,7 +524,9 @@ void MainGameState::handleEvent(UnitInvSwapEvent& e)
    spUnit u = _units[e.getUnitID()];
    u->swapEq(e.getSlot1(), e.getSlot2());
    // debug
-   if (!_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
+   if (_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
+		u->updatePossibleMoves();
+   else
         cerr << "somebody has changed the inventory of your unit!" << endl;
 }
 

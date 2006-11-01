@@ -591,7 +591,7 @@ void Unit::use( spMapTile tile, int wHand )
             (_hand[(wHand+1)%2])->reload();
             _actionPoints -= _hand[wHand]->getTurnCost();
             _hand[wHand] = spItem();
-            updatePossibleMoves();
+            //updatePossibleMoves();
         }
         return;
     }
@@ -599,7 +599,7 @@ void Unit::use( spMapTile tile, int wHand )
     {
         _hand[wHand]->use( tile );
         _actionPoints -= _hand[wHand]->getTurnCost();
-        updatePossibleMoves();
+        //updatePossibleMoves();
         _hand[wHand] = spItem();
         return;
     }
@@ -611,7 +611,7 @@ void Unit::use( spMapTile tile, int wHand )
     if ( used >= 0 )
     {
         _actionPoints -= _hand[wHand]->getTurnCost();
-        updatePossibleMoves();
+        //updatePossibleMoves();
     }
 }
 void Unit::useLeft( spMapTile tile )
@@ -646,7 +646,7 @@ void Unit::swapEq( int slot1, int slot2 )
         _hand[s1] = _inventory[s2-2];
         _inventory[s2-2] = temp;
         _actionPoints -= 15;
-        updatePossibleMoves();
+        //updatePossibleMoves();
     }
 }
 

@@ -256,10 +256,10 @@ void ServerGame::handleEvent(UnitFireEvent& e)
    spUnit shooter = _units[e.getUnitID()];
    spMapTile tile = _map->getTile(e.getX(), e.getY());
    int hand = e.getHand();
-   if (tile.get() && shooter.get() && tile->getUnit().get())
+   if (tile.get() && shooter.get())
    {
       spUnit target = tile->getUnit();
-      if (shooter == getActiveUnit() && target->getPlayerID() != shooter->getPlayerID())
+      if (shooter == getActiveUnit())
       {
          // damage isn't random, so doing this is ok
          shooter->use(tile, hand);

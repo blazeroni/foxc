@@ -114,7 +114,7 @@ void Input::processSDLEvent(SDL_Event& event)
     }
     */
 
-    else if ( event.type == SDL_KEYDOWN )
+    if ( event.type == SDL_KEYDOWN )
     {
 
         // command mode

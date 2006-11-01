@@ -595,6 +595,8 @@ void Unit::use( spMapTile tile, int wHand )
         }
         return;
     }
+	if ( _tile->getDistance(tile) > _hand[wHand]->getRange() )
+        return;
     if ( _hand[wHand]->getName() == "Grenade" )
     {
         _hand[wHand]->use( tile );
@@ -604,8 +606,6 @@ void Unit::use( spMapTile tile, int wHand )
         return;
     }
     if ( !tile || tile == _tile || !_hand[wHand]->hasAmmo() )
-        return;
-    if ( _tile->getDistance(tile) > _hand[wHand]->getRange() )
         return;
     int used = _hand[wHand]->use( tile );
     if ( used >= 0 )

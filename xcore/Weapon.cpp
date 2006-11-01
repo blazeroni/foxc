@@ -111,8 +111,8 @@ Grenade::Grenade(uint32 entityID) : Weapon(entityID)
     _damageRange = 20;
     _effectiveRange = 8;
     _baseAccuracy = 30;
-    _clipSize = 1;
-    _turnCost = 40;
+    _clipSize = -1;
+    _turnCost = 30;
     //_image = Display::instance().loadImage("images/gui/grenade_gui.png");
     //_invImage = Display::instance().loadImage("images/gui/grenade_gui_inv.png");
     _ammo = _clipSize;

@@ -116,7 +116,7 @@ void MainGameState::update(uint32 deltaTime)
          Display::instance().draw((*iter2).first->getCenterX()-offset.x, (*iter2).first->getCenterY()-offset.y, stream.str());
       }
 
-    if ( Input::instance().getMode() == USE )
+	  if ( Input::instance().getMode() == USE && _activeUnit->getHand(Input::instance().getHand()).get() )
        Display::instance().highlightUsable( _map->getTile(_activeUnit->getX(),_activeUnit->getY()), _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y ); 
 
       _map->highlightMouseOverTile(offset);

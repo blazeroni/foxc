@@ -272,7 +272,7 @@ int MapTile::getDistance( spMapTile tile )
 {
     int x = max ( _x - tile->getX(), tile->getX() - _x );
     int y = max ( _y - tile->getY(), tile->getY() - _y );
-    return int(sqrt ( x*x + y*y ));
+    return int(sqrt ( (double)(x*x) + (double)(y*y) ));
 }
 
 } // namespace

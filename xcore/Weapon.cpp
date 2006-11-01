@@ -147,12 +147,14 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     //Audio::instance().playEffect(Audio::_explosion, 1);
     spMapTile tile, tile2;
     tileInit->takeDamage( damage );
+	tileInit->addDebris();
     //tileInit->addObject( spMapObject(new Debris()) );
     tile = tileInit->getTileInDirection( Direction::NW );
     if ( tile.get() )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::W );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -168,6 +170,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::E );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -183,6 +186,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::W );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -198,6 +202,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::E );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -213,6 +218,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::N );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -222,6 +228,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::S );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -231,6 +238,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::E );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );
@@ -240,6 +248,7 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     {
         tile->takeDamage( damage / 2 );
         //tile->addObject( spMapObject(new Debris()) );
+		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::W );
         if ( tile2.get() )
             tile2->takeDamage( damage / 4 );

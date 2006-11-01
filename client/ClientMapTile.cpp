@@ -11,10 +11,12 @@ int ClientMapTile::_height = 42;
 SDL_Surface* ClientMapTile::_highlight = NULL;
 SDL_Surface* ClientMapTile::_highlightMove = NULL;
 SDL_Surface* ClientMapTile::_highlightFog = NULL;
+SDL_Surface* ClientMapTile::_debris = NULL;
 
 #define TILE_HIGHLIGHT "resources/images/tile_highlight.png"
 #define TILE_MOVEABLE "resources/images/tile_moveable.png"
 #define TILE_FOG "resources/images/tile_fog.png"
+#define TILE_DEBRIS "resources/images/tile_debris.png"
 
 ClientMapTile::ClientMapTile(TerrainType type, int x, int y) :
    MapTile(type, x, y)
@@ -24,12 +26,14 @@ ClientMapTile::ClientMapTile(TerrainType type, int x, int y) :
    _screenY = (y+x) * _height/2;
    _centerX = y*_width/2 - (x-1)*_width/2;
    _centerY = (y+x+1) * _height/2;
+   _hasDebris = false;
 
    if (!_highlight)
    {
       _highlight = Display::instance().loadImage(TILE_HIGHLIGHT);
       _highlightMove = Display::instance().loadImage(TILE_MOVEABLE);
       _highlightFog = Display::instance().loadImage(TILE_FOG);
+	  _debris = Display::instance().loadImage(TILE_DEBRIS);
    }
 
    setTerrain(makeTerrain(type));
@@ -87,7 +91,11 @@ void ClientMapTile::drawTerrain(Point offset) const
     if ( isShroud )
         Display::instance().draw(_screenX - offset.x, _screenY - offset.y, _highlightFog);
     else
+	{
         getTerrain()->draw(_screenX - offset.x, _screenY - offset.y);
+		if ( _hasDebris && getTerrain()->getType() != WATER )
+			Display::instance().draw(_screenX - offset.x, _screenY - offset.y, _debris);
+	}
 }
 
 void ClientMapTile::drawObjects(Point offset) const
@@ -125,3 +133,4 @@ void ClientMapTile::highlightMoveable(Point offset)
 {
    Display::instance().draw(_screenX - offset.x, _screenY - offset.y, _highlightMove);
 }
+

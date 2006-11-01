@@ -46,7 +46,7 @@ class ClientMapTile : public MapTile
       int _centerY;
       static int _width;
       static int _height;
-      static SDL_Surface *_highlight, *_highlightMove, *_highlightFog;
+      static SDL_Surface *_highlight, *_highlightMove, *_highlightFog, *_debris;
 };
 
 #endif

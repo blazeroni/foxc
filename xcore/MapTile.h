@@ -78,6 +78,7 @@ class MapTile
         void takeDamage( int damage );
         // gets the distance between two tiles
         int getDistance( spMapTile tile );
+		void addDebris();
 
    protected:
       MapTile(int x, int y);
@@ -91,6 +92,7 @@ class MapTile
 
       list<spMapObject> _objects;
       spUnit _unit;
+		bool _hasDebris;
 
    private:
       /// Used when the tile needs to pass the 'this' pointer to something that only

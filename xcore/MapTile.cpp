@@ -26,7 +26,8 @@ spMapTile MapTile::makeMapTile(TerrainType type, int x, int y)
 MapTile::MapTile(int x, int y) :
    _x(x),
    _y(y),
-   _unit(spUnit())
+   _unit(spUnit()),
+   _hasDebris(false)
 {
 
 }
@@ -274,5 +275,7 @@ int MapTile::getDistance( spMapTile tile )
     int y = max ( _y - tile->getY(), tile->getY() - _y );
     return int(sqrt ( (double)(x*x) + (double)(y*y) ));
 }
+
+void MapTile::addDebris() { _hasDebris = true; }
 
 } // namespace

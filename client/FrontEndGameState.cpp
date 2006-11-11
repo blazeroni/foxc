@@ -19,8 +19,6 @@ bool FrontEndGameState::load_files()
 	background = Display::instance().loadImage("resources/images/background.png", false);
 	buttonSheet = Display::instance().loadImage("resources/images/MainMenu.png", false);
 	
-
-	
 	MusicTheme = Audio::instance().loadMusic(MAIN_THEME);
 	
 	if(background == NULL || buttonSheet == NULL)
@@ -35,7 +33,7 @@ void FrontEndGameState::init()
 {
 	load_files();
 	Display& ScreenX = Display::instance();
-	ScreenX.loadFont("Floyd.ttf", 72);
+	ScreenX.loadFont("resources/fonts/Floyd.ttf", 72);
 	
 	Audio::instance().playMusic(-1, MusicTheme);
 

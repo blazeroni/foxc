@@ -1,5 +1,6 @@
 #include "includes.h"
 #include "Wall.h"
+#include "UnsupportedOperationException.h"
 //#include "Display.h"
 
 /*
@@ -19,10 +20,10 @@ SDL_Surface* Wall::_imageSW = NULL;
 namespace xcore
 {
 
-Wall::Wall(uint32 entityID, const Direction& dir) :
-    MapObject(entityID),
-    _destroyed(false),
-    _dir(dir)
+Wall::Wall(uint32 entityID, WALL_TYPE type) :
+   MapObject(entityID),
+   _type(type),
+   _destroyed(false)
 {
    //if (!_image)
    //{
@@ -40,12 +41,7 @@ Wall::~Wall()
 
 bool Wall::isPassable() const
 {
-    return true;
-}
-
-bool Wall::isPassable(const Direction& dir) const
-{
-   return _destroyed || !(dir == _dir);
+    return _destroyed;
 }
 
 void Wall::destroy()
@@ -55,6 +51,7 @@ void Wall::destroy()
 
 void Wall::draw(Point position, Point dimensions) const
 {
+   throw UnsupportedOperationException();
     // @ if not destroyed??
    //Display::instance().draw(position.x, position.y - (_image->h - dimensions.y), _image);
    /*

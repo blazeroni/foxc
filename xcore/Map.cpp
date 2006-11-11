@@ -157,7 +157,9 @@ bool Map::load(string fileName)
       string terrain;
 
       map<string, spMapTile> idTileMap;
-      
+
+      map<spMapTile, bool> walls;
+
       ticpp::Element* tiles = root->FirstChildElement("tiles");
       ticpp::Iterator< ticpp::Element > child;
       for ( child = tiles->FirstChildElement(); child != child.end(); child++ )
@@ -166,25 +168,35 @@ bool Map::load(string fileName)
          child->GetAttribute("x", &x);
          child->GetAttribute("y", &y);
          child->GetAttribute("terrain", &terrain);
-         
+
          spMapTile tile =  makeMapTile(_terrainMap[terrain], x, y);
+
+         ticpp::Element* object = child->FirstChildElement(false);
+         if (object != NULL)
+         {
+            string type;
+            object->GetAttribute("type", &type);
+
+            if (type == "wall")
+            {
+               walls[tile] = true;
+               //tile->addObject(_factory->makeWall());
+            }
+            else if (type == "door")
+            {
+               // TODO fill in
+            }
+         }
+         else
+         {
+            walls[tile] = false;
+         }
 
          idTileMap[id] = tile;
          populateTileNeighbors(tile);
          _mapTiles.push_back(tile);
       }
-
-      string id1;
-      string id2;
-
-      ticpp::Element* edges = root->FirstChildElement("edges");
-      for ( child = edges->FirstChildElement(); child != child.end(); child++ )
-      {
-         child->GetAttribute("id1", &id1);
-         child->GetAttribute("id2", &id2);
-
-         // @todo - add edge loading 
-      }
+      loadWalls(walls);
    }
    catch (ticpp::Exception& e)
    {
@@ -195,9 +207,46 @@ bool Map::load(string fileName)
    return true;
 }
 
+void Map::loadWalls(map<spMapTile, bool> walls)
+{
+   map<spMapTile, bool>::iterator iter;
+
+   for (iter = walls.begin(); iter != walls.end(); ++iter)
+   {
+      if (iter->second == true)
+      {
+         uint8 wallType = 0;
+
+         spMapTile temp = iter->first->getTileInDirection(Direction::NE);
+         if (temp.get() && walls[temp])
+         {
+            wallType |= WD_NE;
+         }
+         temp = iter->first->getTileInDirection(Direction::NW);
+         if (temp.get() && walls[temp])
+         {
+            wallType |= WD_NW;
+         }
+         temp = iter->first->getTileInDirection(Direction::SE);
+         if (temp.get() && walls[temp])
+         {
+            wallType |= WD_SE;
+         }
+         temp = iter->first->getTileInDirection(Direction::SW);
+         if (temp.get() && walls[temp])
+         {
+            wallType |= WD_SW;
+         }
+
+         WALL_TYPE type = WALL_TYPE(wallType);
+         iter->first->addObject(_factory->makeWall(type));
+      }
+   }
+}
+
 bool Map::load(istream& data)
 {
-   string line;
+/*   string line;
    bool firstLine = true;
 
    // empty the current map
@@ -259,7 +308,7 @@ bool Map::load(istream& data)
             tile->addObject(makeWall(Direction::SW));
          x++;
       }
-   }
+   }*/
    return true;
 }
 
@@ -268,10 +317,10 @@ spMapTile Map::makeMapTile(TerrainType type, int x, int y)
    return MapTile::makeMapTile(type, x, y);
 }
 
-spWall Map::makeWall(const Direction& dir) 
+/*spWall Map::makeWall() 
 {
-   return _factory->makeWall(dir);
-}
+   return spWall(new Wall());
+}*/
 
 void Map::populateTileNeighbors(spMapTile tile)
 {

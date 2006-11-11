@@ -172,13 +172,13 @@ bool Unit::canMoveInDirection( spMapTile tile, const Direction& dir, int points 
       if (dir.isCardinal()) 
       {
          // this assumes that maps are square - so there will always be adjacent tiles
-         if (tile->isPassable(dir.clockwise(), ignoreObjects) &&
+         /*if (tile->isPassable(dir.clockwise(), ignoreObjects) &&
              tile->isPassable(dir.counterClockwise(), ignoreObjects) &&
              t->isPassable(dir.opposite().clockwise(), ignoreObjects) && 
              t->isPassable(dir.opposite().counterClockwise(), ignoreObjects))
-         {
+         {*/
             ok = true;
-         }
+         //}
       }
       else
       {

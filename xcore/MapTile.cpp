@@ -142,7 +142,7 @@ bool MapTile::isPassable(bool ignoreObjects) const
 
    return passable;
 }
-bool MapTile::isPassable(const Direction& dir, bool ignoreObjects) const
+/*bool MapTile::isPassable(const Direction& dir, bool ignoreObjects) const
 {
     spMapTile t = getTileInDirection(dir);
     if ( !t.get() )
@@ -151,9 +151,9 @@ bool MapTile::isPassable(const Direction& dir, bool ignoreObjects) const
     }
    
     return (isPassable(ignoreObjects) && !hasObstruction(dir) && t->isPassable(ignoreObjects));
-}
+}*/
 
-bool MapTile::hasObstruction(const Direction& dir) const
+/*bool MapTile::hasObstruction(const Direction& dir) const
 {
    if (!_objects.empty())
    {
@@ -165,7 +165,7 @@ bool MapTile::hasObstruction(const Direction& dir) const
         }
    }
    return false;
-}
+}*/
 
 bool MapTile::hasUnit() const
 {

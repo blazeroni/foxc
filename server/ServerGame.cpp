@@ -21,9 +21,9 @@ ServerGame::~ServerGame()
 
 void ServerGame::init()
 {
+   _factory = spEntityFactory(new EntityFactory(_gameID));
    _map = Map::makeMap(_factory);
    _map->load("maps/test.xcm");
-   _factory = spEntityFactory(new EntityFactory(_gameID));
 }
 
 void ServerGame::update()

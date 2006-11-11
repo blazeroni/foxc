@@ -21,7 +21,7 @@ class EntityFactory
       virtual ~EntityFactory();
 
       virtual spUnit makeUnit(int playerID, spMapTile tile);
-      virtual spWall makeWall(const Direction& dir);
+      virtual spWall makeWall(WALL_TYPE type);
       virtual spItem makePistol();
       virtual spItem makeRifle();
       virtual spItem makeGrenade();
@@ -31,6 +31,7 @@ class EntityFactory
       spGameEntity get(uint32 entityID);
 
    protected: 
+      uint32 checkID(uint32 id);
       void add(spGameEntity entity);
       uint32 _gameID;
       uint32 _lastEntityID;

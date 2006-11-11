@@ -41,11 +41,13 @@ class Map
    protected:
       Map(spEntityFactory factory);
 
+      void loadWalls(map<spMapTile, bool> walls);
+
       template <class T>
       static boost::shared_ptr<T> makeMapHelper(spEntityFactory factory);
 
       virtual spMapTile makeMapTile(TerrainType type, int x, int y);
-      virtual spWall makeWall(const Direction& dir);
+      //virtual spWall makeWall();
 
       /// Used when the map needs to pass the 'this' pointer to something that only
       /// accepts smart pointers.

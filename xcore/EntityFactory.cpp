@@ -21,10 +21,11 @@ spUnit EntityFactory::makeUnit(int playerID, spMapTile tile)
    return u;
 }
 
-spWall EntityFactory::makeWall(const Direction& dir)
+spWall EntityFactory::makeWall(WALL_TYPE type)
 {
-   spWall wall = spWall(new Wall(++_lastEntityID, dir));
-   add(wall);
+   // entityID is ignored
+   spWall wall = spWall(new Wall(++_lastEntityID, type));
+   //add(wall);
    return wall;
 }
 
@@ -61,8 +62,6 @@ spGameEntity EntityFactory::get(uint32 entityID)
    }*/
    return spGameEntity();
 }
-
-
 
 void EntityFactory::add(spGameEntity entity)
 {

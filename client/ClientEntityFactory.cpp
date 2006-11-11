@@ -3,6 +3,7 @@
 #include "ClientUnit.h"
 #include "ClientMapTile.h"
 #include "ClientWeapon.h"
+#include "ClientWall.h"
 
 ClientEntityFactory::ClientEntityFactory() :
    EntityFactory(GAME_ID)
@@ -20,12 +21,12 @@ spUnit ClientEntityFactory::makeUnit(int playerID, spMapTile tile)
    return u;
 }
 
-//spWall ClientEntityFactory::makeWall(const Direction& dir)
-//{
-//   spWall wall = spWall(new Wall(++_lastEntityID, dir));
-//   add(wall);
-//   return wall;
-//}
+spWall ClientEntityFactory::makeWall(WALL_TYPE type)
+{
+   spWall wall = spWall(new ClientWall(++_lastEntityID, type));
+   //add(wall);
+   return wall;
+}
 
 spItem ClientEntityFactory::makePistol()
 {

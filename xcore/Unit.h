@@ -130,7 +130,7 @@ class Unit : public GameEntity
     void use( spMapTile tile, int wHand  = 0);
     void useLeft( spMapTile tile = spMapTile() );
     void useRight( spMapTile tile = spMapTile() );
-    SDL_Surface* Unit::getImage();
+    SDL_Surface* getImage();
     void reload();
     spItem getInv( int slot );
     spItem getHand( int h );

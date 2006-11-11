@@ -13,7 +13,7 @@ class ClientEntityFactory : public EntityFactory, public Singleton<ClientEntityF
       virtual ~ClientEntityFactory();
 
       virtual spUnit makeUnit(int playerID, spMapTile tile);
-      //virtual spWall makeWall(const Direction& dir);
+      virtual spWall makeWall(WALL_TYPE type);
       virtual spItem makePistol();
       virtual spItem makeRifle();
       virtual spItem makeGrenade();

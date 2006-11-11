@@ -16,17 +16,16 @@ namespace xcore
 namespace xcore 
 {
 
-enum dir { NE = 1, NW = 2, SE = 4, SW = 8 };
+//enum dir { NE = 1, NW = 2, SE = 4, SW = 8 };
 
 /// Represents objects that can be put onto MapTiles
 class MapObject : public GameEntity
 {
    public:
-      MapObject(uint32 gameID);
+      MapObject(uint32 entityID);
       virtual ~MapObject();
-      
+
       virtual bool isPassable() const = 0;
-      virtual bool isPassable(const Direction& dir) const = 0;
       virtual void destroy() = 0;
 
       virtual void draw(Point position, Point dimensions) const = 0;

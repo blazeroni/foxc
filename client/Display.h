@@ -28,9 +28,9 @@ class Display : public Singleton<Display>
       void drawCursor();
       void render();
       /// change the cursor
-      void Display::setCursor( SDL_Surface *image = NULL );
+      void setCursor( SDL_Surface *image = NULL );
       /// draw the most beautiful gui ever made
-      void Display::drawGUI();
+      void drawGUI();
       SDL_Surface *_crosshair;
       /// highlights the usable radius for an item
       void highlightUsable( spMapTile tile, int radius, int offsetx, int offsety );

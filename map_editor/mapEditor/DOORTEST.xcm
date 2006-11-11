@@ -1,0 +1,25 @@
+<map name="test map" width="3" height="3">
+      <tiles>
+     <tile id="1" x="0" y= "0" terrain="grass"/>
+     <object type ="door"/>
+</tile>
+     <tile id="2" x="0" y= "1" terrain="grass"/>
+     <object type ="door"/>
+</tile>
+     <tile id="3" x="0" y= "2" terrain="grass"/>
+     <object type ="door"/>
+</tile>
+     <tile id="4" x="1" y= "0" terrain="grass"/>
+     <object type ="wall"/>
+</tile>
+     <tile id="5" x="1" y= "1" terrain="water"/>
+     <tile id="6" x="1" y= "2" terrain="grass"/>
+     <object type ="wall"/>
+</tile>
+     <tile id="7" x="2" y= "0" terrain="grass"/>
+     <tile id="8" x="2" y= "1" terrain="grass"/>
+     <tile id="9" x="2" y= "2" terrain="grass"/>
+   </tiles>
+   <edges>
+      <edge type="wall" id1="1" id2="2"/>   </edges>
+</map>

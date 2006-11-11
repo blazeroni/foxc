@@ -23,7 +23,7 @@ class Input : public Singleton<Input>
       Input();
       InputMode _mode;
       std::string _str;
-      bool Input::GUIInput( SDL_Event& event );
+      bool GUIInput( SDL_Event& event );
       int _slot1, _hand;
 };
 

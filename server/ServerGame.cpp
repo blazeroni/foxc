@@ -7,6 +7,7 @@
 #include "xcore/UnitActiveEvent.h"
 #include "xcore/StartGameEvent.h"
 #include "xcore/UnitFireEvent.h"
+#include "xcore/UnitEquipEvent.h"
 #include "xcore/UnitInvSwapEvent.h"
 
 ServerGame::ServerGame(uint32 gameID, string gameName) :
@@ -292,4 +293,8 @@ void ServerGame::handleEvent(UnitInvSwapEvent& e)
 
       send(UnitInvSwapEvent(e.getUnitID(), slot1, slot2));         
    }
+}
+
+void ServerGame::handleEvent(UnitEquipEvent& e)
+{
 }

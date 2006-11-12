@@ -143,6 +143,15 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                     _pointsSpent += cost( PISTOLCLIP );
                 }
             }
+            else if ( click.x > 50 + 0*(_weaponBox->w+15) && click.x < 50 + 0*(_weaponBox->w+15)+_weaponBox->w &&
+            click.y > 475 && click.y < 475 + _weaponBox->h )
+            {
+                if ( pointsLeft >= cost(GRENADE) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = GRENADE;
+                    _pointsSpent += cost( GRENADE );
+                }
+            }
         }
         // deletion
         if ( event.button.button == SDL_BUTTON_RIGHT )
@@ -245,7 +254,7 @@ void InventoryState::update(uint32 X)
             else if ( _loadout[_selectedUnit][i+2] == PISTOLCLIP )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_pistolClipInvImage->w/2, 200+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
             else if ( _loadout[_selectedUnit][i+2] == GRENADE )
-                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_grenadeInvImage->w/2, 200+_itemBox->h/2-_grenadeInvImage->h/2, _grenadeImage );
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_grenadeInvImage->w/2, 200+_itemBox->h/2-_grenadeInvImage->h/2, _grenadeInvImage );
         }
     }
     // weapons
@@ -260,8 +269,10 @@ void InventoryState::update(uint32 X)
     // items
     for ( int i = 0; i < 6; ++i )
         d.draw( 50 + (_weaponBox->w+15)*(i), 475, _weaponBox );
+	// grenade
+    d.draw( 50 + (_weaponBox->w)*(0)+_weaponBox->w/2-_grenadeImage->w/2, 475+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
 
-    SDL_Delay( 200 );
+    SDL_Delay( 20 );
 }
 
 void InventoryState::deinit()

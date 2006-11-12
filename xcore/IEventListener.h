@@ -21,6 +21,7 @@ class GameOverEvent;
 class UnitActiveEvent;
 class UnitWaitEvent;
 class UnitFireEvent;
+class UnitEquipEvent;
 class UnitInvSwapEvent;
 
 // currently this class knows about every possible event type

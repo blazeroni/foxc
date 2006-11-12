@@ -37,6 +37,7 @@ class ServerGame : public Game
       void handleEvent(UnitActiveEvent& e);
       void handleEvent(UnitWaitEvent& e);
       void handleEvent(UnitFireEvent& e);
+      void handleEvent(UnitEquipEvent& e);
       void handleEvent(UnitInvSwapEvent& e);
 
    private:

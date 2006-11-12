@@ -1,6 +1,6 @@
 <map name="test map" width="25" height="25">
       <tiles>
-     <tile id="1" x="0" y= "0" terrain="grass" startPlayer="2" startPref="8" />
+     <tile id="1" x="0" y= "0" terrain="grass"/>
      <tile id="2" x="0" y= "1" terrain="grass"/>
      <tile id="3" x="0" y= "2" terrain="grass"/>
      <tile id="4" x="0" y= "3" terrain="grass"/>
@@ -22,7 +22,7 @@
      <tile id="20" x="0" y= "19" terrain="grass"/>
      <tile id="21" x="0" y= "20" terrain="grass"/>
      <tile id="22" x="0" y= "21" terrain="grass"/>
-     <tile id="23" x="0" y= "22" terrain="grass" startPlayer="2" startPref="7" />
+     <tile id="23" x="0" y= "22" terrain="grass"/>
      <tile id="24" x="0" y= "23" terrain="grass"/>
      <tile id="25" x="0" y= "24" terrain="grass"/>
      <tile id="26" x="1" y= "0" terrain="grass"/>
@@ -133,7 +133,7 @@
      <tile id="95" x="3" y= "19" terrain="grass"/>
      <tile id="96" x="3" y= "20" terrain="grass"/>
      <tile id="97" x="3" y= "21" terrain="grass"/>
-     <tile id="98" x="3" y= "22" terrain="grass" startPlayer="2" startPref="6" />
+     <tile id="98" x="3" y= "22" terrain="grass"/>
      <tile id="99" x="3" y= "23" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -178,7 +178,7 @@
      <tile id="128" x="5" y= "2" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="129" x="5" y= "3" terrain="grass" startPlayer="2" startPref="5" />
+     <tile id="129" x="5" y= "3" terrain="grass"/>
      <tile id="130" x="5" y= "4" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -300,18 +300,18 @@
      <tile id="216" x="8" y= "15" terrain="grass"/>
      <tile id="217" x="8" y= "16" terrain="grass"/>
      <tile id="218" x="8" y= "17" terrain="grass"/>
-     <tile id="219" x="8" y= "18" terrain="grass"/>
-     <tile id="220" x="8" y= "19" terrain="grass"/>
-     <tile id="221" x="8" y= "20" terrain="grass"/>
-     <tile id="222" x="8" y= "21" terrain="grass"/>
-     <tile id="223" x="8" y= "22" terrain="grass"/>
-     <tile id="224" x="8" y= "23" terrain="grass"/>
-     <tile id="225" x="8" y= "24" terrain="grass"/>
+     <tile id="219" x="8" y= "18" terrain="water"/>
+     <tile id="220" x="8" y= "19" terrain="water"/>
+     <tile id="221" x="8" y= "20" terrain="water"/>
+     <tile id="222" x="8" y= "21" terrain="water"/>
+     <tile id="223" x="8" y= "22" terrain="water"/>
+     <tile id="224" x="8" y= "23" terrain="water"/>
+     <tile id="225" x="8" y= "24" terrain="water"/>
      <tile id="226" x="9" y= "0" terrain="grass"/>
      <tile id="227" x="9" y= "1" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="228" x="9" y= "2" terrain="floor" startPlayer="2" startPref="4" />
+     <tile id="228" x="9" y= "2" terrain="floor"/>
      <tile id="229" x="9" y= "3" terrain="floor"/>
      <tile id="230" x="9" y= "4" terrain="grass">
      <object type ="wall"/>
@@ -326,7 +326,7 @@
      <tile id="234" x="9" y= "8" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="235" x="9" y= "9" terrain="grass" startPlayer="2" startPref="3" />
+     <tile id="235" x="9" y= "9" terrain="grass"/>
      <tile id="236" x="9" y= "10" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -338,9 +338,11 @@
      <tile id="240" x="9" y= "14" terrain="grass"/>
      <tile id="241" x="9" y= "15" terrain="grass"/>
      <tile id="242" x="9" y= "16" terrain="grass"/>
-     <tile id="243" x="9" y= "17" terrain="grass"/>
-     <tile id="244" x="9" y= "18" terrain="grass"/>
-     <tile id="245" x="9" y= "19" terrain="grass"/>
+     <tile id="243" x="9" y= "17" terrain="water"/>
+     <tile id="244" x="9" y= "18" terrain="water"/>
+     <tile id="245" x="9" y= "19" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="246" x="9" y= "20" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -369,7 +371,7 @@
      <tile id="257" x="10" y= "6" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="258" x="10" y= "7" terrain="grass" startPlayer="2" startPref="2" />
+     <tile id="258" x="10" y= "7" terrain="grass"/>
      <tile id="259" x="10" y= "8" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -391,17 +393,19 @@
 </tile>
      <tile id="266" x="10" y= "15" terrain="grass"/>
      <tile id="267" x="10" y= "16" terrain="grass"/>
-     <tile id="268" x="10" y= "17" terrain="grass"/>
-     <tile id="269" x="10" y= "18" terrain="grass"/>
+     <tile id="268" x="10" y= "17" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="269" x="10" y= "18" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="270" x="10" y= "19" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="271" x="10" y= "20" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="271" x="10" y= "20" terrain="floor"/>
      <tile id="272" x="10" y= "21" terrain="floor"/>
      <tile id="273" x="10" y= "22" terrain="floor"/>
-     <tile id="274" x="10" y= "23" terrain="floor" startPlayer="2" startPref="1" />
+     <tile id="274" x="10" y= "23" terrain="floor"/>
      <tile id="275" x="10" y= "24" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -410,7 +414,7 @@
      <object type ="wall"/>
 </tile>
      <tile id="278" x="11" y= "2" terrain="floor"/>
-     <tile id="279" x="11" y= "3" terrain="floor" startPlayer="1" startPref="8" />
+     <tile id="279" x="11" y= "3" terrain="floor"/>
      <tile id="280" x="11" y= "4" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -430,17 +434,15 @@
      <tile id="288" x="11" y= "12" terrain="grass">
      <object type ="door"/>
 </tile>
-     <tile id="289" x="11" y= "13" terrain="grass" startPlayer="1" startPref="7" />
+     <tile id="289" x="11" y= "13" terrain="grass"/>
      <tile id="290" x="11" y= "14" terrain="grass"/>
      <tile id="291" x="11" y= "15" terrain="grass"/>
      <tile id="292" x="11" y= "16" terrain="grass"/>
-     <tile id="293" x="11" y= "17" terrain="grass"/>
-     <tile id="294" x="11" y= "18" terrain="grass">
+     <tile id="293" x="11" y= "17" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="295" x="11" y= "19" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="294" x="11" y= "18" terrain="floor"/>
+     <tile id="295" x="11" y= "19" terrain="floor"/>
      <tile id="296" x="11" y= "20" terrain="floor"/>
      <tile id="297" x="11" y= "21" terrain="floor"/>
      <tile id="298" x="11" y= "22" terrain="floor"/>
@@ -485,10 +487,10 @@
 </tile>
      <tile id="316" x="12" y= "15" terrain="grass"/>
      <tile id="317" x="12" y= "16" terrain="grass"/>
-     <tile id="318" x="12" y= "17" terrain="grass"/>
-     <tile id="319" x="12" y= "18" terrain="grass">
-     <object type ="wall"/>
+     <tile id="318" x="12" y= "17" terrain="grass">
+     <object type ="door"/>
 </tile>
+     <tile id="319" x="12" y= "18" terrain="floor"/>
      <tile id="320" x="12" y= "19" terrain="floor"/>
      <tile id="321" x="12" y= "20" terrain="floor"/>
      <tile id="322" x="12" y= "21" terrain="floor"/>
@@ -514,16 +516,14 @@
      <tile id="340" x="13" y= "14" terrain="grass"/>
      <tile id="341" x="13" y= "15" terrain="grass"/>
      <tile id="342" x="13" y= "16" terrain="grass"/>
-     <tile id="343" x="13" y= "17" terrain="grass"/>
-     <tile id="344" x="13" y= "18" terrain="grass">
-     <object type ="door"/>
+     <tile id="343" x="13" y= "17" terrain="grass">
+     <object type ="wall"/>
 </tile>
+     <tile id="344" x="13" y= "18" terrain="floor"/>
      <tile id="345" x="13" y= "19" terrain="floor"/>
      <tile id="346" x="13" y= "20" terrain="floor"/>
      <tile id="347" x="13" y= "21" terrain="floor"/>
-     <tile id="348" x="13" y= "22" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="348" x="13" y= "22" terrain="water"/>
      <tile id="349" x="13" y= "23" terrain="floor"/>
      <tile id="350" x="13" y= "24" terrain="grass">
      <object type ="wall"/>
@@ -545,65 +545,79 @@
      <tile id="365" x="14" y= "14" terrain="grass"/>
      <tile id="366" x="14" y= "15" terrain="grass"/>
      <tile id="367" x="14" y= "16" terrain="grass"/>
-     <tile id="368" x="14" y= "17" terrain="grass"/>
-     <tile id="369" x="14" y= "18" terrain="grass">
-     <object type ="wall"/>
+     <tile id="368" x="14" y= "17" terrain="grass">
+     <object type ="door"/>
 </tile>
+     <tile id="369" x="14" y= "18" terrain="floor"/>
      <tile id="370" x="14" y= "19" terrain="floor"/>
      <tile id="371" x="14" y= "20" terrain="floor"/>
-     <tile id="372" x="14" y= "21" terrain="floor" startPlayer="1" startPref="6" />
-     <tile id="373" x="14" y= "22" terrain="water"/>
+     <tile id="372" x="14" y= "21" terrain="floor"/>
+     <tile id="373" x="14" y= "22" terrain="floor"/>
      <tile id="374" x="14" y= "23" terrain="floor"/>
      <tile id="375" x="14" y= "24" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="376" x="15" y= "0" terrain="grass"/>
-     <tile id="377" x="15" y= "1" terrain="grass"/>
-     <tile id="378" x="15" y= "2" terrain="grass"/>
-     <tile id="379" x="15" y= "3" terrain="grass"/>
-     <tile id="380" x="15" y= "4" terrain="grass"/>
-     <tile id="381" x="15" y= "5" terrain="grass"/>
-     <tile id="382" x="15" y= "6" terrain="grass"/>
-     <tile id="383" x="15" y= "7" terrain="grass"/>
-     <tile id="384" x="15" y= "8" terrain="grass"/>
-     <tile id="385" x="15" y= "9" terrain="grass"/>
-     <tile id="386" x="15" y= "10" terrain="grass"/>
-     <tile id="387" x="15" y= "11" terrain="grass"/>
+     <tile id="376" x="15" y= "0" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="377" x="15" y= "1" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="378" x="15" y= "2" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="379" x="15" y= "3" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="380" x="15" y= "4" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="381" x="15" y= "5" terrain="grass">
+     <object type ="door"/>
+</tile>
+     <tile id="382" x="15" y= "6" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="383" x="15" y= "7" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="384" x="15" y= "8" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="385" x="15" y= "9" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="386" x="15" y= "10" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="387" x="15" y= "11" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="388" x="15" y= "12" terrain="grass"/>
      <tile id="389" x="15" y= "13" terrain="grass"/>
      <tile id="390" x="15" y= "14" terrain="grass"/>
      <tile id="391" x="15" y= "15" terrain="grass"/>
      <tile id="392" x="15" y= "16" terrain="grass"/>
-     <tile id="393" x="15" y= "17" terrain="grass"/>
-     <tile id="394" x="15" y= "18" terrain="grass">
-     <object type ="door"/>
+     <tile id="393" x="15" y= "17" terrain="grass">
+     <object type ="wall"/>
 </tile>
+     <tile id="394" x="15" y= "18" terrain="floor"/>
      <tile id="395" x="15" y= "19" terrain="floor"/>
      <tile id="396" x="15" y= "20" terrain="floor"/>
      <tile id="397" x="15" y= "21" terrain="floor"/>
-     <tile id="398" x="15" y= "22" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="398" x="15" y= "22" terrain="floor"/>
      <tile id="399" x="15" y= "23" terrain="floor"/>
      <tile id="400" x="15" y= "24" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="401" x="16" y= "0" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="402" x="16" y= "1" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="403" x="16" y= "2" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="401" x="16" y= "0" terrain="grass"/>
+     <tile id="402" x="16" y= "1" terrain="grass"/>
+     <tile id="403" x="16" y= "2" terrain="grass"/>
      <tile id="404" x="16" y= "3" terrain="grass"/>
      <tile id="405" x="16" y= "4" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="406" x="16" y= "5" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="406" x="16" y= "5" terrain="grass"/>
      <tile id="407" x="16" y= "6" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -611,13 +625,17 @@
      <tile id="409" x="16" y= "8" terrain="grass"/>
      <tile id="410" x="16" y= "9" terrain="grass"/>
      <tile id="411" x="16" y= "10" terrain="grass"/>
-     <tile id="412" x="16" y= "11" terrain="grass"/>
+     <tile id="412" x="16" y= "11" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="413" x="16" y= "12" terrain="grass"/>
      <tile id="414" x="16" y= "13" terrain="grass"/>
      <tile id="415" x="16" y= "14" terrain="grass"/>
      <tile id="416" x="16" y= "15" terrain="grass"/>
      <tile id="417" x="16" y= "16" terrain="grass"/>
-     <tile id="418" x="16" y= "17" terrain="grass"/>
+     <tile id="418" x="16" y= "17" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="419" x="16" y= "18" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -629,8 +647,10 @@
      <tile id="425" x="16" y= "24" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="426" x="17" y= "0" terrain="grass" startPlayer="1" startPref="5" />
-     <tile id="427" x="17" y= "1" terrain="grass"/>
+     <tile id="426" x="17" y= "0" terrain="grass"/>
+     <tile id="427" x="17" y= "1" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="428" x="17" y= "2" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -643,23 +663,31 @@
      <object type ="wall"/>
 </tile>
      <tile id="433" x="17" y= "7" terrain="grass"/>
-     <tile id="434" x="17" y= "8" terrain="grass"/>
-     <tile id="435" x="17" y= "9" terrain="grass"/>
+     <tile id="434" x="17" y= "8" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="435" x="17" y= "9" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="436" x="17" y= "10" terrain="grass"/>
-     <tile id="437" x="17" y= "11" terrain="grass"/>
+     <tile id="437" x="17" y= "11" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="438" x="17" y= "12" terrain="grass"/>
      <tile id="439" x="17" y= "13" terrain="grass"/>
      <tile id="440" x="17" y= "14" terrain="grass"/>
      <tile id="441" x="17" y= "15" terrain="grass"/>
      <tile id="442" x="17" y= "16" terrain="grass"/>
-     <tile id="443" x="17" y= "17" terrain="grass"/>
+     <tile id="443" x="17" y= "17" terrain="water"/>
      <tile id="444" x="17" y= "18" terrain="grass">
      <object type ="wall"/>
 </tile>
      <tile id="445" x="17" y= "19" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="446" x="17" y= "20" terrain="floor"/>
+     <tile id="446" x="17" y= "20" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="447" x="17" y= "21" terrain="floor"/>
      <tile id="448" x="17" y= "22" terrain="floor"/>
      <tile id="449" x="17" y= "23" terrain="floor"/>
@@ -667,10 +695,10 @@
      <object type ="wall"/>
 </tile>
      <tile id="451" x="18" y= "0" terrain="grass"/>
-     <tile id="452" x="18" y= "1" terrain="grass"/>
-     <tile id="453" x="18" y= "2" terrain="grass">
+     <tile id="452" x="18" y= "1" terrain="grass">
      <object type ="wall"/>
 </tile>
+     <tile id="453" x="18" y= "2" terrain="grass"/>
      <tile id="454" x="18" y= "3" terrain="grass"/>
      <tile id="455" x="18" y= "4" terrain="grass">
      <object type ="wall"/>
@@ -681,23 +709,33 @@
 </tile>
      <tile id="458" x="18" y= "7" terrain="grass"/>
      <tile id="459" x="18" y= "8" terrain="grass"/>
-     <tile id="460" x="18" y= "9" terrain="grass"/>
+     <tile id="460" x="18" y= "9" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="461" x="18" y= "10" terrain="grass"/>
-     <tile id="462" x="18" y= "11" terrain="grass"/>
+     <tile id="462" x="18" y= "11" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="463" x="18" y= "12" terrain="grass"/>
      <tile id="464" x="18" y= "13" terrain="grass"/>
      <tile id="465" x="18" y= "14" terrain="grass"/>
      <tile id="466" x="18" y= "15" terrain="grass"/>
      <tile id="467" x="18" y= "16" terrain="grass"/>
-     <tile id="468" x="18" y= "17" terrain="grass"/>
-     <tile id="469" x="18" y= "18" terrain="grass"/>
-     <tile id="470" x="18" y= "19" terrain="grass">
+     <tile id="468" x="18" y= "17" terrain="water"/>
+     <tile id="469" x="18" y= "18" terrain="water"/>
+     <tile id="470" x="18" y= "19" terrain="water"/>
+     <tile id="471" x="18" y= "20" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="471" x="18" y= "20" terrain="floor"/>
-     <tile id="472" x="18" y= "21" terrain="floor"/>
-     <tile id="473" x="18" y= "22" terrain="floor"/>
-     <tile id="474" x="18" y= "23" terrain="floor"/>
+     <tile id="472" x="18" y= "21" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="473" x="18" y= "22" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="474" x="18" y= "23" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="475" x="18" y= "24" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -708,7 +746,9 @@
      <tile id="478" x="19" y= "2" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="479" x="19" y= "3" terrain="grass"/>
+     <tile id="479" x="19" y= "3" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="480" x="19" y= "4" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -716,9 +756,7 @@
      <tile id="482" x="19" y= "6" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="483" x="19" y= "7" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="483" x="19" y= "7" terrain="grass"/>
      <tile id="484" x="19" y= "8" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -726,7 +764,9 @@
      <object type ="wall"/>
 </tile>
      <tile id="486" x="19" y= "10" terrain="grass"/>
-     <tile id="487" x="19" y= "11" terrain="grass"/>
+     <tile id="487" x="19" y= "11" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="488" x="19" y= "12" terrain="grass"/>
      <tile id="489" x="19" y= "13" terrain="grass"/>
      <tile id="490" x="19" y= "14" terrain="grass"/>
@@ -734,22 +774,12 @@
      <tile id="492" x="19" y= "16" terrain="grass"/>
      <tile id="493" x="19" y= "17" terrain="grass"/>
      <tile id="494" x="19" y= "18" terrain="grass"/>
-     <tile id="495" x="19" y= "19" terrain="grass"/>
-     <tile id="496" x="19" y= "20" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="497" x="19" y= "21" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="498" x="19" y= "22" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="499" x="19" y= "23" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="500" x="19" y= "24" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="495" x="19" y= "19" terrain="water"/>
+     <tile id="496" x="19" y= "20" terrain="water"/>
+     <tile id="497" x="19" y= "21" terrain="water"/>
+     <tile id="498" x="19" y= "22" terrain="water"/>
+     <tile id="499" x="19" y= "23" terrain="water"/>
+     <tile id="500" x="19" y= "24" terrain="water"/>
      <tile id="501" x="20" y= "0" terrain="grass"/>
      <tile id="502" x="20" y= "1" terrain="grass"/>
      <tile id="503" x="20" y= "2" terrain="grass"/>
@@ -763,20 +793,24 @@
      <object type ="wall"/>
 </tile>
      <tile id="511" x="20" y= "10" terrain="grass"/>
-     <tile id="512" x="20" y= "11" terrain="grass"/>
+     <tile id="512" x="20" y= "11" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="513" x="20" y= "12" terrain="grass"/>
      <tile id="514" x="20" y= "13" terrain="grass"/>
      <tile id="515" x="20" y= "14" terrain="grass"/>
      <tile id="516" x="20" y= "15" terrain="grass"/>
      <tile id="517" x="20" y= "16" terrain="grass"/>
-     <tile id="518" x="20" y= "17" terrain="grass"/>
+     <tile id="518" x="20" y= "17" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="519" x="20" y= "18" terrain="grass"/>
      <tile id="520" x="20" y= "19" terrain="grass"/>
      <tile id="521" x="20" y= "20" terrain="grass"/>
      <tile id="522" x="20" y= "21" terrain="grass"/>
      <tile id="523" x="20" y= "22" terrain="grass"/>
      <tile id="524" x="20" y= "23" terrain="grass"/>
-     <tile id="525" x="20" y= "24" terrain="grass" startPlayer="1" startPref="4" />
+     <tile id="525" x="20" y= "24" terrain="grass"/>
      <tile id="526" x="21" y= "0" terrain="grass"/>
      <tile id="527" x="21" y= "1" terrain="grass">
      <object type ="wall"/>
@@ -794,42 +828,34 @@
      <object type ="wall"/>
 </tile>
      <tile id="532" x="21" y= "6" terrain="grass">
-     <object type ="wall"/>
+     <object type ="door"/>
 </tile>
      <tile id="533" x="21" y= "7" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="534" x="21" y= "8" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="534" x="21" y= "8" terrain="grass"/>
      <tile id="535" x="21" y= "9" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="536" x="21" y= "10" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="536" x="21" y= "10" terrain="grass"/>
      <tile id="537" x="21" y= "11" terrain="grass">
      <object type ="wall"/>
 </tile>
      <tile id="538" x="21" y= "12" terrain="grass"/>
-     <tile id="539" x="21" y= "13" terrain="grass"/>
-     <tile id="540" x="21" y= "14" terrain="grass">
+     <tile id="539" x="21" y= "13" terrain="grass">
      <object type ="wall"/>
 </tile>
+     <tile id="540" x="21" y= "14" terrain="grass"/>
      <tile id="541" x="21" y= "15" terrain="water"/>
-     <tile id="542" x="21" y= "16" terrain="water"/>
-     <tile id="543" x="21" y= "17" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="544" x="21" y= "18" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="545" x="21" y= "19" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="542" x="21" y= "16" terrain="grass"/>
+     <tile id="543" x="21" y= "17" terrain="grass"/>
+     <tile id="544" x="21" y= "18" terrain="grass"/>
+     <tile id="545" x="21" y= "19" terrain="water"/>
      <tile id="546" x="21" y= "20" terrain="grass"/>
      <tile id="547" x="21" y= "21" terrain="grass"/>
-     <tile id="548" x="21" y= "22" terrain="grass"/>
+     <tile id="548" x="21" y= "22" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="549" x="21" y= "23" terrain="grass"/>
      <tile id="550" x="21" y= "24" terrain="grass"/>
      <tile id="551" x="22" y= "0" terrain="grass"/>
@@ -838,105 +864,103 @@
 </tile>
      <tile id="553" x="22" y= "2" terrain="grass"/>
      <tile id="554" x="22" y= "3" terrain="grass"/>
-     <tile id="555" x="22" y= "4" terrain="grass"/>
+     <tile id="555" x="22" y= "4" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="556" x="22" y= "5" terrain="grass"/>
      <tile id="557" x="22" y= "6" terrain="grass"/>
      <tile id="558" x="22" y= "7" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="559" x="22" y= "8" terrain="floor" startPlayer="1" startPref="3" />
-     <tile id="560" x="22" y= "9" terrain="floor"/>
-     <tile id="561" x="22" y= "10" terrain="floor"/>
+     <tile id="559" x="22" y= "8" terrain="grass"/>
+     <tile id="560" x="22" y= "9" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="561" x="22" y= "10" terrain="grass"/>
      <tile id="562" x="22" y= "11" terrain="grass">
      <object type ="wall"/>
 </tile>
      <tile id="563" x="22" y= "12" terrain="grass"/>
-     <tile id="564" x="22" y= "13" terrain="grass"/>
+     <tile id="564" x="22" y= "13" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="565" x="22" y= "14" terrain="grass">
      <object type ="wall"/>
 </tile>
      <tile id="566" x="22" y= "15" terrain="water"/>
      <tile id="567" x="22" y= "16" terrain="water"/>
-     <tile id="568" x="22" y= "17" terrain="grass">
+     <tile id="568" x="22" y= "17" terrain="grass"/>
+     <tile id="569" x="22" y= "18" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="569" x="22" y= "18" terrain="water"/>
-     <tile id="570" x="22" y= "19" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="570" x="22" y= "19" terrain="water"/>
      <tile id="571" x="22" y= "20" terrain="grass"/>
-     <tile id="572" x="22" y= "21" terrain="grass"/>
-     <tile id="573" x="22" y= "22" terrain="grass"/>
-     <tile id="574" x="22" y= "23" terrain="grass"/>
+     <tile id="572" x="22" y= "21" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="573" x="22" y= "22" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="574" x="22" y= "23" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="575" x="22" y= "24" terrain="grass"/>
      <tile id="576" x="23" y= "0" terrain="grass"/>
      <tile id="577" x="23" y= "1" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="578" x="23" y= "2" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="578" x="23" y= "2" terrain="grass"/>
      <tile id="579" x="23" y= "3" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="580" x="23" y= "4" terrain="grass"/>
-     <tile id="581" x="23" y= "5" terrain="grass">
+     <tile id="580" x="23" y= "4" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="582" x="23" y= "6" terrain="grass"/>
+     <tile id="581" x="23" y= "5" terrain="grass"/>
+     <tile id="582" x="23" y= "6" terrain="grass">
+     <object type ="wall"/>
+</tile>
      <tile id="583" x="23" y= "7" terrain="grass">
-     <object type ="door"/>
-</tile>
-     <tile id="584" x="23" y= "8" terrain="floor"/>
-     <tile id="585" x="23" y= "9" terrain="floor"/>
-     <tile id="586" x="23" y= "10" terrain="floor"/>
-     <tile id="587" x="23" y= "11" terrain="grass">
      <object type ="wall"/>
+</tile>
+     <tile id="584" x="23" y= "8" terrain="grass"/>
+     <tile id="585" x="23" y= "9" terrain="grass">
+     <object type ="wall"/>
+</tile>
+     <tile id="586" x="23" y= "10" terrain="grass"/>
+     <tile id="587" x="23" y= "11" terrain="grass">
+     <object type ="door"/>
 </tile>
      <tile id="588" x="23" y= "12" terrain="grass"/>
      <tile id="589" x="23" y= "13" terrain="grass"/>
      <tile id="590" x="23" y= "14" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="591" x="23" y= "15" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="592" x="23" y= "16" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="593" x="23" y= "17" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="591" x="23" y= "15" terrain="grass"/>
+     <tile id="592" x="23" y= "16" terrain="water"/>
+     <tile id="593" x="23" y= "17" terrain="water"/>
      <tile id="594" x="23" y= "18" terrain="water"/>
-     <tile id="595" x="23" y= "19" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="596" x="23" y= "20" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="595" x="23" y= "19" terrain="water"/>
+     <tile id="596" x="23" y= "20" terrain="grass"/>
      <tile id="597" x="23" y= "21" terrain="grass">
      <object type ="wall"/>
 </tile>
-     <tile id="598" x="23" y= "22" terrain="grass">
-     <object type ="wall"/>
-</tile>
+     <tile id="598" x="23" y= "22" terrain="grass"/>
      <tile id="599" x="23" y= "23" terrain="grass"/>
      <tile id="600" x="23" y= "24" terrain="grass"/>
      <tile id="601" x="24" y= "0" terrain="grass"/>
      <tile id="602" x="24" y= "1" terrain="grass"/>
      <tile id="603" x="24" y= "2" terrain="grass"/>
      <tile id="604" x="24" y= "3" terrain="grass"/>
-     <tile id="605" x="24" y= "4" terrain="grass"/>
-     <tile id="606" x="24" y= "5" terrain="grass">
+     <tile id="605" x="24" y= "4" terrain="grass">
      <object type ="wall"/>
 </tile>
+     <tile id="606" x="24" y= "5" terrain="grass"/>
      <tile id="607" x="24" y= "6" terrain="grass"/>
-     <tile id="608" x="24" y= "7" terrain="grass">
-     <object type ="wall"/>
-</tile>
-     <tile id="609" x="24" y= "8" terrain="floor"/>
-     <tile id="610" x="24" y= "9" terrain="floor"/>
-     <tile id="611" x="24" y= "10" terrain="floor" startPlayer="1" startPref="2" />
+     <tile id="608" x="24" y= "7" terrain="grass"/>
+     <tile id="609" x="24" y= "8" terrain="grass"/>
+     <tile id="610" x="24" y= "9" terrain="grass"/>
+     <tile id="611" x="24" y= "10" terrain="grass"/>
      <tile id="612" x="24" y= "11" terrain="grass">
      <object type ="wall"/>
 </tile>
@@ -946,7 +970,7 @@
      <tile id="616" x="24" y= "15" terrain="grass"/>
      <tile id="617" x="24" y= "16" terrain="grass"/>
      <tile id="618" x="24" y= "17" terrain="grass"/>
-     <tile id="619" x="24" y= "18" terrain="grass" startPlayer="1" startPref="1" />
+     <tile id="619" x="24" y= "18" terrain="grass"/>
      <tile id="620" x="24" y= "19" terrain="grass"/>
      <tile id="621" x="24" y= "20" terrain="grass"/>
      <tile id="622" x="24" y= "21" terrain="grass"/>

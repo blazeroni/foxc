@@ -14,6 +14,7 @@ class ClientEntityFactory : public EntityFactory, public Singleton<ClientEntityF
 
       virtual spUnit makeUnit(int playerID, spMapTile tile);
       virtual spWall makeWall(WALL_TYPE type);
+      virtual spDoor makeDoor(WALL_TYPE type, bool open = false);
       virtual spItem makePistol();
       virtual spItem makeRifle();
       virtual spItem makeGrenade();

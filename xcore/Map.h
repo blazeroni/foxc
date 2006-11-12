@@ -27,7 +27,7 @@ class Map
       virtual void drawObjectLayer(const Point& offset);
       //void drawMinimap();
       virtual void highlightMouseOverTile(const Point& offset);
-      
+
       int getWidth() const;
       int getHeight() const;
 
@@ -41,7 +41,7 @@ class Map
    protected:
       Map(spEntityFactory factory);
 
-      void loadWalls(map<spMapTile, bool> walls);
+      void loadWalls(map<spMapTile, bool> walls, map<spMapTile, bool> doors);
 
       template <class T>
       static boost::shared_ptr<T> makeMapHelper(spEntityFactory factory);

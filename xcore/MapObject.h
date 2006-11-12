@@ -25,6 +25,10 @@ class MapObject : public GameEntity
       MapObject(uint32 entityID);
       virtual ~MapObject();
 
+      virtual string getName();
+
+      virtual bool canUse();
+      virtual void use();
       virtual bool isPassable() const = 0;
       virtual void destroy() = 0;
 

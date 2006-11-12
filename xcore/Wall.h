@@ -29,7 +29,8 @@ enum WALL_TYPE { WT_NONE = 0,
                   WT_L_S = 12,
                   WT_L_W = 9,
                   WT_L_N = 3,
-                  WT_ALL = 15 };
+                  WT_ALL = 15,
+                  WT_DOOR = 16 };
 
 class Wall : public MapObject
 {

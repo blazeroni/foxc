@@ -23,10 +23,15 @@ spUnit EntityFactory::makeUnit(int playerID, spMapTile tile)
 
 spWall EntityFactory::makeWall(WALL_TYPE type)
 {
-   // entityID is ignored
    spWall wall = spWall(new Wall(++_lastEntityID, type));
    //add(wall);
    return wall;
+}
+
+spDoor EntityFactory::makeDoor(WALL_TYPE type, bool open)
+{
+   spDoor door = spDoor(new Door(++_lastEntityID, type, open));
+   return door;
 }
 
 spItem EntityFactory::makePistol()

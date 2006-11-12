@@ -7,12 +7,13 @@
 namespace xcore
 {
 
-enum TerrainType { GRASS, WATER, FLOOR };
+enum TerrainType { GRASS, WATER, FLOOR, SNOWS };
 
 #define IMPASSABLE_TERRAIN_MULTIPLIER 1000.0
 #define GRASS_TILE_RESOURCE_ID "tile_grass"
 #define WATER_TILE_RESOURCE_ID "tile_water"
 #define FLOOR_TILE_RESOURCE_ID "tile_floor"
+#define SNOWS_TILE_RESOURCE_ID "tile_snows"
 
 class Terrain;
 typedef boost::shared_ptr<Terrain> spTerrain;
@@ -73,6 +74,15 @@ class Terrain
             virtual TerrainType getType() { return FLOOR; }
             virtual double getMoveMultiplier() { return 1; }
             virtual string getResourceID() { return FLOOR_TILE_RESOURCE_ID; }
+      };
+
+	  class TerrainSnows : public TerrainBaseType
+      {
+         public: 
+            virtual bool isPassable() { return true; }
+            virtual TerrainType getType() { return SNOWS; }
+            virtual double getMoveMultiplier() { return 1.5; }
+            virtual string getResourceID() { return SNOWS_TILE_RESOURCE_ID; }
       };
 };
 

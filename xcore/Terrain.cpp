@@ -22,6 +22,7 @@ Terrain::Terrain(TerrainType type)
       _possibleTypes[GRASS] = new TerrainGrass();
       _possibleTypes[WATER] = new TerrainWater();
 	  _possibleTypes[FLOOR] = new TerrainFloor();
+	  _possibleTypes[SNOWS] = new TerrainSnows();
    }
 
    _type = _possibleTypes[type];

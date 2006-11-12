@@ -55,6 +55,9 @@ bool InventoryState::load_files()
 
 void InventoryState::init()
 {
+    ConfigOptions& o = ConfigOptions::instance();
+    ClientNetwork &cn = ClientNetwork::instance();
+    cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
     load_files();
     _pointsMax = 200;
     _pointsSpent = 0;
@@ -279,3 +282,15 @@ void InventoryState::deinit()
 {
 }
 
+void InventoryState::commit()
+{
+    ClientNetwork &cn = ClientNetwork::instance();
+    for ( int i = 0; i < 8, ++i )
+    {
+	if ( _unit[i] >= 0 )
+	{
+	    cn.send( UnitCreateEvent(_playerName, 0, 0 ) );
+	    
+	}
+    }
+}

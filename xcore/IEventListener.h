@@ -23,6 +23,7 @@ class UnitWaitEvent;
 class UnitFireEvent;
 class UnitEquipEvent;
 class UnitInvSwapEvent;
+class UseMapObjectEvent;
 
 // currently this class knows about every possible event type
 // in the future, this should probably be split up depending on the 
@@ -49,6 +50,7 @@ class IEventListener
       virtual void handleEvent(UnitWaitEvent& e) {};
       virtual void handleEvent(UnitFireEvent& e) {};
       virtual void handleEvent(UnitInvSwapEvent& e) {};
+      virtual void handleEvent(UseMapObjectEvent& e) {};
 };
 
 

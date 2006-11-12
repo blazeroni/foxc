@@ -11,6 +11,7 @@
 #include "xcore/UnitWaitEvent.h"
 #include "xcore/UnitFireEvent.h"
 #include "xcore/UnitInvSwapEvent.h"
+#include "xcore/UseMapObjectEvent.h"
 #include "XServer.h"
 #include "ConfigOptions.h"
 #include "ServerNetwork.h"
@@ -88,6 +89,7 @@ void XServer::init()
    EventManager::instance().addListener<UnitActiveEvent>(this);
    EventManager::instance().addListener<UnitFireEvent>(this);
    EventManager::instance().addListener<UnitInvSwapEvent>(this);
+   EventManager::instance().addListener<UseMapObjectEvent>(this);
 }
 
 void XServer::deinit()
@@ -304,7 +306,7 @@ void XServer::handleEvent(UnitFireEvent& e)
    }
 }
 
-void XServer::handleEvent(UnitInvSwapEvent& e)
+void XServer::handleEvent(UseMapObjectEvent& e)
 {
    if (_clients.find(e.getSource()) != _clients.end() &&
        _games.find(_clients[e.getSource()]->getGameID()) != _games.end())

@@ -13,4 +13,19 @@ MapObject::~MapObject()
 {
 }
 
+bool MapObject::canUse()
+{
+   return false;
+}
+
+void MapObject::use()
+{
+   // do nothing
+}
+
+string MapObject::getName()
+{
+   return "MapObject";
+}
+
 } // namespace

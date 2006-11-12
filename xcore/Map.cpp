@@ -159,6 +159,7 @@ bool Map::load(string fileName)
       map<string, spMapTile> idTileMap;
 
       map<spMapTile, bool> walls;
+      map<spMapTile, bool> doors;
 
       ticpp::Element* tiles = root->FirstChildElement("tiles");
       ticpp::Iterator< ticpp::Element > child;
@@ -180,23 +181,28 @@ bool Map::load(string fileName)
             if (type == "wall")
             {
                walls[tile] = true;
+               doors[tile] = false;
                //tile->addObject(_factory->makeWall());
             }
             else if (type == "door")
             {
-               // TODO fill in
+               walls[tile] = true;
+               doors[tile] = true;
+               // TODO replace w/ a real door
+               //tile->addObject(_factory->makeWall(WT_DOOR));
             }
          }
          else
          {
             walls[tile] = false;
+            doors[tile] = false;
          }
 
          idTileMap[id] = tile;
          populateTileNeighbors(tile);
          _mapTiles.push_back(tile);
       }
-      loadWalls(walls);
+      loadWalls(walls, doors);
    }
    catch (ticpp::Exception& e)
    {
@@ -207,7 +213,7 @@ bool Map::load(string fileName)
    return true;
 }
 
-void Map::loadWalls(map<spMapTile, bool> walls)
+void Map::loadWalls(map<spMapTile, bool> walls, map<spMapTile, bool> doors)
 {
    map<spMapTile, bool>::iterator iter;
 
@@ -215,8 +221,10 @@ void Map::loadWalls(map<spMapTile, bool> walls)
    {
       if (iter->second == true)
       {
-         uint8 wallType = 0;
+         WALL_TYPE type;
 
+         uint8 wallType = 0;
+   
          spMapTile temp = iter->first->getTileInDirection(Direction::NE);
          if (temp.get() && walls[temp])
          {
@@ -237,9 +245,16 @@ void Map::loadWalls(map<spMapTile, bool> walls)
          {
             wallType |= WD_SW;
          }
+         type = WALL_TYPE(wallType);
 
-         WALL_TYPE type = WALL_TYPE(wallType);
-         iter->first->addObject(_factory->makeWall(type));
+         if (doors[iter->first] == true)
+         {
+            iter->first->addObject(_factory->makeDoor(type));
+         }
+         else
+         {
+            iter->first->addObject(_factory->makeWall(type));
+         }
       }
    }
 }

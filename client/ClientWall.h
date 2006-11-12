@@ -32,6 +32,9 @@ class ClientWall : public Wall
       static SDL_Surface* _ls;
       static SDL_Surface* _all;
 
+      // temporary
+      static SDL_Surface* _door;
+
 };
 
 #endif

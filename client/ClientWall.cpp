@@ -18,6 +18,8 @@ SDL_Surface* ClientWall::_ln = NULL;
 SDL_Surface* ClientWall::_ls = NULL;
 SDL_Surface* ClientWall::_all = NULL;
 
+SDL_Surface* ClientWall::_door = NULL;
+
 #define WALL_IMAGE_NE    "resources/images/wall_ne.png"
 #define WALL_IMAGE_NW    "resources/images/wall_nw.png"
 #define WALL_IMAGE_SE    "resources/images/wall_se.png"
@@ -33,6 +35,8 @@ SDL_Surface* ClientWall::_all = NULL;
 #define WALL_IMAGE_L_W   "resources/images/wall_l_w.png"
 #define WALL_IMAGE_L_S   "resources/images/wall_l_s.png"
 #define WALL_IMAGE_ALL   "resources/images/wall_all.png"
+
+#define DOOR_IMAGE_OPEN  "resources/images/door_open.png"
 
 ClientWall::ClientWall(uint32 entityID, WALL_TYPE type) :
    Wall(entityID, type),
@@ -55,6 +59,8 @@ ClientWall::ClientWall(uint32 entityID, WALL_TYPE type) :
       _ln = Display::instance().loadImage(WALL_IMAGE_L_N);
       _ls = Display::instance().loadImage(WALL_IMAGE_L_S);
       _all = Display::instance().loadImage(WALL_IMAGE_ALL);
+
+      _door = Display::instance().loadImage(DOOR_IMAGE_OPEN);
    }
 
    switch (type)
@@ -104,6 +110,10 @@ ClientWall::ClientWall(uint32 entityID, WALL_TYPE type) :
 
       case WT_ALL:
          _image = _all;
+         break;
+
+      case WT_DOOR:
+         _image = _door;
          break;
 
       case WT_NONE:

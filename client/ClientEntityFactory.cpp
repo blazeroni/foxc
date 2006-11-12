@@ -4,6 +4,7 @@
 #include "ClientMapTile.h"
 #include "ClientWeapon.h"
 #include "ClientWall.h"
+#include "ClientDoor.h"
 
 ClientEntityFactory::ClientEntityFactory() :
    EntityFactory(GAME_ID)
@@ -26,6 +27,12 @@ spWall ClientEntityFactory::makeWall(WALL_TYPE type)
    spWall wall = spWall(new ClientWall(++_lastEntityID, type));
    //add(wall);
    return wall;
+}
+
+spDoor ClientEntityFactory::makeDoor(WALL_TYPE type, bool open)
+{
+   spDoor door = spDoor(new ClientDoor(++_lastEntityID, type, open));
+   return door;
 }
 
 spItem ClientEntityFactory::makePistol()

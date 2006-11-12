@@ -33,6 +33,7 @@ class InventoryState : public GameState
         string _playerName;
 
 	bool load_files();
+	void commit();
 };
 
 #endif

@@ -7,13 +7,14 @@
 #include "xcore/UnitActiveEvent.h"
 #include "xcore/StartGameEvent.h"
 #include "xcore/UnitFireEvent.h"
-#include "xcore/UnitEquipEvent.h"
 #include "xcore/UnitInvSwapEvent.h"
 
 ServerGame::ServerGame(uint32 gameID, string gameName) :
    _gameID(gameID),
    _gameName(gameName)
 {
+    _playersReady = 0;
+    _numPlayers = 0;
 }
 
 ServerGame::~ServerGame()
@@ -44,6 +45,8 @@ void ServerGame::processSDLEvent(SDL_Event& event)
 
 void ServerGame::join(spClient client)
 {
+    cout << "join method" << endl;
+    _numPlayers++;
    _clients[client->getPlayerID()] = client;
    client->setGameID(_gameID);
    client->send(MapLoadEvent(_map->getName()));
@@ -67,10 +70,12 @@ void ServerGame::join(spClient client)
    else
    {
       secondPlayer = client;
-      createInitialUnits();
-      activateNextUnit(true);
+      //createInitialUnits();
+      //activateNextUnit(true);
       start();
    }
+   if (_numPlayers == 2 )
+    start();
 }
 
 void ServerGame::createInitialUnits()
@@ -158,6 +163,7 @@ spUnit ServerGame::getActiveUnit()
 
 void ServerGame::start()
 {
+    cout << "start" << endl;
    send(StartGameEvent());
 }
 
@@ -198,6 +204,7 @@ bool ServerGame::isGameOver()
    return gameOver;
 }
 
+/*
 void ServerGame::handleEvent(UnitCreateEvent& e)
 {
    spUnit u;
@@ -215,6 +222,20 @@ void ServerGame::handleEvent(UnitCreateEvent& e)
    u = _factory->makeUnit(e.getPlayerID(), _map->getTile(x, y));
    addUnit(u);
    send(UnitCreateEvent(e.getPlayerID(), x, y));
+}
+*/
+void ServerGame::handleEvent(UnitCreateEvent& e)
+{
+    spUnit u = _factory->makeUnit(e.getPlayerID(), _map->getTile(e.getX(), e.getY()));
+    u->addItem(_factory->makeItem(e.getS0()));
+    u->addItem(_factory->makeItem(e.getS1()));
+    u->addItem(_factory->makeItem(e.getS2()));
+    u->addItem(_factory->makeItem(e.getS3()));
+    u->addItem(_factory->makeItem(e.getS4()));
+    u->addItem(_factory->makeItem(e.getS5()));
+    u->addItem(_factory->makeItem(e.getS6()));
+    addUnit(u);
+    //send(UnitCreateEvent(e.getPlayerID(), e.getX(), e.getY(), e.getS0(), e.getS1(), e.getS2(), e.getS3, e.getS4(), e.getS5(), e.getS6()));
 }
 
 void ServerGame::handleEvent(UnitMoveEvent& e)
@@ -295,6 +316,23 @@ void ServerGame::handleEvent(UnitInvSwapEvent& e)
    }
 }
 
-void ServerGame::handleEvent(UnitEquipEvent& e)
+void ServerGame::handleEvent(StartGameEvent& e)
 {
+    if ( ++_playersReady == 2 )
+    {
+	map<uint32, spUnit>::iterator iter;
+	for (iter = _units.begin(); iter != _units.end(); ++iter)
+	{
+	    send( UnitCreateEvent( iter->second->getPlayerID(), iter->second->getX(), iter->second->getY(),
+		iter->second->getInv(0)->getType(),
+		iter->second->getInv(1)->getType(),
+		iter->second->getInv(2)->getType(),
+		iter->second->getInv(3)->getType(),
+		iter->second->getInv(4)->getType(),
+		iter->second->getInv(5)->getType(),
+		iter->second->getInv(6)->getType() ) );
+	}
+	activateNextUnit(true);
+	send( StartGameEvent() );
+    }
 }

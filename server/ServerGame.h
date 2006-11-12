@@ -37,8 +37,8 @@ class ServerGame : public Game
       void handleEvent(UnitActiveEvent& e);
       void handleEvent(UnitWaitEvent& e);
       void handleEvent(UnitFireEvent& e);
-      void handleEvent(UnitEquipEvent& e);
       void handleEvent(UnitInvSwapEvent& e);
+      void handleEvent(StartGameEvent& e);
 
    private:
       void addUnit(spUnit);
@@ -46,6 +46,8 @@ class ServerGame : public Game
       void activateNextUnit(bool firstTurn = false);
       void start();
       bool isGameOver();
+      int _playersReady;
+      int _numPlayers;
 
       // temp function to automate initial units
       void createInitialUnits();

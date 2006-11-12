@@ -23,15 +23,10 @@ spUnit EntityFactory::makeUnit(int playerID, spMapTile tile)
 
 spWall EntityFactory::makeWall(WALL_TYPE type)
 {
+   // entityID is ignored
    spWall wall = spWall(new Wall(++_lastEntityID, type));
    //add(wall);
    return wall;
-}
-
-spDoor EntityFactory::makeDoor(WALL_TYPE type, bool open)
-{
-   spDoor door = spDoor(new Door(++_lastEntityID, type, open));
-   return door;
 }
 
 spItem EntityFactory::makePistol()
@@ -57,6 +52,18 @@ spItem EntityFactory::makeMedKit()
 spItem EntityFactory::makePistolClip()
 {
    return makeItemHelper<PistolClip>();
+}
+
+spItem EntityFactory::makeItem( itemtype item )
+{
+    if ( item == NONE )
+	return spItem();
+    if ( item == PISTOL )
+	return makeItemHelper<Pistol>();
+    if ( item == PISTOLCLIP )
+	return makeItemHelper<PistolClip>();
+    if ( item == GRENADE )
+	return makeItemHelper<Grenade>();
 }
 
 spGameEntity EntityFactory::get(uint32 entityID)

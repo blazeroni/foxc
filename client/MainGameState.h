@@ -85,7 +85,7 @@ class MainGameState : public GameState, public IEventListener
       spClientMap _map;
       bool *_fog, *_shroud;
       void updateFog();
-      
+
       spPlayer _localPlayer;
 
       // _players includes _localPlayer to ease cycling through all players;

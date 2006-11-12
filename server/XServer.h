@@ -34,6 +34,8 @@ class XServer : public IEventListener, public Singleton<XServer>
       virtual void handleEvent(UnitWaitEvent& e);
       virtual void handleEvent(UnitFireEvent& e);
       virtual void handleEvent(UnitInvSwapEvent& e);
+      virtual void handleEvent(UseMapObjectEvent& e);
+
 
    private:
       XServer();

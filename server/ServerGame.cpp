@@ -8,6 +8,7 @@
 #include "xcore/StartGameEvent.h"
 #include "xcore/UnitFireEvent.h"
 #include "xcore/UnitInvSwapEvent.h"
+#include "xcore/UseMapObjectEvent.h"
 
 ServerGame::ServerGame(uint32 gameID, string gameName) :
    _gameID(gameID),
@@ -336,3 +337,11 @@ void ServerGame::handleEvent(StartGameEvent& e)
 	send( StartGameEvent() );
     }
 }
+
+void ServerGame::handleEvent(UseMapObjectEvent& e)
+{
+   spUnit unit = _units[e.getUnitID()];
+
+}
+
+

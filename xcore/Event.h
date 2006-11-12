@@ -31,6 +31,7 @@ enum EVENT_TYPE { ANY,
                   UNIT_FIRE,
                   UNIT_INVSWAP,
                   UNIT_EQUIP,
+                  USE_MAP_OBJECT,
                   // add new enums before this one
                   MAX_EVENT_TYPES };
 

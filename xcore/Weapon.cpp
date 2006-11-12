@@ -8,7 +8,7 @@ namespace xcore {
 
 Weapon::Weapon(uint32 entityID) : Item(entityID)
 {
-    _type = "Weapon";
+    _type = (itemtype)0;
 }
 
 int Weapon::calcDamage( int range ) const
@@ -53,6 +53,7 @@ Clip::Clip(uint32 entityID) : Item(entityID)
 Pistol::Pistol(uint32 entityID) : Weapon(entityID)
 {
     _name = "Pistol";
+    _type = PISTOL;
     _baseDamage = 50;
     _damageRange = 10;
     _effectiveRange = 20;
@@ -67,7 +68,7 @@ Pistol::Pistol(uint32 entityID) : Weapon(entityID)
 PistolClip::PistolClip(uint32 entityID) :
    Clip(entityID)
 {
-    _type = "Pistol";
+    _type = PISTOLCLIP;
     //_image = Display::instance().loadImage( "images/gui/pistol_clip_gui.png" );
     //_invImage = Display::instance().loadImage( "images/gui/pistol_clip_gui_inv.png" );
 }
@@ -107,6 +108,7 @@ int Bazooka::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
 Grenade::Grenade(uint32 entityID) : Weapon(entityID)
 {
     _name = "Grenade";
+    _type = GRENADE;
     _baseDamage = 200;
     _damageRange = 20;
     _effectiveRange = 8;

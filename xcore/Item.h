@@ -26,7 +26,7 @@ class Item : public GameEntity
 	/// turn cost
 	int _turnCost;
         /// type for some items
-        string _type;
+        itemtype _type;
 
     public:
         Item(uint32 entityID);
@@ -44,7 +44,7 @@ class Item : public GameEntity
         /// returns true for items, used for weapons
         virtual int hasAmmo() const;
         /// returns type
-        virtual string getType() const;
+        virtual itemtype getType() const;
         /// reloads for weapons
         virtual void reload();
 

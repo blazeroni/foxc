@@ -4,6 +4,12 @@
 #include "Input.h"
 #include "FrontEndGameState.h"
 #include <sstream>
+#include "xcore/UnitCreateEvent.h"
+#include "xcore/GameJoinEvent.h"
+#include "xcore/GameListEvent.h"
+#include "xcore/PlayerJoinEvent.h"
+#include "ClientNetwork.h"
+#include "ConfigOptions.h"
 
 #define INVEN_THEME "resources/sounds/MainTheme.wav"
 #define UNIT_BOX "resources/images/gui/loadout_unit.png"
@@ -19,10 +25,12 @@
 #define PISTOL_CLIP_INV_IMG "resources/images/gui/pistol_clip_gui_inv.png"
 #define GRENADE_IMG "resources/images/gui/grenade_gui.png"
 #define GRENADE_INV_IMG "resources/images/gui/grenade_gui_inv.png"
+#define READY_IMG "resources/images/gui/ready.png"
 
 InventoryState::InventoryState(Game* app) : 
   GameState(app)
 {
+    _ready = false;
 }
 
 #define COST_UNIT 50
@@ -48,6 +56,7 @@ bool InventoryState::load_files()
     _pistolClipInvImage = Display::instance().loadImage(PISTOL_CLIP_INV_IMG);
     _grenadeImage = Display::instance().loadImage(GRENADE_IMG);
     _grenadeInvImage = Display::instance().loadImage(GRENADE_INV_IMG);
+    _readyImage = Display::instance().loadImage(READY_IMG);
     return true;
 }
 
@@ -55,9 +64,15 @@ bool InventoryState::load_files()
 
 void InventoryState::init()
 {
+    EventManager::instance().addListener<StartGameEvent>(this);
     ConfigOptions& o = ConfigOptions::instance();
     ClientNetwork &cn = ClientNetwork::instance();
     cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
+    bool host = true;
+    //cin >> host;
+    //ClientNetwork::instance().send(GameListEvent());
+    cn.send(PlayerJoinEvent(ConfigOptions::instance().get<string>(PLAYER_NAME)));
+    cn.send(GameJoinEvent(ConfigOptions::instance().get<string>(GAME_NAME), host));
     load_files();
     _pointsMax = 200;
     _pointsSpent = 0;
@@ -97,6 +112,8 @@ void InventoryState::processSDLEvent(SDL_Event& event)
         if ( event.button.button == SDL_BUTTON_LEFT )
         {
             Point click = Input::instance().getMousePosition();
+	    if ( click.x > 650 && click.x < 650+_readyImage->w && click.y > 200 && click.y < 200+_readyImage->h )
+		commit();
             // units
             for ( int i = 0; i < 8; ++i )
             {
@@ -202,6 +219,11 @@ void InventoryState::processSDLEvent(SDL_Event& event)
 
 void InventoryState::update(uint32 X)
 {
+    if ( !_ready )
+    {
+	Display::instance().draw(275, 300, "Waiting for players...");
+	return;
+    }
     Display& d = Display::instance();
     Audio& a = Audio::instance();
     
@@ -274,6 +296,9 @@ void InventoryState::update(uint32 X)
         d.draw( 50 + (_weaponBox->w+15)*(i), 475, _weaponBox );
 	// grenade
     d.draw( 50 + (_weaponBox->w)*(0)+_weaponBox->w/2-_grenadeImage->w/2, 475+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
+    // ready button
+    d.draw( 650, 200, _readyImage );
+
 
     SDL_Delay( 20 );
 }
@@ -285,12 +310,29 @@ void InventoryState::deinit()
 void InventoryState::commit()
 {
     ClientNetwork &cn = ClientNetwork::instance();
-    for ( int i = 0; i < 8, ++i )
+    for ( int i = 0; i < 8; ++i )
     {
 	if ( _unit[i] >= 0 )
 	{
-	    cn.send( UnitCreateEvent(_playerName, 0, 0 ) );
+	    //cn.send( UnitCreateEvent(_playerID, 0, 0,
+	    cn.send( UnitCreateEvent(1, 0, 0,
+		_loadout[i][0],
+		_loadout[i][1],
+		_loadout[i][2],
+		_loadout[i][3],
+		_loadout[i][4],
+		_loadout[i][5],
+		_loadout[i][6] ) );
 	    
 	}
     }
+    cn.send( StartGameEvent() );
+    GameState* gs = new MainGameState(_game);
+    gs->init();
+    _game->changeState(gs);				
+}
+
+void InventoryState::handleEvent(StartGameEvent& e)
+{
+    _ready = true;
 }

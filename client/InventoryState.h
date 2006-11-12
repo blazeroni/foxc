@@ -1,5 +1,5 @@
-#ifndef XCLONE_InventoryState_H
-#define XCLONE_inventoryState_H
+#ifndef XCLONE_INVENTORYSTATE_H
+#define XCLONE_INVENTORYSTATE_H
 
 #include "includes.h"
 #include "xcore/GameState.h"
@@ -8,9 +8,12 @@
 #include "Audio.h"
 #include "xcore/Weapon.h"
 #include "xcore/Item.h"
+#include "xcore/StartGameEvent.h"
+#include "xcore/EventManager.h"
+#include "xcore/IEventListener.h"
 
 
-class InventoryState : public GameState
+class InventoryState : public GameState, public IEventListener
 {
     public:
         InventoryState(Game* app);
@@ -24,6 +27,7 @@ class InventoryState : public GameState
 	SDL_Surface *_unitBox, *_unitBoxHL, *_itemBox, *_itemBoxHL, *_weaponBox, *_weaponBoxHL, *_unitImage;
 	SDL_Surface *_pistolImage, *_pistolInvImage, *_pistolClipImage, *_pistolClipInvImage;
 	SDL_Surface *_grenadeImage, *_grenadeInvImage;
+	SDL_Surface *_readyImage;
         int _pointsMax;
         int _pointsSpent;
         int _selectedUnit;
@@ -31,7 +35,9 @@ class InventoryState : public GameState
         int _unit[8];
         itemtype _loadout[8][7];
         string _playerName;
+	bool _ready;
 
+	void handleEvent(StartGameEvent& e);
 	bool load_files();
 	void commit();
 };

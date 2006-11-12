@@ -28,6 +28,13 @@ spWall EntityFactory::makeWall(WALL_TYPE type)
    //add(wall);
    return wall;
 }
+spDoor EntityFactory::makeDoor(WALL_TYPE type, bool open)
+{
+   // entityID is ignored
+   spDoor door = spDoor(new Door(++_lastEntityID, type, open));
+   //add(wall);
+   return door;
+}
 
 spItem EntityFactory::makePistol()
 {

@@ -10,7 +10,6 @@
 #include "xcore/UnitActiveEvent.h"
 #include "xcore/UnitWaitEvent.h"
 #include "xcore/UnitFireEvent.h"
-#include "xcore/UnitEquipEvent.h"
 #include "xcore/UnitInvSwapEvent.h"
 #include "XServer.h"
 #include "ConfigOptions.h"
@@ -88,7 +87,6 @@ void XServer::init()
    EventManager::instance().addListener<GameOverEvent>(this);
    EventManager::instance().addListener<UnitActiveEvent>(this);
    EventManager::instance().addListener<UnitFireEvent>(this);
-   EventManager::instance().addListener<UnitEquipEvent>(this);
    EventManager::instance().addListener<UnitInvSwapEvent>(this);
 }
 
@@ -298,15 +296,6 @@ void XServer::handleEvent(UnitWaitEvent& e)
 }
 
 void XServer::handleEvent(UnitFireEvent& e)
-{
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
-   {
-      _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
-   }
-}
-
-void XServer::handleEvent(UnitEquipEvent& e)
 {
    if (_clients.find(e.getSource()) != _clients.end() &&
        _games.find(_clients[e.getSource()]->getGameID()) != _games.end())

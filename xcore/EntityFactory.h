@@ -5,6 +5,7 @@
 #include "Unit.h"
 #include "MapTile.h"
 #include "Wall.h"
+#include "Door.h"
 #include "Weapon.h"
 #include "Item.h"
 
@@ -22,6 +23,7 @@ class EntityFactory
 
       virtual spUnit makeUnit(int playerID, spMapTile tile);
       virtual spWall makeWall(WALL_TYPE type);
+      virtual spDoor makeDoor(WALL_TYPE type, bool open = false);
       virtual spItem makePistol();
       virtual spItem makeRifle();
       virtual spItem makeGrenade();

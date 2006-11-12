@@ -67,8 +67,8 @@ void MainGameState::init()
    EventManager::instance().addListener<UnitInvSwapEvent>(this);
    EventManager::instance().addListener<GameOverEvent>(this);
 
-   //ConfigOptions& o = ConfigOptions::instance();
-   //ClientNetwork& cn = ClientNetwork::instance();
+   ConfigOptions& o = ConfigOptions::instance();
+   ClientNetwork& cn = ClientNetwork::instance();
    //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
 
    //ConfigOptions& o = ConfigOptions::instance();

@@ -10,7 +10,7 @@
 
 Input::Input()
 {
-    _mode = COMMAND;
+    _mode = NONE;
     _str = "";
     SDL_EnableUNICODE( SDL_ENABLE );
 }

@@ -1,159 +1,270 @@
-///The headers
 #include "includes.h"
 #include "InventoryState.h"
 #include "MainGameState.h"
+#include "Input.h"
 #include "FrontEndGameState.h"
+#include <sstream>
 
 #define INVEN_THEME "resources/sounds/MainTheme.wav"
+#define UNIT_BOX "resources/images/gui/loadout_unit.png"
+#define UNIT_BOX_HL "resources/images/gui/loadout_unit_hl.png"
+#define ITEM_BOX "resources/images/gui/loadout_item.png"
+#define ITEM_BOX_HL "resources/images/gui/loadout_item_hl.png"
+#define WEAPON_BOX "resources/images/gui/loadout_weapon.png"
+#define WEAPON_BOX_HL "resources/images/gui/loadout_weapon_hl.png"
+#define UNIT "resources/images/unit.png"
+#define PISTOL_IMG "resources/images/gui/pistol_gui.png"
+#define PISTOL_INV_IMG "resources/images/gui/pistol_gui_inv.png"
+#define PISTOL_CLIP_IMG "resources/images/gui/pistol_clip_gui.png"
+#define PISTOL_CLIP_INV_IMG "resources/images/gui/pistol_clip_gui_inv.png"
+#define GRENADE_IMG "resources/images/gui/grenade_gui.png"
+#define GRENADE_INV_IMG "resources/images/gui/grenade_gui_inv.png"
 
 InventoryState::InventoryState(Game* app) : 
-  GameState(app), ContinueButton(NULL), RemoveButton(NULL), AddButton(NULL), NextButton(NULL), BackButton(NULL), FinishButton(NULL)
+  GameState(app)
 {
-	ImagePosition = 0;
 }
+
+#define COST_UNIT 50
+#define COST_PISTOL 30
+#define COST_PISTOLCLIP 10
+#define COST_GRENADE 30
+#define pointsLeft (_pointsMax - _pointsSpent)
 
 bool InventoryState::load_files()
 {
-	//display front display method
-	background = Display::instance().loadImage("resources/images/background.png", false);
-	buttonSheet = Display::instance().loadImage("resources/images/InventorySheet.png", false);
-	rightArrow = Display::instance().loadImage("resources/images/arrow-right.gif", false);
-	leftArrow = Display::instance().loadImage("resources/images/arrow-left.gif", false);
-	soldier = Display::instance().loadImage("resources/images/soldier2.gif", false);	
-	MusicTheme = Audio::instance().loadMusic(INVEN_THEME);
-	
-/*	
-   WeaponList[0] = spWeapon( new Pistol() );
-    WeaponList[1] = spWeapon( new Rifle() );
-	WeaponList[2] = spWeapon( new Bazooka() );
-	WeaponList[3] = spWeapon( new Grenade() );
-*/
-	//WeaponImage = WeaponList[0]->getImage();	
-	
-	if(background == NULL)
-	    return false;
-	
-	return true;
+    _music = Audio::instance().loadMusic(INVEN_THEME);
+    Display::instance().loadFont("resources/fonts/FreeMono.ttf");
+    _unitBox = Display::instance().loadImage(UNIT_BOX);
+    _unitBoxHL = Display::instance().loadImage(UNIT_BOX_HL);
+    _itemBox = Display::instance().loadImage(ITEM_BOX);
+    _itemBoxHL = Display::instance().loadImage(ITEM_BOX_HL);
+    _weaponBox = Display::instance().loadImage(WEAPON_BOX);
+    _weaponBoxHL = Display::instance().loadImage(WEAPON_BOX_HL);
+    _unitImage = Display::instance().loadImage(UNIT);
+    _pistolImage = Display::instance().loadImage(PISTOL_IMG);
+    _pistolInvImage = Display::instance().loadImage(PISTOL_INV_IMG);
+    _pistolClipImage = Display::instance().loadImage(PISTOL_CLIP_IMG);
+    _pistolClipInvImage = Display::instance().loadImage(PISTOL_CLIP_INV_IMG);
+    _grenadeImage = Display::instance().loadImage(GRENADE_IMG);
+    _grenadeInvImage = Display::instance().loadImage(GRENADE_INV_IMG);
+    return true;
 }
 
 
 
 void InventoryState::init()
 {
-	load_files();
-	Display& ScreenX = Display::instance();
-	ScreenX.loadFont("resources/fonts/Floyd.ttf", 50);
-	
-	Audio::instance().playMusic(-1, MusicTheme);		
+    load_files();
+    _pointsMax = 200;
+    _pointsSpent = 0;
+    _playerName = "Name";
+    _selectedUnit = 0;
+    _selectedInv = 0;
+    for ( int i = 0; i < 8; ++i )
+    {
+        _unit[i] = -1;
+        for ( int j = 0; j < 7; ++j )
+            _loadout[i][j] = (itemtype)0;
+    }
+    _unit[0] = 0;
+    //Display& d = Display::instance();
+    //Audio& a = Audio::instance();
 
-	SDL_Rect* clip = InventoryState::set_clips();
-
-	ContinueButton = new Button( 0, 310, 340, 70, 0, buttonSheet);
-	RemoveButton = new Button( 0, 380, 340, 70, 2, buttonSheet);
-	AddButton = new Button( 0, 450, 340, 70, 4, buttonSheet);
-	FinishButton = new Button( 0, 520, 340, 70, 6, buttonSheet);
-
-	NextButton = new Button( 250, 100, 50, 50, 0, rightArrow);
-	BackButton = new Button( 0, 100, 50, 50, 0, leftArrow);
-
+    //a.playMusic(-1, _music);		
 }
 
-SDL_Rect* InventoryState::set_clips()
+int cost( itemtype item )
 {
-    //Clip the sprite sheet //W340, H70
-    clips[0].x = 0;
-    clips[0].y = 0;
-    clips[0].w = 100;
-    clips[0].h = 80;
-
-    clips[1].x = 100;
-    clips[1].y = 0;
-    clips[1].w = 100;
-    clips[1].h = 80;
-
-	clips[2].x = 0;
-    clips[2].y = 80;
-    clips[2].w = 100;
-    clips[2].h = 80;
-
-    clips[3].x = 100;
-    clips[3].y = 80;
-    clips[3].w = 100;
-    clips[3].h = 80;	
-
-	return clips;
+    if ( item == (itemtype)0 )
+        return 0;
+    if ( item == PISTOL )
+        return COST_PISTOL;
+    if ( item == PISTOLCLIP )
+        return COST_PISTOLCLIP;
+    if ( item == GRENADE )
+        return COST_GRENADE;
 }
 
 void InventoryState::processSDLEvent(SDL_Event& event)
 {
-    ContinueButton->handle_event(event);           
-	RemoveButton->handle_event(event);           
-	AddButton->handle_event(event);
-	FinishButton->handle_event(event);
-	BackButton->handle_event(event);
-	NextButton->handle_event(event);
-
-	if(event.type == SDL_MOUSEBUTTONDOWN)
-	{
-		if(event.button.button == SDL_BUTTON_LEFT)
-		{
-		    int x = event.button.x;
-			int y = event.button.y;
-			//If the mouse is over the button 
-			if( ( x > ContinueButton->getX() ) && ( x < ContinueButton->getX() + ContinueButton->getW() ) && ( y > ContinueButton->getY() ) && ( y < ContinueButton->getY() + ContinueButton->getH() ) ) 
-			{
-				Audio::instance().StopMusic();
-				GameState* gs = new MainGameState(_game);
-				gs->init();
-				_game->changeState(gs);								
-				return;
-			}
-			if( ( x > NextButton->getX() ) && ( x < NextButton->getX() + NextButton->getW() ) && ( y > NextButton->getY() ) && ( y < NextButton->getY() + NextButton->getH() ) ) 
-			{
-//				WeaponImage = WeaponList[ImagePosition++ % 4]->getImage();
-				return;
-			}
-			if( ( x > BackButton->getX() ) && ( x < BackButton->getX() + BackButton->getW() ) && ( y > BackButton->getY() ) && ( y < BackButton->getY() + BackButton->getH() ) ) 
-			{
-				if(ImagePosition > 0)
+    Display& d = Display::instance();
+    if ( event.type == SDL_MOUSEBUTTONUP )
+    {
+        if ( event.button.button == SDL_BUTTON_LEFT )
+        {
+            Point click = Input::instance().getMousePosition();
+            // units
+            for ( int i = 0; i < 8; ++i )
             {
-//				    WeaponImage = WeaponList[--ImagePosition % 4]->getImage();
+                if ( click.x > 30 + i*(_unitBox->w+15) && click.x < 30 + i*(_unitBox->w+15) + _unitBox->w &&
+                click.y > 50 && click.y < 50 + _unitBox->h )
+                {
+                    if ( _unit[i] >= 0 )
+                        _selectedUnit = i;
+                    else if ( pointsLeft > COST_UNIT )
+                    {
+                        _unit[i] = COST_UNIT;
+                        _selectedUnit = i;
+                        _pointsSpent += COST_UNIT;
+                    }
+                }
             }
-				else
-				{
-					ImagePosition = 4;
-//					WeaponImage = WeaponList[--ImagePosition % 4]->getImage();
-				}
-				return;
-			}
-			if( ( x > AddButton->getX() ) && ( x < AddButton->getX() + AddButton->getW() ) && ( y > AddButton->getY() ) && ( y < AddButton->getY() + AddButton->getH() ) ) 
-			{
-				// IN HERE IT SHOULD ADD THE CHOSEN WEAPON TO THE UNIT				
-			}
-		}
-	}
+            // hands
+            for ( int i = 0; i < 2; ++i )
+            {
+                if ( click.x > 50 + i*(_weaponBox->w+15) && click.x < 50 + i*(_weaponBox->w+15) + _weaponBox->w &&
+                click.y > 200 && click.y < 200 + _weaponBox->h )
+                    _selectedInv = i;
+            }
+            // inv
+            for ( int i = 0; i < 5; ++i )
+            {
+                if ( click.x > 300 + i*(_itemBox->w+15) && click.x < 300 + i*(_itemBox->w+15) + _itemBox->w &&
+                click.y > 200 && click.y < 200 + _itemBox->h )
+                    _selectedInv = i+2;
+            }
+            // weapons
+            if ( click.x > 50 + 0*(_weaponBox->w+15) && click.x < 50 + 0*(_weaponBox->w+15) + _weaponBox->w &&
+            click.y > 350 && click.y < 350 + _weaponBox->h )
+            {
+                if ( pointsLeft >= cost(PISTOL) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = PISTOL;
+                    _pointsSpent += cost( PISTOL );
+                }
+            }
+            else if ( click.x > 50 + 0*(_weaponBox->w+_itemBox->w+15)+_weaponBox->w+5 && click.x < 50 + 0*(_weaponBox->w+_itemBox->w+15)+_weaponBox->w+5 + _itemBox->w &&
+            click.y > 350 && click.y < 350 + _itemBox->h )
+            {
+                if ( pointsLeft >= cost(PISTOLCLIP) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = PISTOLCLIP;
+                    _pointsSpent += cost( PISTOLCLIP );
+                }
+            }
+        }
+        // deletion
+        if ( event.button.button == SDL_BUTTON_RIGHT )
+        {
+            Point click = Input::instance().getMousePosition();
+            // units
+            for ( int i = 1; i < 8; ++i )
+            {
+                if ( click.x > 30 + i*(_unitBox->w+15) && click.x < 30 + i*(_unitBox->w+15) + _unitBox->w &&
+                click.y > 50 && click.y < 50 + _unitBox->h )
+                {
+                    for ( int j = 0; j < 7; ++j )
+                    {
+                        _pointsSpent -= cost(_loadout[i][j]);
+                        _loadout[i][j] = (itemtype)0;
+                    }
+                    _selectedUnit = 0;
+                    _pointsSpent -= _unit[i];
+                    _unit[i] = -1;
+                }
+            }
+            // hands
+            for ( int i = 0; i < 2; ++i )
+            {
+                if ( click.x > 50 + i*(_weaponBox->w+15) && click.x < 50 + i*(_weaponBox->w+15) + _weaponBox->w &&
+                click.y > 200 && click.y < 200 + _weaponBox->h )
+                {
+                    _pointsSpent -= cost( _loadout[_selectedUnit][i] );
+                    _loadout[_selectedUnit][i] = (itemtype)0;
+                }
+            }
+            // inv
+            for ( int i = 0; i < 5; ++i )
+            {
+                if ( click.x > 300 + i*(_itemBox->w+15) && click.x < 300 + i*(_itemBox->w+15) + _itemBox->w &&
+                click.y > 200 && click.y < 200 + _itemBox->h )
+                {
+                    _pointsSpent -= cost( _loadout[_selectedUnit][i+2] );
+                    _loadout[_selectedUnit][i+2] = (itemtype)0;
+                }
+            }
+        }
+    }
 }
 
 void InventoryState::update(uint32 X)
 {
-	Display::instance().draw(0,0, background);
-	Display::instance().draw(500,280, soldier);
-	//Display::instance().draw(70,100, WeaponImage);
-	Display::instance().draw(20,20,"INVENTORY SELECTION");
-	
-	ContinueButton->show();
-	RemoveButton->show();
-	AddButton->show();
-	FinishButton->show();
-	BackButton->show();
-	NextButton->show();
+    Display& d = Display::instance();
+    Audio& a = Audio::instance();
+    
+    // top data
+    d.draw(10, 10, "Player:__"+_playerName);
+    stringstream ss;
+    string text;
+    ss << _pointsSpent;
+    ss >> text;
+    d.draw( 450, 10, "Points_Spent:__"+text);
+    ss.clear(stringstream::goodbit);
+    ss << _pointsMax - _pointsSpent;
+    ss >> text;
+    d.draw( 610, 10, "Points_Remaining:__"+text);
 
+    // units
+    for ( int i = 0; i < 8; ++i )
+    {
+        d.draw( 30 + (_unitBox->w+15)*(i), 50, _unitBox );
+        if ( _unit[i] >= 0 )
+            d.draw( 30 + (_unitBox->w+15)*(i)+_unitBox->w/2-_unitImage->w/2, 50+_unitBox->h/2-_unitImage->h/2, _unitImage );
+    }
+    if ( _selectedUnit >= 0 )
+        d.draw( 30 + _selectedUnit*(_unitBox->w+15), 50, _unitBoxHL );
+    // unit weapons
+    d.draw( 50, 200, _weaponBox );
+    d.draw( 50 + (_weaponBox->w+15), 200, _weaponBox );
+    if ( _selectedInv == 0 || _selectedInv == 1 )
+            d.draw( 50 + _selectedInv*(_weaponBox->w+15), 200, _weaponBoxHL );
+    for ( int i = 0; i < 2; ++i )
+    {
+        if ( _loadout[_selectedUnit][i] > 0 )
+        {
+            if ( _loadout[_selectedUnit][i] == PISTOL )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_pistolImage->w/2, 200+_weaponBox->h/2-_pistolImage->h/2, _pistolImage );
+            else if ( _loadout[_selectedUnit][i] == PISTOLCLIP )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_pistolClipImage->w/2, 200+_weaponBox->h/2-_pistolClipImage->h/2, _pistolClipImage );
+            else if ( _loadout[_selectedUnit][i] == GRENADE )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_grenadeImage->w/2, 200+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
+        }
+    }
+    // unit items
+    for ( int i = 0; i < 5; ++i )
+        d.draw( 300 + (_itemBox->w+15)*(i), 200, _itemBox );
+    if ( _selectedInv >= 2 )
+            d.draw( 300 + (_selectedInv-2)*(_itemBox->w+15), 200, _itemBoxHL );
+    for ( int i = 0; i < 5; ++i )
+    {
+        if ( _loadout[_selectedUnit][i+2] > 0 )
+        {
+            if ( _loadout[_selectedUnit][i+2] == PISTOL )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_pistolInvImage->w/2, 200+_itemBox->h/2-_pistolInvImage->h/2, _pistolInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == PISTOLCLIP )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_pistolClipInvImage->w/2, 200+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == GRENADE )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_grenadeInvImage->w/2, 200+_itemBox->h/2-_grenadeInvImage->h/2, _grenadeImage );
+        }
+    }
+    // weapons
+    for ( int i = 0; i < 4; ++i )
+    {
+        d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(i), 350, _weaponBox );
+        d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(i)+_weaponBox->w+5, 350, _itemBox );
+    }
+        // pistol
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w/2-_pistolImage->w/2, 350+_weaponBox->h/2-_pistolImage->h/2, _pistolImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w+5+_itemBox->w/2-_pistolClipInvImage->w/2, 350+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
+    // items
+    for ( int i = 0; i < 6; ++i )
+        d.draw( 50 + (_weaponBox->w+15)*(i), 475, _weaponBox );
+
+    SDL_Delay( 200 );
 }
 
 void InventoryState::deinit()
 {
-    SAFE_DELETE(ContinueButton);
-	SAFE_DELETE(AddButton);
-	SAFE_DELETE(RemoveButton);
 }
 

@@ -30,6 +30,7 @@ enum EVENT_TYPE { ANY,
                   UNIT_ACTIVE,
                   UNIT_FIRE,
                   UNIT_INVSWAP,
+                  UNIT_EQUIP,
                   // add new enums before this one
                   MAX_EVENT_TYPES };
 

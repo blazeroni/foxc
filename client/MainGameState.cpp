@@ -46,7 +46,7 @@ MainGameState::~MainGameState()
 
 void MainGameState::deinit()
 {
-   Input::instance().setMode( NONE );
+   Input::instance().setMode( (InputMode)0 );
 }
 
 void MainGameState::init()

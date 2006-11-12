@@ -14,7 +14,7 @@ class ClientItem : public Item
       // define non-image virtual functions to be forwarded to _item
       virtual int use( spMapTile tile )      { return _item->use(tile); }
       virtual int hasAmmo() const            { return _item->hasAmmo(); }
-      virtual string getType() const         { return _item->getType(); }
+      virtual itemtype getType() const         { return _item->getType(); }
       virtual void reload()                  { _item->reload(); }
       virtual string getName() const         { return _item->getName(); }
       virtual int getRange() const           { return _item->getRange(); }

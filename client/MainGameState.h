@@ -31,7 +31,7 @@ class MainGameState : public GameState, public IEventListener
       bool loadMap(string fileName);
 
       /// Creates a unit using the specified player and location
-      spUnit createUnit(int playerID, int x, int y);
+      spUnit createUnit(int playerID, int x, int y, itemtype s0 = (itemtype)0, itemtype s1 = (itemtype)0, itemtype s2 = (itemtype)0, itemtype s3 = (itemtype)0, itemtype s4 = (itemtype)0, itemtype s5 = (itemtype)0, itemtype s6 = (itemtype)0);
 
       /// Returns the unit which can currently perform actions
       spUnit getActiveUnit();

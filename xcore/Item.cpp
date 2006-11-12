@@ -47,7 +47,7 @@ int Item::hasAmmo() const
 {
     return -1;
 }
-string Item::getType() const
+itemtype Item::getType() const
 {
     return _type;
 }

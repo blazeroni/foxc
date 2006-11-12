@@ -67,9 +67,9 @@ void MainGameState::init()
    EventManager::instance().addListener<UnitInvSwapEvent>(this);
    EventManager::instance().addListener<GameOverEvent>(this);
 
-   ConfigOptions& o = ConfigOptions::instance();
-   ClientNetwork& cn = ClientNetwork::instance();
-   cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
+   //ConfigOptions& o = ConfigOptions::instance();
+   //ClientNetwork& cn = ClientNetwork::instance();
+   //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
 
    //ConfigOptions& o = ConfigOptions::instance();
    //ClientNetwork& cn = ClientNetwork::instance();
@@ -144,14 +144,18 @@ bool MainGameState::loadMap(string fileName)
    return _map->load(fileName);
 }
 
-spUnit MainGameState::createUnit(int playerID, int x, int y)
+spUnit MainGameState::createUnit(int playerID, int x, int y, itemtype s0, itemtype s1, itemtype s2, itemtype s3, itemtype s4, itemtype s5, itemtype s6)
 {
    ClientEntityFactory& cef = ClientEntityFactory::instance();
    spUnit u = cef.makeUnit(playerID, _map->getTile(x, y));
    // all items added here must be added in server as well so that itemids match
-   u->addItem(cef.makePistol());
-   u->addItem(cef.makeGrenade());
-   //u->addItem(cef.makePistolClip());
+   u->addItem(cef.makeItem(s0));
+   u->addItem(cef.makeItem(s1));
+   u->addItem(cef.makeItem(s2));
+   u->addItem(cef.makeItem(s3));
+   u->addItem(cef.makeItem(s4));
+   u->addItem(cef.makeItem(s5));
+   u->addItem(cef.makeItem(s6));
    vector<Player>::iterator iter;
 
    //for (iter = _players.begin(); iter != _players.end(); ++iter)
@@ -428,8 +432,8 @@ void MainGameState::handleEvent(MapLoadEvent& e)
 
 void MainGameState::handleEvent(UnitCreateEvent& e)
 {
-   createUnit(e.getPlayerID(), e.getX(), e.getY());
-   cout << "new unit: " << e.getX() << "," << e.getY() << endl;
+   createUnit((int)e.getPlayerID(), (int)e.getX(), (int)e.getY(), e.getS0(), e.getS1(), e.getS2(), e.getS3(), e.getS4(), e.getS5(), e.getS6());
+   //cout << "new unit: " << e.getX() << "," << e.getY() << endl;
    // why does this crash?  are units created before the map?
    //if ( e.getPlayerID() == _localPlayer->getID() )
        //updateFog();

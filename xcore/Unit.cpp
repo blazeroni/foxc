@@ -559,7 +559,7 @@ spItem Unit::getInv( int slot )
 {
     return _inventory[slot];
 }
-
+/*
 void Unit::reload()
 {
     for ( int j = 0; j < 2; ++j )
@@ -580,13 +580,14 @@ void Unit::reload()
     }
     }
 }
+*/
 void Unit::use( spMapTile tile, int wHand )
 {
     if ( !_hand[wHand].get() )
         return;
     if ( _hand[wHand]->getName() == "Clip" ) 
     {
-        if ( _hand[(wHand+1)%2].get() && (_hand[wHand])->getType() == _hand[(wHand+1)%2]->getName() )
+        if ( _hand[(wHand+1)%2].get() && (_hand[wHand])->getType() == PISTOL && _hand[(wHand+1)%2]->getType() == PISTOLCLIP )
         {
             (_hand[(wHand+1)%2])->reload();
             _actionPoints -= _hand[wHand]->getTurnCost();

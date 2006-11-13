@@ -4,6 +4,7 @@
 #include "includes.h"
 
 #define COST_FIRE 25
+#define COST_USE 10
 
 namespace xcore
 {
@@ -73,6 +74,9 @@ class Unit : public GameEntity
       bool hasMaxActionPoints() const;
       void regenActionPoints(int times = 1);
       void useActionPoints(int points);
+
+      bool canUseNearbyObjects() const;
+      void useNearbyObjects();
 
       int getHealth() const;
 

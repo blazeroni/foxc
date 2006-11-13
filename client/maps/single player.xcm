@@ -21,9 +21,15 @@
      <tile id="19" x="1" y= "3" terrain="grass"/>
      <tile id="20" x="1" y= "4" terrain="grass"/>
      <tile id="21" x="1" y= "5" terrain="water"/>
-     <tile id="22" x="1" y= "6" terrain="grass"/>
-     <tile id="23" x="1" y= "7" terrain="grass"/>
-     <tile id="24" x="1" y= "8" terrain="grass"/>
+     <tile id="22" x="1" y= "6" terrain="grass">
+        <object type="wall"/>
+     </tile>
+     <tile id="23" x="1" y= "7" terrain="grass">
+        <object type="door"/>
+     </tile>
+     <tile id="24" x="1" y= "8" terrain="grass">
+        <object type="wall"/>
+     </tile>
      <tile id="25" x="1" y= "9" terrain="water"/>
      <tile id="26" x="1" y= "10" terrain="water"/>
      <tile id="27" x="1" y= "11" terrain="water"/>

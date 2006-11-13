@@ -31,6 +31,7 @@ void Display::init()
    _guiHands = loadImage( "resources/images/gui/br.png" );
    _guiInv = loadImage( "resources/images/gui/inventory_gui.png" );
    _guiUnit = loadImage( "resources/images/gui/unit_gui.png" );
+   _guiUse = loadImage( "resources/images/gui/use_object.png" );
    _cartridge = loadImage( "resources/images/gui/cartridge_gui.png" );
    _usableHighlight = loadImage( "resources/images/tile_usable.png" );
    _cursor = NULL;
@@ -168,7 +169,7 @@ void Display::drawCursor()
     //}
 }
 
-void Display::drawGUI()
+void Display::drawGUI(bool showUseButton)
 {
     MainGameState *gs = (MainGameState*)XClient::instance().getCurrentGameState();
     spUnit activeUnit = gs->getActiveUnit();
@@ -234,6 +235,13 @@ void Display::drawGUI()
         if ( !gs->isMyTurn() )
             return;
     
+        // Use Button
+        if (showUseButton)
+        {
+           draw(_screenWidth - _guiUse->w, _screenHeight - _guiUse->h - _guiHands->h, _guiUse);
+           draw(_screenWidth - _guiUse->w / 2, _screenHeight - _guiUse->h / 2 - _guiHands->h, "Use Door", true);
+        }
+
         //Hands
         draw( _screenWidth - _guiHands->w, _screenHeight - _guiHands->h, _guiHands );
         spItem item1 = spItem(), item2 = spItem();

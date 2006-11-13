@@ -278,4 +278,29 @@ int MapTile::getDistance( spMapTile tile )
 
 void MapTile::addDebris() { _hasDebris = true; }
 
+bool MapTile::hasUseableObjects()
+{
+   list<spMapObject>::iterator iter;
+   for (iter = _objects.begin(); iter != _objects.end(); ++iter)
+   {
+      if ((*iter)->canUse())
+      {
+         return true;
+      }
+   }
+   return false;
+}
+
+void MapTile::useObjects()
+{
+   list<spMapObject>::iterator iter;
+   for (iter = _objects.begin(); iter != _objects.end(); ++iter)
+   {
+      if ((*iter)->canUse())
+      {
+         (*iter)->use();
+      }
+   }
+}
+
 } // namespace

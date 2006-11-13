@@ -288,6 +288,14 @@ bool Input::GUIInput( SDL_Event& event )
                 return true;
             }
         }
+        // use button
+        MainGameState* mgs = (MainGameState*)XClient::instance().getCurrentGameState();
+        if (mgs->isUseObjectActive() && click.x >= 800 - 125 && click.x <= 800-5 && click.y >= 405 && click.y <= 435)
+        {
+           cout << "clicked" << endl;
+           mgs->useObject();
+           return true;
+        }
     }
     break;
         case ( INVMOVE ):

@@ -4,9 +4,10 @@
 namespace xcore
 {
 
-Player::Player(int playerID, string name) :
+Player::Player(uint32 playerID, string name, uint16 num) :
    _name(name),
-   _id(playerID)
+   _id(playerID),
+   _playerNum(num)
 {
 }
 
@@ -15,12 +16,12 @@ Player::~Player()
 
 }
 
-int Player::getID()
+uint32 Player::getID() const
 {
    return _id;
 }
 
-string Player::getName()
+string Player::getName() const
 {
    return _name;
 }
@@ -28,6 +29,16 @@ string Player::getName()
 void Player::setName(string name)
 {
    _name = name;
+}
+
+uint16 Player::getPlayerNumber() const
+{
+   return _playerNum;
+}
+
+void Player::setPlayerNumber(uint16 num)
+{
+   _playerNum = num;
 }
 
 void Player::addUnit(spUnit unit)

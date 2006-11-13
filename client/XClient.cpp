@@ -57,13 +57,16 @@ void XClient::init()
       cerr << "Could not initialize NET2: " << NET2_GetError() << endl; 
    }
 
+   SDL_EnableUNICODE(1);
+   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
    Audio& a = Audio::instance();
    a.init();
 
    Display& d = Display::instance();
    d.init();
    //d.loadFont(co.get<string>(FONT));
-   d.loadFont("FreeMono.ttf");
+   d.loadFont("resources/fonts/FreeMono.ttf");
 
    GameState* gs = new FrontEndGameState(this);
    gs->init();

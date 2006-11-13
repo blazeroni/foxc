@@ -66,75 +66,10 @@ spMapTile Map::getTile(int x, int y) const
 //   _mouseOverTile = getTile(mouse, offset);
 //}
 
-/*
-spMapTile Map::getTile(Point position, Point offset)
-{
-   static Point size(MapTile::getWidth(), MapTile::getHeight());
-   int x = position.x + offset.x;
-   int y = position.y + offset.y;
-
-   vector<spMapTile>::iterator iter;
-
-   for (iter = _mapTiles.begin(); iter != _mapTiles.end(); ++iter)
-   {
-      Point origin((*iter)->getScreenX(), (*iter)->getScreenY());
-      if (x > origin.x && x < origin.x + size.x && y > origin.y && y < origin.y + size.y)
-      {
-         // difference from pixel to origin of image
-         Point diff(x - origin.x, y - origin.y);
-
-         if (SDL_MUSTLOCK(_tileMouseMap))
-         {
-            SDL_LockSurface(_tileMouseMap);
-         }
- 
-         Uint16* pixels = static_cast<Uint16*>(_tileMouseMap->pixels);
-         Uint16 pix = pixels[diff.x + diff.y*_tileMouseMap->w];
-
-         Uint16 red = pix & _tileMouseMap->format->Rmask;
-         Uint16 green = pix & _tileMouseMap->format->Gmask;
-         Uint16 blue = pix & _tileMouseMap->format->Bmask;
-
-         if (SDL_MUSTLOCK(_tileMouseMap))
-         {
-            SDL_UnlockSurface(_tileMouseMap);
-         }
-         
-         // offset from current image to actual MapTile
-         Point offset;
-
-         if (red && !green && !blue) 
-         {
-            offset.y = -1;
-         }
-         else if (!red && green && !blue)
-         {
-            offset.x = -1;
-         }
-         else if (!red && !green && blue)
-         {
-            offset.x = 1;
-         }
-         else if (red && green && !blue)
-         {
-            offset.y = 1;
-         }
-
-         Point coords((*iter)->getX() + offset.x, (*iter)->getY() + offset.y);
-         if (coords.x >= 0 && coords.x < _width && coords.y >= 0 && coords.y < _height)
-         {
-            return getTile(coords.x, coords.y);
-         }
-      }
-   }
-
-   return spMapTile();
-}
-*/
 
 bool Map::load(string fileName)
 {
-   _name = "";
+   _fileName = "";
    try
    {
       ticpp::Document doc(fileName);
@@ -156,6 +91,9 @@ bool Map::load(string fileName)
       string id;
       string terrain;
 
+      uint16 startPlayer;
+      uint16 startPref;
+
       map<string, spMapTile> idTileMap;
 
       map<spMapTile, bool> walls;
@@ -171,6 +109,13 @@ bool Map::load(string fileName)
          child->GetAttribute("terrain", &terrain);
 
          spMapTile tile =  makeMapTile(_terrainMap[terrain], x, y);
+
+         child->GetAttributeOrDefault("startPlayer", &startPlayer, 0);
+         if (startPlayer != 0)
+         {
+            child->GetAttribute("startPref", &startPref);
+            _playerStartPrefs[startPlayer][startPref] = tile;
+         }
 
          ticpp::Element* object = child->FirstChildElement(false);
          if (object != NULL)
@@ -209,7 +154,7 @@ bool Map::load(string fileName)
       cout << e.m_details;
       return false;
    }
-   _name = fileName;
+   _fileName = fileName;
    return true;
 }
 
@@ -259,72 +204,25 @@ void Map::loadWalls(map<spMapTile, bool> walls, map<spMapTile, bool> doors)
    }
 }
 
-bool Map::load(istream& data)
+spMapTile Map::getPlayerStartPref(uint16 playerNum, uint16 startPref)
 {
-/*   string line;
-   bool firstLine = true;
+   return _playerStartPrefs[playerNum][startPref];
+}
 
-   // empty the current map
-   _mapTiles.resize(0);
-
-   int x = 0;
-   int y = 0;
-
-   while(data >> line)
+spMapTile Map::getNextStartPref(uint16 playerNum)
+{
+   map<int, spMapTile> tiles = _playerStartPrefs[playerNum];
+   spMapTile empty = spMapTile();
+   map<int, spMapTile>::iterator iter;
+   for (iter = tiles.begin(); iter != tiles.end(); ++iter)
    {
-      if (firstLine)
+      if (iter->second->isPassable())
       {
-         string width(line.begin(), line.begin() + line.find(","));
-         _width = atoi(width.c_str());
-
-         string height(line.begin() + line.find(",") + 1, line.end());
-         _height = atoi(height.c_str());
-
-         // make enough room for the current map size to avoid reallocations
-         int num = _width * _height;
-         _mapTiles.reserve(_width * _height);
-
-         firstLine = false;
+         empty = iter->second;
+         break;
       }
-      else
-      {
-         if (x >= _width)
-         {
-            x = 0;
-            y++;
-         }
-         string terrain;
-         int wall = 0;
-         if (line.find(":") != string::npos)
-         {
-            terrain = string(line.begin(), line.begin() + line.find(":"));
-            wall = std::atoi (string(line.begin() + line.find(":") + 1, line.end()).c_str());
-         }
-         else
-         {
-            terrain = line;
-         }
-         //string terrain(line.begin(), line.begin() + line.find(":"));
-         // it has to be a wall so the next line isn't needed currently
-         //string extra(line.begin() + line.find(":") + 1, line.end();
-         spMapTile tile = makeMapTile(_terrainMap[terrain], x, y);
-
-         populateTileNeighbors(tile);
-
-         _mapTiles.push_back(tile);
-
-         if (wall & NE)
-            tile->addObject(makeWall(Direction::NE));
-         if (wall & NW)
-            tile->addObject(makeWall(Direction::NW));
-         if (wall & SE)
-            tile->addObject(makeWall(Direction::SE));
-         if (wall & SW)
-            tile->addObject(makeWall(Direction::SW));
-         x++;
-      }
-   }*/
-   return true;
+   }
+   return empty;
 }
 
 spMapTile Map::makeMapTile(TerrainType type, int x, int y)
@@ -427,6 +325,11 @@ void Map::updateMouseOverTile(const Point& mouse, const Point& offset)
 string Map::getName() const
 {
    return _name;
+}
+
+string Map::getFileName() const
+{
+   return _fileName;
 }
 
 } // namespace

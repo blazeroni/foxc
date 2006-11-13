@@ -59,4 +59,3 @@ spItem ClientEntityFactory::makePistolClip()
 {
    return makeItemHelper<PistolClip>();
 }
-

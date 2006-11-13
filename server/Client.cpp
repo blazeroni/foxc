@@ -3,7 +3,8 @@
 
 Client::Client(uint32 id) :
    _socket(id),
-   _playerName()
+   _playerName(),
+   _playerNum(0)
 {
 }
 
@@ -33,4 +34,14 @@ void Client::setGameID(uint32 gameID)
 uint32 Client::getGameID() const 
 {
    return _gameID;
+}
+
+uint16 Client::getPlayerNumber() const
+{
+   return _playerNum;
+}
+ 
+void Client::setPlayerNumber(uint16 num)
+{
+   _playerNum = num;
 }

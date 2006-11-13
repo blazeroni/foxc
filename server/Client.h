@@ -18,6 +18,9 @@ class Client
 
       uint32 getPlayerID() const;
 
+      uint16 getPlayerNumber() const;
+      void setPlayerNumber(uint16 num);
+
       void setGameID(uint32 gameID);
       uint32 getGameID() const;
 
@@ -27,6 +30,7 @@ class Client
    private:
       string _playerName;
       uint32 _gameID;
+      uint16 _playerNum;
 
       // _socket is used as the clients playerID
       uint32 _socket;

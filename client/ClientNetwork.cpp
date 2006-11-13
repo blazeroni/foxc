@@ -73,8 +73,11 @@ bool ClientNetwork::connectToServer(const char* hostname, int port)
 //Closes the socket with the specified integer index.
 void ClientNetwork::closeConnection()
 {
-   NET2_TCPClose(_socket);
-   _socket = -1;
+   if (_socket != -1)
+   {
+      NET2_TCPClose(_socket);
+      _socket = -1;
+   }
 }
 
 //void ClientNetwork::process(const Event& e)

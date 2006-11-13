@@ -17,6 +17,7 @@ class Help : public GameState
 	  virtual void update(uint32 deltaTime);
       virtual void init();
       virtual void deinit();
+      virtual string getName();
       virtual void processSDLEvent(SDL_Event& event);	  
 	private:
 		Mix_Music* MusicTheme;

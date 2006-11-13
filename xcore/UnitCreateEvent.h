@@ -16,14 +16,14 @@ class UnitCreateEvent : public Event
    friend class boost::serialization::access;
    public:
       UnitCreateEvent(uint32 playerID=-1, uint32 x=0, uint32 y=0, 
-	itemtype s0 = (itemtype)0,
-	itemtype s1 = (itemtype)0,
-	itemtype s2 = (itemtype)0,
-	itemtype s3 = (itemtype)0,
-	itemtype s4 = (itemtype)0,
-	itemtype s5 = (itemtype)0,
-	itemtype s6 = (itemtype)0
-	);
+         itemtype s0 = (itemtype)0,
+         itemtype s1 = (itemtype)0,
+         itemtype s2 = (itemtype)0,
+         itemtype s3 = (itemtype)0,
+         itemtype s4 = (itemtype)0,
+         itemtype s5 = (itemtype)0,
+         itemtype s6 = (itemtype)0
+      );
       virtual ~UnitCreateEvent();
 
       uint32 getPlayerID() const;

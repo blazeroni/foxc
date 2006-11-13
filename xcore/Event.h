@@ -14,15 +14,19 @@ class IEventListener;
 
 // add new types before the MAX_EVENT_TYPES value, so it always actually has the max
 // note: this used to be an actual type but the boost hash wasn't behaving as expected
+// this should ideally be changed... it requires a big recompile after any change
 enum EVENT_TYPE { ANY, 
                   CHAT, 
                   UNIT_MOVE, 
                   UNIT_WAIT,
                   MAP_LOAD, 
                   UNIT_CREATE, 
+                  MAP_LIST,
                   GAME_LIST,
                   GAME_JOIN,
+                  GAME_HOST,
                   PLAYER_JOIN,
+                  PLAYER_LEAVE,
                   CLIENT_CONNECT,
                   CLIENT_DISCONNECT,
                   START_GAME,

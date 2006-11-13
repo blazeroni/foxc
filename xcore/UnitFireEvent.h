@@ -14,13 +14,13 @@ class UnitFireEvent : public Event
 {
    friend class boost::serialization::access;
    public:
-      UnitFireEvent(uint32 unitID = 0, uint32 x = 0, uint32 y = 0, int hand = 0);
+      UnitFireEvent(uint32 unitID = 0, uint32 x = 0, uint32 y = 0, uint32 hand = 0);
       virtual ~UnitFireEvent();
 
       uint32 getUnitID() const;
       uint32 getX() const;
       uint32 getY() const;
-      int getHand() const;
+      uint32 getHand() const;
 
       virtual void process(IEventListener* handler);
 
@@ -31,7 +31,7 @@ class UnitFireEvent : public Event
       uint32 _unitID;
       uint32 _x;
       uint32 _y;
-      int _hand;
+      uint32 _hand;
 };
 
 template<class T>

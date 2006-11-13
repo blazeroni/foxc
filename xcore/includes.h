@@ -15,6 +15,7 @@
 #include <boost/bind.hpp>
 #include <boost/program_options.hpp>
 #include <boost/functional/hash.hpp>
+#include <boost/filesystem/operations.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/base_object.hpp>
@@ -45,5 +46,6 @@ using namespace std;
 
 namespace po = boost::program_options;
 namespace ar = boost::archive;
+namespace fs = boost::filesystem;
 
 #endif

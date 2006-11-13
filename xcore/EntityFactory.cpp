@@ -63,14 +63,24 @@ spItem EntityFactory::makePistolClip()
 
 spItem EntityFactory::makeItem( itemtype item )
 {
-    if ( item == NONE )
-	return spItem();
-    if ( item == PISTOL )
-	return makeItemHelper<Pistol>();
-    if ( item == PISTOLCLIP )
-	return makeItemHelper<PistolClip>();
-    if ( item == GRENADE )
-	return makeItemHelper<Grenade>();
+   spItem i;
+   switch (item)
+   {
+      case PISTOL:
+         i = makePistol();
+         break;
+      case PISTOLCLIP:
+         i = makePistolClip();
+         break;
+      case GRENADE:
+         i = makeGrenade();
+         break;
+      case NONE:
+      default:
+         i = spItem();
+         break;
+   }
+   return i;
 }
 
 spGameEntity EntityFactory::get(uint32 entityID)

@@ -3,7 +3,6 @@
 #include "MainGameState.h"
 #include "Input.h"
 #include "FrontEndGameState.h"
-#include <sstream>
 #include "xcore/UnitCreateEvent.h"
 #include "xcore/GameJoinEvent.h"
 #include "xcore/GameListEvent.h"
@@ -27,10 +26,12 @@
 #define GRENADE_INV_IMG "resources/images/gui/grenade_gui_inv.png"
 #define READY_IMG "resources/images/gui/ready.png"
 
-InventoryState::InventoryState(Game* app) : 
-  GameState(app)
+InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) : 
+  GameState(app),
+  _localPlayer(player),
+  _pointsMax(maxPoints)
 {
-    _ready = false;
+    //_ready = false;
 }
 
 #define COST_UNIT 50
@@ -60,23 +61,23 @@ bool InventoryState::load_files()
     return true;
 }
 
-
+string InventoryState::getName()
+{
+   return "Inventory";
+}
 
 void InventoryState::init()
 {
-    EventManager::instance().addListener<StartGameEvent>(this);
-    ConfigOptions& o = ConfigOptions::instance();
-    ClientNetwork &cn = ClientNetwork::instance();
-    cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
-    bool host = true;
+    //ConfigOptions& o = ConfigOptions::instance();
+    //ClientNetwork &cn = ClientNetwork::instance();
+    //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
+    //bool host = true;
     //cin >> host;
     //ClientNetwork::instance().send(GameListEvent());
-    cn.send(PlayerJoinEvent(ConfigOptions::instance().get<string>(PLAYER_NAME)));
-    cn.send(GameJoinEvent(ConfigOptions::instance().get<string>(GAME_NAME), host));
+    //cn.send(PlayerJoinEvent(ConfigOptions::instance().get<string>(PLAYER_NAME)));
+    //cn.send(GameJoinEvent(ConfigOptions::instance().get<string>(GAME_NAME)));
     load_files();
-    _pointsMax = 200;
     _pointsSpent = 0;
-    _playerName = "Name";
     _selectedUnit = 0;
     _selectedInv = 0;
     for ( int i = 0; i < 8; ++i )
@@ -94,14 +95,16 @@ void InventoryState::init()
 
 int cost( itemtype item )
 {
-    if ( item == (itemtype)0 )
-        return 0;
+    //if ( item == (itemtype)0 )
+    //    return 0;
     if ( item == PISTOL )
         return COST_PISTOL;
     if ( item == PISTOLCLIP )
         return COST_PISTOLCLIP;
     if ( item == GRENADE )
         return COST_GRENADE;
+
+    return 0;
 }
 
 void InventoryState::processSDLEvent(SDL_Event& event)
@@ -112,8 +115,11 @@ void InventoryState::processSDLEvent(SDL_Event& event)
         if ( event.button.button == SDL_BUTTON_LEFT )
         {
             Point click = Input::instance().getMousePosition();
-	    if ( click.x > 650 && click.x < 650+_readyImage->w && click.y > 200 && click.y < 200+_readyImage->h )
-		commit();
+            if ( click.x > 650 && click.x < 650+_readyImage->w && click.y > 200 && click.y < 200+_readyImage->h )
+            {
+               commit();
+               return;
+            }
             // units
             for ( int i = 0; i < 8; ++i )
             {
@@ -219,25 +225,25 @@ void InventoryState::processSDLEvent(SDL_Event& event)
 
 void InventoryState::update(uint32 X)
 {
-    if ( !_ready )
-    {
-	Display::instance().draw(275, 300, "Waiting for players...");
-	return;
-    }
+ //   if ( !_ready )
+ //   {
+	//Display::instance().draw(275, 300, "Waiting for players...");
+	//return;
+ //   }
     Display& d = Display::instance();
     Audio& a = Audio::instance();
     
     // top data
-    d.draw(10, 10, "Player:__"+_playerName);
+    d.draw(10, 10, "Player: "+ _localPlayer->getName());
     stringstream ss;
     string text;
     ss << _pointsSpent;
     ss >> text;
-    d.draw( 450, 10, "Points_Spent:__"+text);
+    d.draw( 450, 10, "Points Spent: " +text);
     ss.clear(stringstream::goodbit);
     ss << _pointsMax - _pointsSpent;
     ss >> text;
-    d.draw( 610, 10, "Points_Remaining:__"+text);
+    d.draw( 610, 10, "Points Remaining: "+text);
 
     // units
     for ( int i = 0; i < 8; ++i )
@@ -307,32 +313,31 @@ void InventoryState::deinit()
 {
 }
 
-void InventoryState::commit()
+void InventoryState::setLocalPlayer(spPlayer player)
 {
-    ClientNetwork &cn = ClientNetwork::instance();
-    for ( int i = 0; i < 8; ++i )
-    {
-	if ( _unit[i] >= 0 )
-	{
-	    //cn.send( UnitCreateEvent(_playerID, 0, 0,
-	    cn.send( UnitCreateEvent(1, 0, 0,
-		_loadout[i][0],
-		_loadout[i][1],
-		_loadout[i][2],
-		_loadout[i][3],
-		_loadout[i][4],
-		_loadout[i][5],
-		_loadout[i][6] ) );
-	    
-	}
-    }
-    cn.send( StartGameEvent() );
-    GameState* gs = new MainGameState(_game);
-    gs->init();
-    _game->changeState(gs);				
+   _localPlayer = player;
 }
 
-void InventoryState::handleEvent(StartGameEvent& e)
+void InventoryState::commit()
 {
-    _ready = true;
+   ClientNetwork &cn = ClientNetwork::instance();
+   for ( int i = 0; i < 8; ++i )
+   {
+      if ( _unit[i] >= 0 )
+      {
+         //cn.send( UnitCreateEvent(_playerID, 0, 0,
+         cn.send( UnitCreateEvent(_localPlayer->getID(), 0, 0,
+         _loadout[i][0],
+         _loadout[i][1],
+         _loadout[i][2],
+         _loadout[i][3],
+         _loadout[i][4],
+         _loadout[i][5],
+         _loadout[i][6] ) ); 
+      }
+   }
+   cn.send( StartGameEvent() );
+   GameState* gs = new MainGameState(_game, _localPlayer);
+   gs->init();
+   _game->changeState(gs);				
 }

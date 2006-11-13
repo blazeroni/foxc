@@ -87,7 +87,7 @@ int ClientMapTile::getHeight()
 
 void ClientMapTile::drawTerrain(Point offset) const
 {
-    bool isShroud = ((MainGameState*)XClient::instance().getCurrentGameState())->getShroud(getX(),getY());
+    bool isShroud = false;//((MainGameState*)XClient::instance().getCurrentGameState())->getShroud(getX(),getY());
     if ( isShroud )
         Display::instance().draw(_screenX - offset.x, _screenY - offset.y, _highlightFog);
     else

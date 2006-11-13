@@ -70,6 +70,9 @@ class MapTile
       bool addObject(spMapObject object);
       void removeObject(spMapObject object);
 
+      bool hasUseableObjects();
+      void useObjects();
+
       virtual void drawTerrain(Point offset) const;
       virtual void drawObjects(Point offset) const;
       virtual void highlight(Point offset);

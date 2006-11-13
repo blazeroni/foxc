@@ -31,7 +31,7 @@ class Display : public Singleton<Display>
       /// change the cursor
       void setCursor( SDL_Surface *image = NULL );
       /// draw the most beautiful gui ever made
-      void drawGUI();
+      void drawGUI(bool showUseButton);
       SDL_Surface *_crosshair;
       /// highlights the usable radius for an item
       void highlightUsable( spMapTile tile, int radius, int offsetx, int offsety );
@@ -41,7 +41,7 @@ class Display : public Singleton<Display>
       int _screenWidth;
       int _screenHeight;
       SDL_Surface *_screen, *_cursor;
-      SDL_Surface *_guiHands, *_guiInv, *_guiUnit;
+      SDL_Surface *_guiHands, *_guiInv, *_guiUnit, *_guiUse;
       SDL_Surface *_cartridge, *_usableHighlight;
       TTF_Font* _font;
 };

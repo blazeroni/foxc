@@ -38,6 +38,7 @@ vector<const Direction*> Direction::getAllDirections()
    static vector<const Direction*> directions;
    if (directions.empty())
    {
+      directions.reserve(8);
       directions.push_back(&N);
       directions.push_back(&NE);
       directions.push_back(&E);
@@ -45,6 +46,36 @@ vector<const Direction*> Direction::getAllDirections()
       directions.push_back(&S);
       directions.push_back(&SW);
       directions.push_back(&W);
+      directions.push_back(&NW);
+   }
+
+   return directions;
+}
+
+vector<const Direction*> Direction::getCardinalDirections()
+{
+   static vector<const Direction*> directions;
+   if (directions.empty())
+   {
+      directions.reserve(4);
+      directions.push_back(&N);
+      directions.push_back(&E);
+      directions.push_back(&S);
+      directions.push_back(&W);
+   }
+
+   return directions;
+}
+
+vector<const Direction*> Direction::getNonCardinalDirections()
+{
+   static vector<const Direction*> directions;
+   if (directions.empty())
+   {
+      directions.reserve(4);
+      directions.push_back(&NE);
+      directions.push_back(&SE);
+      directions.push_back(&SW);
       directions.push_back(&NW);
    }
 

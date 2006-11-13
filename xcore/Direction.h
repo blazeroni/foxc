@@ -44,6 +44,9 @@ class Direction
       /// Gets all the existing static objects
       static vector<const Direction*> getAllDirections();
 
+      static vector<const Direction*> getCardinalDirections();
+      static vector<const Direction*> getNonCardinalDirections();
+
       /// Used primarily for sorting in maps and other containers that may need it.  Not normally used otherwise.
       bool operator<(const Direction& dir) const;
       bool operator==(const Direction& dir) const;

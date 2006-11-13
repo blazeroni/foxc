@@ -77,14 +77,20 @@ class MainGameState : public GameState, public IEventListener
       virtual void handleEvent(UnitWaitEvent& e);
       virtual void handleEvent(UnitFireEvent& e);
       virtual void handleEvent(UnitInvSwapEvent& e);
+      virtual void handleEvent(UseMapObjectEvent& e);
+
       bool getFog( int x, int y ) const;
       bool getShroud( int x, int y ) const;
       spPlayer getLocalPlayer();
 	  // gets a unit from _units given an id
 	  spUnit getUnitFromID(uint32 id);
 
+     bool isUseObjectActive() const;
+     void useObject();
+
    private:
       spPlayer getPlayer() const;
+      void updateCanUseObject();
 
       Mix_Music* MusicTheme;
 
@@ -102,6 +108,8 @@ class MainGameState : public GameState, public IEventListener
 
       map<uint32, spUnit> _units;
       spUnit _activeUnit;
+
+      bool _canUseObject;
 
       /**
        * Unit action order

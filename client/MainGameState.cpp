@@ -2,10 +2,8 @@
 #include "xcore/Unit.h"
 #include "xcore/EventManager.h"
 #include "xcore/MapLoadEvent.h"
-//#include "xcore/ClientConnectEvent.h"
 #include "xcore/GameJoinEvent.h"
 #include "xcore/PlayerJoinEvent.h"
-//#include "xcore/GameListEvent.h"
 #include "xcore/UnitCreateEvent.h"
 #include "xcore/UnitMoveEvent.h"
 #include "xcore/MapLoadEvent.h"
@@ -15,6 +13,7 @@
 #include "xcore/UnitFireEvent.h"
 #include "xcore/UnitInvSwapEvent.h"
 #include "xcore/GameOverEvent.h"
+#include "xcore/UseMapObjectEvent.h"
 #include "MainGameState.h"
 #include "ConfigOptions.h"
 #include "Display.h"
@@ -34,7 +33,8 @@ MainGameState::MainGameState(Game* game, spPlayer localPlayer) :
   _map(),
   _readyToLoad(false), // change to false when event stuff is ready
   _localPlayer(localPlayer),
-  _fog(NULL)
+  _fog(NULL),
+  _canUseObject(false)
 {
 }
 
@@ -53,8 +53,6 @@ void MainGameState::deinit()
 
 void MainGameState::init()
 {
-   //EventManager::instance().addListener<GameListEvent>(this);
-   //EventManager::instance().addListener<ClientConnectEvent>(this);
    EventManager::instance().addListener<PlayerJoinEvent>(this);
    EventManager::instance().addListener<MapLoadEvent>(this);
    EventManager::instance().addListener<UnitCreateEvent>(this);
@@ -65,11 +63,9 @@ void MainGameState::init()
    EventManager::instance().addListener<UnitFireEvent>(this);
    EventManager::instance().addListener<UnitInvSwapEvent>(this);
    EventManager::instance().addListener<GameOverEvent>(this);
+   EventManager::instance().addListener<UseMapObjectEvent>(this);
 
    ConfigOptions& o = ConfigOptions::instance();
-
-   //ClientNetwork& cn = ClientNetwork::instance();
-   //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
 
    Display::instance().loadFont("resources/fonts/FreeMono.ttf");
    _map = ClientMap::makeMap();
@@ -113,14 +109,15 @@ void MainGameState::update(uint32 deltaTime)
       _map->drawObjectLayer(offset);
       spUnit u = getActiveUnit();
       u->drawMovePath(offset);
-     
-      //ostringstream stream;
-      //stream << "Mouse Position: " << p.x << ", " << p.y;
 
-      //Display::instance().draw(5, 5, stream.str());
+      ostringstream stream;
+      Point p = Input::instance().getMousePosition();
+      stream << "Mouse Position: " << p.x << ", " << p.y;
+
+      Display::instance().draw(5, 5, stream.str());
    //   _map->drawMinimap();
       Chat::instance().draw();
-      Display::instance().drawGUI();
+      Display::instance().drawGUI(_canUseObject);
       Display::instance().drawCursor();
    }
    else
@@ -170,6 +167,7 @@ spUnit MainGameState::createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s
    {
       getActiveUnit()->updatePossibleMoves();
    }
+   updateCanUseObject();
    return u;
 }
 
@@ -260,30 +258,13 @@ void MainGameState::endActiveUnitTurn()
       }
       ClientNetwork::instance().send(UnitActiveEvent(_activeUnit->getID()));
    }
-   //spUnit u = getActiveUnit();
-   //u->clearMovePath();
-   //if (u->hasMaxActionPoints())
-   //{
-   //   u->wait();
-   //}
-   //_unitQueue.pop_front();
-   //_unitQueue.push_back(u);
-   //
-   //_unitQueue.sort(boost::mem_fn(&Unit::hasTurnBefore));
-   //while(!_unitQueue.front()->hasMaxActionPoints())
-   //{
-   //   for_each(_unitQueue.begin(), _unitQueue.end(), boost::mem_fn(&Unit::regenActionPoints));
-   //}
-
-   //getActiveUnit()->markActive();
-   //getActiveUnit()->markSelected();
-   //focusOnUnit(getActiveUnit());
 }
 
 void MainGameState::selectUnit( spUnit u )
 {
    _activeUnit->clearMovePath();
    u->markSelected();
+   _selectedUnit = u;
    if (u->getPlayerID() == _localPlayer->getID())
    {
       u->updatePossibleMoves();
@@ -292,6 +273,8 @@ void MainGameState::selectUnit( spUnit u )
    {
       u->clearPossibleMoves();
    }
+
+   updateCanUseObject();
  
    //spUnit active = getActiveUnit();
 
@@ -313,6 +296,7 @@ void MainGameState::focusOnUnit( spUnit u )
                        -Display::instance().getScreenHeight()/2 + tile->getCenterY());
    u->updatePossibleMoves();
    _map->updateMouseOverTile(Input::instance().getMousePosition(), _camera.getPosition());
+   updateCanUseObject();
 }
 
 spMap MainGameState::getMap()
@@ -338,31 +322,6 @@ void MainGameState::swapEq(spUnit swapper, int slot1, int slot2)
         exit(1);
     }
 }
-
-//void MainGameState::handleEvent(GameListEvent& evnt)
-//{
-//cout << "game list event" << endl;
-//   bool host = false;
-//   if (evnt.getGames().empty()) 
-//   {
-//      host = true;
-//   }
-   //ClientNetwork::instance().send(GameJoinEvent(ConfigOptions::instance().get<string>(GAME_NAME)));
-//}
-
-// this will only ever be sent to the client for itself, not other players
-//void MainGameState::handleEvent(ClientConnectEvent& e)
-//{
-//   if (!_localPlayer.get())
-//   {
-//      _localPlayer = spPlayer(new Player(e.getPlayerID()));
-//      _players.push_back(_localPlayer);
-//      ClientNetwork::instance().send(PlayerJoinEvent(ConfigOptions::instance().get<string>(PLAYER_NAME)));
-//   }
-//   else {
-//      cerr << "Received ClientConnectEvent after player already created" << endl;
-//   }
-//}
 
 void MainGameState::handleEvent(PlayerJoinEvent& e)
 {
@@ -391,12 +350,6 @@ void MainGameState::handleEvent(MapLoadEvent& e)
        _map->getTile(0, _map->getWidth() - 1)->getScreenX() + ClientMapTile::getWidth(),
        _map->getTile(0, 0)->getScreenY(),
        _map->getTile(_map->getHeight() - 1, _map->getWidth() - 1)->getScreenY() + ClientMapTile::getHeight() );
-   //_localPlayer = spPlayer(new Player(o.get<char*>(PLAYER_NAME)));
-   //spUnit u = createUnit(1, 0, 0);
-   //u->markActive();
-   //u->markSelected();
-   //u->updatePossibleMoves();
-   //focusOnUnit(u);
 
    //MusicTheme = Audio::instance().loadMusic(GAME_THEME);
    //Audio::instance().playMusic(-1, MusicTheme);
@@ -429,13 +382,16 @@ void MainGameState::handleEvent(UnitMoveEvent& e)
    else {
       u->clearPossibleMoves();
    }
+
    //u->move(_map->getTile(e.getX(), e.getY()));
+
+   updateCanUseObject();
    cout << "unit move" << endl;
 }
 
 void MainGameState::handleEvent(StartGameEvent& e)
 {
-   getActiveUnit()->markSelected();
+   selectUnit(getActiveUnit());
    _readyToLoad = true;
    cout << "start game" << endl;
    _fog = new bool[_map->getWidth()*_map->getHeight()];
@@ -443,6 +399,7 @@ void MainGameState::handleEvent(StartGameEvent& e)
     for ( int i = 0; i < _map->getWidth()*_map->getHeight(); ++i )
         _fog[i] = _shroud[i] = true;
    updateFog();
+   updateCanUseObject();
 }
 
 void MainGameState::handleEvent(GameOverEvent& e)
@@ -471,10 +428,12 @@ void MainGameState::handleEvent(UnitActiveEvent& e)
    }
 
    if (_activeUnit->getPlayerID() == _localPlayer->getID()) {
-      _activeUnit->updatePossibleMoves();
-      _activeUnit->markSelected();
+      selectUnit(_activeUnit);
       focusOnUnit(_activeUnit);
    }
+
+   updateCanUseObject();
+
    cout << "unit active" << endl;
 }
 
@@ -488,6 +447,8 @@ void MainGameState::handleEvent(UnitWaitEvent& e)
       u->updatePossibleMoves();
    }
       
+   updateCanUseObject();
+
    cout << "unit wait" << endl;
 }
 
@@ -497,7 +458,11 @@ void MainGameState::handleEvent(UnitFireEvent& e)
 	spUnit u = getUnitFromID(e.getUnitID());
    u->use(_map->getTile(e.getX(), e.getY()), e.getHand());
    if (_units[e.getUnitID()]->getPlayerID() == _localPlayer->getID())
+   {
       u->updatePossibleMoves();
+   }
+
+   updateCanUseObject();
 }
 
 void MainGameState::handleEvent(UnitInvSwapEvent& e)
@@ -510,6 +475,16 @@ void MainGameState::handleEvent(UnitInvSwapEvent& e)
 		u->updatePossibleMoves();
    else
         cerr << "somebody has changed the inventory of your unit!" << endl;
+
+   updateCanUseObject();
+}
+
+void MainGameState::handleEvent(UseMapObjectEvent& e)
+{
+   spUnit u = getUnitFromID(e.getUnitID());
+   u->useNearbyObjects();
+   u->updatePossibleMoves();
+   updateCanUseObject();
 }
 
 bool MainGameState::isMyTurn() const
@@ -576,3 +551,29 @@ spUnit MainGameState::getUnitFromID(uint32 id)
    // this should never happen
 	return _units[0];
 }
+
+void MainGameState::updateCanUseObject()
+{
+   spUnit u = getActiveUnit();
+   if (u.get() && u->getPlayerID() == _localPlayer->getID() && 
+       u.get() == _selectedUnit.get() && 
+       u->getActionPoints() >= COST_USE)
+   {
+      _canUseObject = u->canUseNearbyObjects();
+   }
+   else
+   {
+      _canUseObject = false;
+   }
+}
+
+bool MainGameState::isUseObjectActive() const
+{
+   return _canUseObject;
+}
+
+void MainGameState::useObject()
+{
+   ClientNetwork::instance().send(UseMapObjectEvent(_activeUnit->getID()));
+}
+

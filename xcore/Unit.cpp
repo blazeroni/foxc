@@ -662,6 +662,41 @@ string Unit::getName() const
     return _name;
 }
 
+bool Unit::canUseNearbyObjects() const
+{
+   vector<const Direction*> dirs = Direction::getNonCardinalDirections();
+   vector<const Direction*>::const_iterator iter;
+   for(iter = dirs.begin(); iter != dirs.end(); ++iter)
+   {
+      spMapTile mt = _tile->getTileInDirection(**iter);
+      if (mt.get() && mt->hasUseableObjects())
+      {
+         return true;
+      }
+   }
+   return false;
+}
+
+void Unit::useNearbyObjects()
+{
+   bool usedSomething = false;
+   vector<const Direction*> dirs = Direction::getNonCardinalDirections();
+   vector<const Direction*>::const_iterator iter;
+   for(iter = dirs.begin(); iter != dirs.end(); ++iter)
+   {
+      spMapTile mt = _tile->getTileInDirection(**iter);
+      if (mt.get() && mt->hasUseableObjects())
+      {
+         mt->useObjects();
+         usedSomething = true;
+      }
+   }
+   if (usedSomething)
+   {
+      useActionPoints(COST_USE);
+   }
+}
+
 
 } // namespace
 

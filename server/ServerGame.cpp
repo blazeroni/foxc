@@ -390,7 +390,11 @@ void ServerGame::handleEvent(StartGameEvent& e)
 void ServerGame::handleEvent(UseMapObjectEvent& e)
 {
    spUnit unit = _units[e.getUnitID()];
-
+   if (unit == getActiveUnit() && e.getSource() == unit->getPlayerID() && unit->canUseNearbyObjects())
+   {
+      unit->useNearbyObjects();
+      send(UseMapObjectEvent(e.getUnitID()));
+   }
 }
 
 

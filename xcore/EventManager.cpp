@@ -26,4 +26,20 @@ void EventManager::queue(Event* e)
 
 }
 
+void EventManager::removeListener(IEventListener* handler)
+{
+   multimap<EVENT_TYPE, IEventListener*>::iterator iter;
+   for(iter = eventListenerMap.begin(); iter != eventListenerMap.end(); )
+   {
+      if (iter->second == handler) 
+      {
+         eventListenerMap.erase(iter++);
+      } 
+      else 
+      {
+         ++iter;
+      }
+   }
+}
+
 } // namespace

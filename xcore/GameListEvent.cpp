@@ -2,6 +2,7 @@
 #include "GameListEvent.h"
 
 BOOST_CLASS_EXPORT_GUID(xcore::GameListEvent, "GAME_LIST_EVENT")
+BOOST_CLASS_EXPORT_GUID(xcore::GameListItem, "GAME_LIST_ITEM")
 
 namespace xcore
 {
@@ -12,7 +13,7 @@ GameListEvent::GameListEvent() :
 {
 }
 
-GameListEvent::GameListEvent(list<string> games) :
+GameListEvent::GameListEvent(vector<GameListItem> games) :
    Event(GAME_LIST),
    _games(games)
 {
@@ -22,7 +23,7 @@ GameListEvent::~GameListEvent()
 {
 }
 
-const list<string>& GameListEvent::getGames()
+const vector<GameListItem>& GameListEvent::getGames()
 {
    return _games;
 }

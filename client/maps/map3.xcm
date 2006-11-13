@@ -1,4 +1,4 @@
-<map name="test map" width="15" height="15">
+<map name="test map 3" width="15" height="15" players="2" points="500">
       <tiles>
      <tile id="1" x="0" y= "0" terrain="grass" startPlayer="2" startPref="8" />
      <tile id="2" x="0" y= "1" terrain="grass"/>

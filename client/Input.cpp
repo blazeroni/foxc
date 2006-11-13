@@ -19,6 +19,12 @@ void Input::processSDLEvent(SDL_Event& event)
 {
     GameState *gs = XClient::instance().getCurrentGameState();
 
+    if (gs->getName() != "Main")
+    {
+       XClient::instance().processSDLEvent(event);
+       return;
+    }
+
     if ( GUIInput(event) )
         return;
 
@@ -114,7 +120,7 @@ void Input::processSDLEvent(SDL_Event& event)
     }
     */
 
-    if ( event.type == SDL_KEYDOWN )
+    else if ( event.type == SDL_KEYDOWN )
     {
 
         // command mode
@@ -218,9 +224,11 @@ bool Input::GUIInput( SDL_Event& event )
         {
             if ( event.button.button == SDL_BUTTON_LEFT && activeUnit->getLeft().get() )
             {
+                cout << "click" << endl;
                 _hand = 1;
                 if ( activeUnit->getLeft()->getRange() == 0 )
                 {
+                    cout << "bad" << endl;
                     ((MainGameState*)gs)->fire(((MainGameState*)gs)->getActiveUnit(),
                                           ((MainGameState*)gs)->getMap()->getTile(0,0), _hand);
                     return true;

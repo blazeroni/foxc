@@ -21,7 +21,6 @@ class Map
       virtual ~Map();
 
       bool load( string fileName );
-      bool load( istream& data );
 
       virtual void drawTerrainLayer(const Point& offset);
       virtual void drawObjectLayer(const Point& offset);
@@ -37,6 +36,10 @@ class Map
       virtual void updateMouseOverTile(const Point& mouse, const Point& offset);
 
       string getName() const;
+      string getFileName() const;
+
+      spMapTile getPlayerStartPref(uint16 playerNum, uint16 startPref);
+      spMapTile getNextStartPref(uint16 playerNum);
 
    protected:
       Map(spEntityFactory factory);
@@ -56,6 +59,8 @@ class Map
       vector<spMapTile> _mapTiles;
       spEntityFactory _factory;
 
+      map< int, map<int, spMapTile> > _playerStartPrefs;
+
    private:
       spMapTile getTile(Point position, Point offset);
       bool makeTerrain(string terrain);
@@ -63,6 +68,7 @@ class Map
       void populateTileNeighbors(spMapTile tile);
 
       string _name;
+      string _fileName;
       int _width;
       int _height;
       

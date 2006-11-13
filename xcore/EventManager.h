@@ -3,8 +3,8 @@
 
 #include "includes.h"
 #include "Singleton.h"
-#include "IEventListener.h"
 #include "Event.h"
+#include "IEventListener.h"
 
 namespace xcore
 {

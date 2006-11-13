@@ -10,12 +10,15 @@
 #include "xcore/UnitInvSwapEvent.h"
 #include "xcore/UseMapObjectEvent.h"
 
-ServerGame::ServerGame(uint32 gameID, string gameName) :
+ServerGame::ServerGame(uint32 gameID, string gameName, string mapFile, uint16 players, uint32 points) :
    _gameID(gameID),
-   _gameName(gameName)
+   _gameName(gameName),
+   _mapFile(mapFile),
+   _maxPlayers(players),
+   _maxPoints(points)
 {
     _playersReady = 0;
-    _numPlayers = 0;
+//    _numPlayers = 0;
 }
 
 ServerGame::~ServerGame()
@@ -26,7 +29,7 @@ void ServerGame::init()
 {
    _factory = spEntityFactory(new EntityFactory(_gameID));
    _map = Map::makeMap(_factory);
-   _map->load("maps/test.xcm");
+   _map->load(_mapFile);
 }
 
 void ServerGame::update()
@@ -44,13 +47,43 @@ void ServerGame::processSDLEvent(SDL_Event& event)
 
 }
 
-void ServerGame::join(spClient client)
+string ServerGame::getMapName() const
 {
-    cout << "join method" << endl;
-    _numPlayers++;
+   return _map->getName();
+}
+ 
+uint16 ServerGame::getNumberOfPlayers() const
+{
+   return _clients.size();
+}
+
+uint16 ServerGame::getMaxNumberOfPlayers() const
+{
+   return _maxPlayers;
+}
+
+uint32 ServerGame::getMaxPoints() const
+{
+   return _maxPoints;
+}
+
+void ServerGame::setMaxPoints(uint32 points)
+{
+   _maxPoints = points;
+}
+
+bool ServerGame::join(spClient client)
+{
+   if (_maxPlayers == getNumberOfPlayers())
+   {
+      return false;
+   }
+
+   cout << "join method" << endl;
+
    _clients[client->getPlayerID()] = client;
    client->setGameID(_gameID);
-   client->send(MapLoadEvent(_map->getName()));
+   client->setPlayerNumber(_clients.size());
 
    // notify clients of other clients
    map<uint32, spClient>::iterator iter;
@@ -59,24 +92,48 @@ void ServerGame::join(spClient client)
    {
       if (client != iter->second)
       {
-         iter->second->send(PlayerJoinEvent(client->getPlayerName(), client->getPlayerID()));
-         client->send(PlayerJoinEvent(iter->second->getPlayerName(), iter->second->getPlayerID()));
+         iter->second->send(PlayerJoinEvent(client->getPlayerName(), client->getPlayerID(), client->getPlayerNumber()));
+         client->send(PlayerJoinEvent(iter->second->getPlayerName(), iter->second->getPlayerID(),  client->getPlayerNumber()));
       }
    }
 
-   if(firstPlayer.get() == NULL)
+   //if(firstPlayer.get() == NULL)
+   //{
+   //   firstPlayer = client;
+   //}
+   //else
+   //{
+   //   secondPlayer = client;
+   //}
+
+   return true;
+}
+
+void ServerGame::tryStart()
+{
+   if (_maxPlayers == getNumberOfPlayers() && _playersReady == _maxPlayers)
    {
-      firstPlayer = client;
-   }
-   else
-   {
-      secondPlayer = client;
-      //createInitialUnits();
-      //activateNextUnit(true);
+      send(MapLoadEvent(_map->getName(), _map->getFileName()));
+      
+      map<uint32, spUnit>::iterator iter;
+      for (iter = _units.begin(); iter != _units.end(); ++iter)
+	   {
+         spUnit u = iter->second;
+         itemtype hand0 = (u->getHand(0).get()) ? u->getHand(0)->getType() : itemtype(0);
+         itemtype hand1 = (u->getHand(1).get()) ? u->getHand(1)->getType() : itemtype(0);
+         itemtype it0 = (u->getInv(0).get()) ? u->getInv(0)->getType() : itemtype(0);
+         itemtype it1 = (u->getInv(1).get()) ? u->getInv(1)->getType() : itemtype(0);
+         itemtype it2 = (u->getInv(2).get()) ? u->getInv(2)->getType() : itemtype(0);
+         itemtype it3 = (u->getInv(3).get()) ? u->getInv(3)->getType() : itemtype(0);
+         itemtype it4 = (u->getInv(4).get()) ? u->getInv(4)->getType() : itemtype(0);
+
+         send( UnitCreateEvent( iter->second->getPlayerID(), iter->second->getX(), iter->second->getY(),
+            hand0, hand1, it0, it1, it2, it3, it4 ) );
+      }
+
+      activateNextUnit(true);
       start();
    }
-   if (_numPlayers == 2 )
-    start();
 }
 
 void ServerGame::createInitialUnits()
@@ -94,8 +151,8 @@ void ServerGame::createInitialUnits()
       first = false;
 
       spUnit u = _factory->makeUnit(iter->second->getPlayerID(), _map->getTile(x, y));
-	  u->addItem(_factory->makePistol());
-	  u->addItem(_factory->makeGrenade());
+      u->addItem(_factory->makePistol());
+      u->addItem(_factory->makeGrenade());
 	  //u->addItem(_factory->makePistolClip());
       addUnit(u);
       send(UnitCreateEvent(iter->second->getPlayerID(), x, y));
@@ -164,7 +221,7 @@ spUnit ServerGame::getActiveUnit()
 
 void ServerGame::start()
 {
-    cout << "start" << endl;
+   cout << "start game" << endl;
    send(StartGameEvent());
 }
 
@@ -227,16 +284,22 @@ void ServerGame::handleEvent(UnitCreateEvent& e)
 */
 void ServerGame::handleEvent(UnitCreateEvent& e)
 {
-    spUnit u = _factory->makeUnit(e.getPlayerID(), _map->getTile(e.getX(), e.getY()));
-    u->addItem(_factory->makeItem(e.getS0()));
-    u->addItem(_factory->makeItem(e.getS1()));
-    u->addItem(_factory->makeItem(e.getS2()));
-    u->addItem(_factory->makeItem(e.getS3()));
-    u->addItem(_factory->makeItem(e.getS4()));
-    u->addItem(_factory->makeItem(e.getS5()));
-    u->addItem(_factory->makeItem(e.getS6()));
-    addUnit(u);
-    //send(UnitCreateEvent(e.getPlayerID(), e.getX(), e.getY(), e.getS0(), e.getS1(), e.getS2(), e.getS3, e.getS4(), e.getS5(), e.getS6()));
+   spMapTile tile = _map->getNextStartPref(_clients[e.getPlayerID()]->getPlayerNumber());
+   if (!tile.get())
+   {
+      cerr << "No empty start positions left!" << endl;
+      return;
+   }
+
+   spUnit u = _factory->makeUnit(e.getPlayerID(), tile);
+   u->addItem(_factory->makeItem(e.getS0()));
+   u->addItem(_factory->makeItem(e.getS1()));
+   u->addItem(_factory->makeItem(e.getS2()));
+   u->addItem(_factory->makeItem(e.getS3()));
+   u->addItem(_factory->makeItem(e.getS4()));
+   u->addItem(_factory->makeItem(e.getS5()));
+   u->addItem(_factory->makeItem(e.getS6()));
+   addUnit(u);
 }
 
 void ServerGame::handleEvent(UnitMoveEvent& e)
@@ -319,23 +382,9 @@ void ServerGame::handleEvent(UnitInvSwapEvent& e)
 
 void ServerGame::handleEvent(StartGameEvent& e)
 {
-    if ( ++_playersReady == 2 )
-    {
-	map<uint32, spUnit>::iterator iter;
-	for (iter = _units.begin(); iter != _units.end(); ++iter)
-	{
-	    send( UnitCreateEvent( iter->second->getPlayerID(), iter->second->getX(), iter->second->getY(),
-		iter->second->getInv(0)->getType(),
-		iter->second->getInv(1)->getType(),
-		iter->second->getInv(2)->getType(),
-		iter->second->getInv(3)->getType(),
-		iter->second->getInv(4)->getType(),
-		iter->second->getInv(5)->getType(),
-		iter->second->getInv(6)->getType() ) );
-	}
-	activateNextUnit(true);
-	send( StartGameEvent() );
-    }
+   cout << "player ready" << endl;
+   _playersReady++;
+   tryStart();
 }
 
 void ServerGame::handleEvent(UseMapObjectEvent& e)

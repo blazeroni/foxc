@@ -1,6 +1,7 @@
 ///The headers
 #include "includes.h"
 #include "FrontEndGameState.h"
+#include "GameLobbyGameState.h"
 #include "MainGameState.h"
 #include "InventoryState.h"
 #include "Help.h"
@@ -47,6 +48,11 @@ void FrontEndGameState::init()
 	
 }
 
+string FrontEndGameState::getName()
+{
+   return "FrontEnd";
+}
+
 void FrontEndGameState::processSDLEvent(SDL_Event& event)
 {
     hostButton->handle_event(event);           
@@ -63,18 +69,21 @@ void FrontEndGameState::processSDLEvent(SDL_Event& event)
 			//If the mouse is over the button 
 			if( ( x > hostButton->getX() ) && ( x < hostButton->getX() + hostButton->getW() ) && ( y > hostButton->getY() ) && ( y < hostButton->getY() + hostButton->getH() ) ) 
 			{
-				Audio::instance().StopMusic();
+/*				Audio::instance().StopMusic();
 				GameState* gs = new InventoryState(_game);
 				gs->init();
-				_game->changeState(gs);				
+				_game->changeState(gs);		*/		
 				return;
 			}
 			if( ( x > joinButton->getX() ) && ( x < joinButton->getX() + joinButton->getW() ) && ( y > joinButton->getY() ) && ( y < joinButton->getY() + joinButton->getH() ) ) 
 			{ 
 			    Audio::instance().StopMusic();
-				GameState* gs = new MainGameState(_game);
-				gs->init();
-				_game->changeState(gs);				
+				//GameState* gs = new MainGameState(_game);
+				//gs->init();
+				//_game->changeState(gs);		
+            GameState* gs = new GameLobbyGameState(_game);
+            gs->init();
+            _game->changeState(gs);
 				return;
 			}
 			if( ( x > helpButton->getX() ) && ( x < helpButton->getX() + helpButton->getW() ) && ( y > helpButton->getY() ) && ( y < helpButton->getY() + helpButton->getH() ) ) 

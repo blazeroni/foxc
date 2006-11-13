@@ -11,6 +11,7 @@ class MapLoadEvent;
 class ChatEvent;
 class GameListEvent;
 class GameJoinEvent;
+class GameHostEvent;
 class PlayerJoinEvent;
 class ClientConnectEvent;
 class ClientDisconnectEvent;
@@ -23,6 +24,8 @@ class UnitWaitEvent;
 class UnitFireEvent;
 class UnitEquipEvent;
 class UnitInvSwapEvent;
+class MapListEvent;
+class PlayerLeaveEvent;
 class UseMapObjectEvent;
 
 // currently this class knows about every possible event type
@@ -39,6 +42,7 @@ class IEventListener
       virtual void handleEvent(ChatEvent& e) {};
       virtual void handleEvent(GameListEvent& e) {};
       virtual void handleEvent(GameJoinEvent& e) {};
+      virtual void handleEvent(GameHostEvent& e) {};
       virtual void handleEvent(PlayerJoinEvent& e) {};
       virtual void handleEvent(ClientConnectEvent& e) {};
       virtual void handleEvent(ClientDisconnectEvent& e) {};
@@ -50,6 +54,8 @@ class IEventListener
       virtual void handleEvent(UnitWaitEvent& e) {};
       virtual void handleEvent(UnitFireEvent& e) {};
       virtual void handleEvent(UnitInvSwapEvent& e) {};
+      virtual void handleEvent(PlayerLeaveEvent& e) {};
+      virtual void handleEvent(MapListEvent& e) {};
       virtual void handleEvent(UseMapObjectEvent& e) {};
 };
 

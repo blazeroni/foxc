@@ -49,6 +49,11 @@ void Display::deinit()
    }
 }
 
+SDL_Surface* Display::getScreen() const
+{
+   return _screen;
+}
+
 int Display::getScreenWidth() const
 {
    return _screenWidth;
@@ -204,24 +209,24 @@ void Display::drawGUI()
             draw( _screenWidth - 65, _guiUnit->h - 5+ 20, selectedUnit->getName(), true );
             ss.clear(stringstream::goodbit);
             text = "";
-			if ( gs->getLocalPlayer()->getID() == selectedUnit->getPlayerID() )
-			{
-				ss << max ( activeUnit->getHealth(), 0 );
-				ss >> text;
-			}
-			else
-				text = "?";
+            if ( gs->getLocalPlayer()->getID() == selectedUnit->getPlayerID() )
+            {
+               ss << max ( activeUnit->getHealth(), 0 );
+               ss >> text;
+            }
+            else
+				   text = "?";
             text = "HP:"+text;
             draw( _screenWidth - 90, _guiUnit->h - 5+ 45, text, true );
             ss.clear(stringstream::goodbit);
             text = "";
-			if ( gs->getLocalPlayer()->getID() == selectedUnit->getPlayerID() )
-			{
-				ss << max ( activeUnit->getActionPoints(), 0 );
-				ss >> text;
-			}
-			else
-				text = "?";
+            if ( gs->getLocalPlayer()->getID() == selectedUnit->getPlayerID() )
+            {
+               ss << max ( activeUnit->getActionPoints(), 0 );
+               ss >> text;
+            }
+            else
+               text = "?";
             text = "AP:"+text;
             draw( _screenWidth - 35, _guiUnit->h - 5+ 45, text, true );
         }

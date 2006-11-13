@@ -12,28 +12,28 @@ typedef boost::shared_ptr<Player> spPlayer;
 
 class Player
 {
-  public:
-     Player(int id, string name = "");
-     ~Player();
+   public:
+      Player(uint32 id, string name = "", uint16 num = 0);
+      ~Player();
 
-     string getName();
-     void setName( string name );
-     int getID();
+      string getName() const;
+      void setName( string name );
 
-     void removeUnit( spUnit unit );
-     void addUnit( spUnit unit );
-     int getUnitCount();
+      uint16 getPlayerNumber() const;
+      void setPlayerNumber(uint16 num);
 
-     //spUnit getUnitIterator();
-     //spUnit getNextUnit();
+      uint32 getID() const;
 
-  private:
-     int _id;
-     string _name;
-  //    int color;
-  //    int team;
+      void removeUnit( spUnit unit );
+      void addUnit( spUnit unit );
+      int getUnitCount();
 
-     vector<spUnit> _units;
+   private:
+      uint32 _id;        // ID on the server
+      string _name;
+      uint16 _playerNum;  // number for this game (1 to 8 or whatever)
+
+      vector<spUnit> _units;
 };
 
 } // namespace

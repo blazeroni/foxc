@@ -13,7 +13,7 @@ typedef boost::shared_ptr<ServerGame> spServerGame;
 class ServerGame : public Game
 {
    public:
-      ServerGame(uint32 gameID, string gameName);
+      ServerGame(uint32 gameID, string gameName, string mapFile, uint16 players, uint32 points);
       virtual ~ServerGame();
 
       virtual void init();
@@ -22,7 +22,7 @@ class ServerGame : public Game
 
       virtual void processSDLEvent(SDL_Event& evnt);
 
-      void join(spClient client);
+      bool join(spClient client);
       void leave(spClient client);
 
       // sends to all clients
@@ -31,6 +31,14 @@ class ServerGame : public Game
 
       uint32 getGameID() const;
       string getGameName() const;
+      string getMapName() const;
+      uint16 getNumberOfPlayers() const;
+      uint16 getMaxNumberOfPlayers() const;
+
+      uint32 getMaxPoints() const;
+      void setMaxPoints(uint32 points);
+
+      void tryStart();
 
       void handleEvent(UnitCreateEvent& e);
       void handleEvent(UnitMoveEvent& e);
@@ -48,25 +56,27 @@ class ServerGame : public Game
       void start();
       bool isGameOver();
       int _playersReady;
-      int _numPlayers;
 
       // temp function to automate initial units
       void createInitialUnits();
       // temp vars for unit creation;
 
-      spClient firstPlayer;
-      spClient secondPlayer;
+      //spClient firstPlayer;
+      //spClient secondPlayer;
 
       uint32 _gameID;
       string _gameName;
 
-      string _mapName;
+      uint16 _maxPlayers;
+
+      uint32 _maxPoints;
+
+      string _mapFile;
 
       map<uint32, spClient> _clients;
 
       map<uint32, spUnit> _units;
       list<spUnit> _unitQueue;
-
 
       spMap _map;
 

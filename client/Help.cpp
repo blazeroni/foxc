@@ -24,7 +24,10 @@ bool Help::load_files()
 	return true;
 }
 
-
+string Help::getName()
+{
+   return "Help";
+}
 
 void Help::init()
 {

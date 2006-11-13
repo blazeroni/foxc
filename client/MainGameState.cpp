@@ -2,10 +2,10 @@
 #include "xcore/Unit.h"
 #include "xcore/EventManager.h"
 #include "xcore/MapLoadEvent.h"
-#include "xcore/ClientConnectEvent.h"
+//#include "xcore/ClientConnectEvent.h"
 #include "xcore/GameJoinEvent.h"
 #include "xcore/PlayerJoinEvent.h"
-#include "xcore/GameListEvent.h"
+//#include "xcore/GameListEvent.h"
 #include "xcore/UnitCreateEvent.h"
 #include "xcore/UnitMoveEvent.h"
 #include "xcore/MapLoadEvent.h"
@@ -29,18 +29,20 @@
 
 #define GAME_THEME "resources/sounds/GameTheme.wav"
 
-MainGameState::MainGameState(Game* game) :
+MainGameState::MainGameState(Game* game, spPlayer localPlayer) :
   GameState(game),
   _map(),
   _readyToLoad(false), // change to false when event stuff is ready
-  _localPlayer(spPlayer())
+  _localPlayer(localPlayer),
+  _fog(NULL)
 {
 }
 
 
 MainGameState::~MainGameState()
 {
-    delete [] _fog;
+   SAFE_DELETE_ARRAY(_fog);
+   EventManager::instance().removeListener(this); 
 }
 
 
@@ -51,11 +53,8 @@ void MainGameState::deinit()
 
 void MainGameState::init()
 {
-   Display::instance().loadFont("resources/fonts/FreeMono.ttf");
-
-   // event stuff... not done yet
-   EventManager::instance().addListener<GameListEvent>(this);
-   EventManager::instance().addListener<ClientConnectEvent>(this);
+   //EventManager::instance().addListener<GameListEvent>(this);
+   //EventManager::instance().addListener<ClientConnectEvent>(this);
    EventManager::instance().addListener<PlayerJoinEvent>(this);
    EventManager::instance().addListener<MapLoadEvent>(this);
    EventManager::instance().addListener<UnitCreateEvent>(this);
@@ -68,33 +67,21 @@ void MainGameState::init()
    EventManager::instance().addListener<GameOverEvent>(this);
 
    ConfigOptions& o = ConfigOptions::instance();
-   ClientNetwork& cn = ClientNetwork::instance();
-   //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
 
-   //ConfigOptions& o = ConfigOptions::instance();
    //ClientNetwork& cn = ClientNetwork::instance();
-   //cn.connectToServer(o.get<char*>(HOSTNAME), o.get<int>(PORT));
+   //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
 
    Display::instance().loadFont("resources/fonts/FreeMono.ttf");
    _map = ClientMap::makeMap();
-   //loadMap(ConfigOptions::instance().get<string>(MAP));
-   //ResourceManager::instance().load("resources/main.xcr");
-   //loadMap("maps/test.xcm");
-   //_camera.setBorders( 
-   //    _map->getTile(_map->getHeight() - 1, 0)->getScreenX(),
-   //    _map->getTile(0, _map->getWidth() - 1)->getScreenX() + ClientMapTile::getWidth(),
-   //    _map->getTile(0, 0)->getScreenY(),
-   //    _map->getTile(_map->getHeight() - 1, _map->getWidth() - 1)->getScreenY() + ClientMapTile::getHeight() );
-   ////_localPlayer = spPlayer(new Player(o.get<char*>(PLAYER_NAME)));
-   //spUnit u = createUnit(1, 0, 0);
-   //u->markActive();
-   //u->markSelected();
-   //u->updatePossibleMoves();
-   //focusOnUnit(u);
 
    //MusicTheme = Audio::instance().loadMusic(GAME_THEME);
    //Audio::instance().playMusic(-1, MusicTheme);
    Input::instance().setMode( COMMAND );
+}
+
+string MainGameState::getName()
+{
+   return "Main";
 }
 
 void MainGameState::update(uint32 deltaTime)
@@ -117,7 +104,10 @@ void MainGameState::update(uint32 deltaTime)
       }
 
 	  if ( Input::instance().getMode() == USE && _activeUnit->getHand(Input::instance().getHand()).get() )
-       Display::instance().highlightUsable( _map->getTile(_activeUnit->getX(),_activeUnit->getY()), _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y ); 
+     {
+        Display::instance().highlightUsable( _map->getTile(_activeUnit->getX(),_activeUnit->getY()),
+           _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y ); 
+     }
 
       _map->highlightMouseOverTile(offset);
       _map->drawObjectLayer(offset);
@@ -139,12 +129,18 @@ void MainGameState::update(uint32 deltaTime)
    }
 }
 
+void MainGameState::setLocalPlayer(spPlayer player)
+{
+   _localPlayer = player;
+}
+
 bool MainGameState::loadMap(string fileName)
 {
    return _map->load(fileName);
 }
 
-spUnit MainGameState::createUnit(int playerID, int x, int y, itemtype s0, itemtype s1, itemtype s2, itemtype s3, itemtype s4, itemtype s5, itemtype s6)
+spUnit MainGameState::createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s0, itemtype s1, itemtype s2, 
+                                 itemtype s3, itemtype s4, itemtype s5, itemtype s6)
 {
    ClientEntityFactory& cef = ClientEntityFactory::instance();
    spUnit u = cef.makeUnit(playerID, _map->getTile(x, y));
@@ -213,30 +209,6 @@ void MainGameState::processSDLEvent(SDL_Event& event)
       {
          switch ( event.key.keysym.sym )
          {
-            //case SDLK_KP1:
-            //  u->move(Direction::SW);
-            //   break;
-            //case SDLK_KP2:
-            //   u->move(Direction::S);
-            //   break;
-            //case SDLK_KP3:
-            //   u->move(Direction::SE);
-            //   break;
-            //case SDLK_KP4:
-            //   u->move(Direction::W);
-            //   break;
-            //case SDLK_KP6:
-            //   u->move(Direction::E);
-            //   break;
-            //case SDLK_KP7:
-            //   u->move(Direction::NW);
-            //   break;
-            //case SDLK_KP8:
-            //   u->move(Direction::N);
-            //   break;
-            //case SDLK_KP9:
-            //   u->move(Direction::NE);
-            //   break;
             case SDLK_m:
                if (u->hasMovePath())
                {
@@ -367,30 +339,30 @@ void MainGameState::swapEq(spUnit swapper, int slot1, int slot2)
     }
 }
 
-void MainGameState::handleEvent(GameListEvent& evnt)
-{
-cout << "game list event" << endl;
-   bool host = false;
-   if (evnt.getGames().empty()) 
-   {
-      host = true;
-   }
-   ClientNetwork::instance().send(GameJoinEvent(ConfigOptions::instance().get<string>(GAME_NAME), host));
-}
+//void MainGameState::handleEvent(GameListEvent& evnt)
+//{
+//cout << "game list event" << endl;
+//   bool host = false;
+//   if (evnt.getGames().empty()) 
+//   {
+//      host = true;
+//   }
+   //ClientNetwork::instance().send(GameJoinEvent(ConfigOptions::instance().get<string>(GAME_NAME)));
+//}
 
 // this will only ever be sent to the client for itself, not other players
-void MainGameState::handleEvent(ClientConnectEvent& e)
-{
-   if (!_localPlayer.get())
-   {
-      _localPlayer = spPlayer(new Player(e.getPlayerID()));
-      _players.push_back(_localPlayer);
-      ClientNetwork::instance().send(PlayerJoinEvent(ConfigOptions::instance().get<string>(PLAYER_NAME)));
-   }
-   else {
-      cerr << "Received ClientConnectEvent after player already created" << endl;
-   }
-}
+//void MainGameState::handleEvent(ClientConnectEvent& e)
+//{
+//   if (!_localPlayer.get())
+//   {
+//      _localPlayer = spPlayer(new Player(e.getPlayerID()));
+//      _players.push_back(_localPlayer);
+//      ClientNetwork::instance().send(PlayerJoinEvent(ConfigOptions::instance().get<string>(PLAYER_NAME)));
+//   }
+//   else {
+//      cerr << "Received ClientConnectEvent after player already created" << endl;
+//   }
+//}
 
 void MainGameState::handleEvent(PlayerJoinEvent& e)
 {
@@ -398,22 +370,22 @@ void MainGameState::handleEvent(PlayerJoinEvent& e)
 
    cout << "received player join event" << endl;
    if (_localPlayer->getID() == e.getPlayerID()) {
-      _localPlayer->setName(e.getPlayerName());
+      //_localPlayer->setName(e.getPlayerName());
 
-      // move this once there's an GUI to get the list
-      ClientNetwork::instance().send(GameListEvent());
-      cout << "asking for game list" << endl;
+      //// move this once there's an GUI to get the list
+      //ClientNetwork::instance().send(GameListEvent());
+      //cout << "asking for game list" << endl;
    }
    else
    {
-      spPlayer p = spPlayer(new Player(e.getPlayerID(), e.getPlayerName()));
+      spPlayer p = spPlayer(new Player(e.getPlayerID(), e.getPlayerName(), e.getPlayerNumber()));
       _players.push_back(p);
    }
 }
 
 void MainGameState::handleEvent(MapLoadEvent& e)
 {  
-   loadMap(e.getMapName());
+   loadMap(e.getFileName());
    _camera.setBorders( 
        _map->getTile(_map->getHeight() - 1, 0)->getScreenX(),
        _map->getTile(0, _map->getWidth() - 1)->getScreenX() + ClientMapTile::getWidth(),
@@ -432,7 +404,8 @@ void MainGameState::handleEvent(MapLoadEvent& e)
 
 void MainGameState::handleEvent(UnitCreateEvent& e)
 {
-   createUnit((int)e.getPlayerID(), (int)e.getX(), (int)e.getY(), e.getS0(), e.getS1(), e.getS2(), e.getS3(), e.getS4(), e.getS5(), e.getS6());
+   createUnit(e.getPlayerID(), e.getX(), e.getY(), e.getS0(), e.getS1(), e.getS2(), 
+      e.getS3(), e.getS4(), e.getS5(), e.getS6());
    //cout << "new unit: " << e.getX() << "," << e.getY() << endl;
    // why does this crash?  are units created before the map?
    //if ( e.getPlayerID() == _localPlayer->getID() )
@@ -579,12 +552,12 @@ void MainGameState::updateFog()
     }
 }
 
-int MainGameState::getFog( int x, int y ) const
+bool MainGameState::getFog( int x, int y ) const
 {
     if ( !_map.get() ) return true;
     return _fog[x*_map->getWidth()+y];
 }
-int MainGameState::getShroud( int x, int y ) const
+bool MainGameState::getShroud( int x, int y ) const
 {
     if ( !_map.get() ) return true;
     return _shroud[x*_map->getWidth()+y];

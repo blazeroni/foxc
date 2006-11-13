@@ -16,6 +16,7 @@ class Display : public Singleton<Display>
    public:
       void init();
       void deinit();
+      SDL_Surface* getScreen() const;
       int getScreenWidth() const;
       int getScreenHeight() const;
       SDL_Surface* loadImage( string filename, bool useAlpha = true );

@@ -18,20 +18,26 @@
 class MainGameState : public GameState, public IEventListener
 {
    public:
-      MainGameState(Game* app);
+      MainGameState(Game* app, spPlayer localPlayer);
       virtual ~MainGameState();
 
       virtual void deinit();
       virtual void init();
       virtual void update(uint32 deltaTime);
 
+      virtual string getName();
+
       void processSDLEvent(SDL_Event& event);
+
+      void setLocalPlayer(spPlayer player);
 
       /// Loads a new map from the file
       bool loadMap(string fileName);
 
       /// Creates a unit using the specified player and location
-      spUnit createUnit(int playerID, int x, int y, itemtype s0 = (itemtype)0, itemtype s1 = (itemtype)0, itemtype s2 = (itemtype)0, itemtype s3 = (itemtype)0, itemtype s4 = (itemtype)0, itemtype s5 = (itemtype)0, itemtype s6 = (itemtype)0);
+      spUnit createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s0 = (itemtype)0, 
+         itemtype s1 = (itemtype)0, itemtype s2 = (itemtype)0, itemtype s3 = (itemtype)0,
+         itemtype s4 = (itemtype)0, itemtype s5 = (itemtype)0, itemtype s6 = (itemtype)0);
 
       /// Returns the unit which can currently perform actions
       spUnit getActiveUnit();
@@ -59,8 +65,8 @@ class MainGameState : public GameState, public IEventListener
         // is it my turn?
       bool isMyTurn() const;
 
-      virtual void handleEvent(ClientConnectEvent& e);
-      virtual void handleEvent(GameListEvent& evnt);
+      //virtual void handleEvent(ClientConnectEvent& e);
+      //virtual void handleEvent(GameListEvent& evnt);
       virtual void handleEvent(PlayerJoinEvent& e);
       virtual void handleEvent(MapLoadEvent& e);
       virtual void handleEvent(UnitCreateEvent& e);
@@ -71,8 +77,8 @@ class MainGameState : public GameState, public IEventListener
       virtual void handleEvent(UnitWaitEvent& e);
       virtual void handleEvent(UnitFireEvent& e);
       virtual void handleEvent(UnitInvSwapEvent& e);
-      int getFog( int x, int y ) const;
-      int getShroud( int x, int y ) const;
+      bool getFog( int x, int y ) const;
+      bool getShroud( int x, int y ) const;
       spPlayer getLocalPlayer();
 	  // gets a unit from _units given an id
 	  spUnit getUnitFromID(uint32 id);
@@ -90,7 +96,6 @@ class MainGameState : public GameState, public IEventListener
 
       // _players includes _localPlayer to ease cycling through all players;
       list<spPlayer> _players;
-
 
       // waiting to load should really be somewhere before this or represented by the state pattern
       bool _readyToLoad;

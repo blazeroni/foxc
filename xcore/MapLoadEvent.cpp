@@ -8,13 +8,15 @@ namespace xcore
 
 MapLoadEvent::MapLoadEvent() :
    Event(MAP_LOAD),
-   _mapName("")
+   _mapName(""),
+   _fileName("")
 {
 }
 
-MapLoadEvent::MapLoadEvent(string mapName) :
+MapLoadEvent::MapLoadEvent(string mapName, string fileName) :
    Event(MAP_LOAD),
-   _mapName(mapName)
+   _mapName(mapName),
+   _fileName(fileName)
 {
    
 }
@@ -31,6 +33,11 @@ void MapLoadEvent::process(IEventListener* handler)
 string MapLoadEvent::getMapName()
 {
    return _mapName;
+}
+
+string MapLoadEvent::getFileName()
+{
+   return _fileName;
 }
 
 } // namespace

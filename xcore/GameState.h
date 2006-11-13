@@ -36,6 +36,9 @@ class GameState
       virtual void init() = 0;
       virtual void deinit() = 0;
 
+      // kludge
+      virtual string getName() = 0;
+
       virtual void processSDLEvent(SDL_Event& event) = 0;
 
    protected:

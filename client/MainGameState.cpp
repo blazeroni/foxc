@@ -142,13 +142,13 @@ spUnit MainGameState::createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s
    ClientEntityFactory& cef = ClientEntityFactory::instance();
    spUnit u = cef.makeUnit(playerID, _map->getTile(x, y));
    // all items added here must be added in server as well so that itemids match
-   u->addItem(cef.makeItem(s0));
-   u->addItem(cef.makeItem(s1));
-   u->addItem(cef.makeItem(s2));
-   u->addItem(cef.makeItem(s3));
-   u->addItem(cef.makeItem(s4));
-   u->addItem(cef.makeItem(s5));
-   u->addItem(cef.makeItem(s6));
+   u->addItem(cef.makeItem(s0), 0);
+   u->addItem(cef.makeItem(s1), 1);
+   u->addItem(cef.makeItem(s2), 2);
+   u->addItem(cef.makeItem(s3), 3);
+   u->addItem(cef.makeItem(s4), 4);
+   u->addItem(cef.makeItem(s5), 5);
+   u->addItem(cef.makeItem(s6), 6);
    vector<Player>::iterator iter;
 
    //for (iter = _players.begin(); iter != _players.end(); ++iter)

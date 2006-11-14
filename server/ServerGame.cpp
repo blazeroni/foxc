@@ -292,13 +292,13 @@ void ServerGame::handleEvent(UnitCreateEvent& e)
    }
 
    spUnit u = _factory->makeUnit(e.getPlayerID(), tile);
-   u->addItem(_factory->makeItem(e.getS0()));
-   u->addItem(_factory->makeItem(e.getS1()));
-   u->addItem(_factory->makeItem(e.getS2()));
-   u->addItem(_factory->makeItem(e.getS3()));
-   u->addItem(_factory->makeItem(e.getS4()));
-   u->addItem(_factory->makeItem(e.getS5()));
-   u->addItem(_factory->makeItem(e.getS6()));
+   u->addItem(_factory->makeItem(e.getS0()), 0);
+   u->addItem(_factory->makeItem(e.getS1()), 1);
+   u->addItem(_factory->makeItem(e.getS2()), 2);
+   u->addItem(_factory->makeItem(e.getS3()), 3);
+   u->addItem(_factory->makeItem(e.getS4()), 4);
+   u->addItem(_factory->makeItem(e.getS5()), 5);
+   u->addItem(_factory->makeItem(e.getS6()), 6);
    addUnit(u);
 }
 

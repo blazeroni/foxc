@@ -123,7 +123,7 @@ class Unit : public GameEntity
       /// returns the rank of the current unit
       int getRank() const;
 	  // Add an item to the unit's inventory
-	  bool addItem(spItem item);
+	  bool addItem(spItem item, int slot = 0);
 	  // Return the unit's inventory
 	  spItem* getInventory();
 

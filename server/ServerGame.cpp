@@ -237,6 +237,12 @@ string ServerGame::getGameName() const
 
 bool ServerGame::isGameOver()
 {
+   // special case for 1 player test maps
+   if (_units.size() > 0 && _maxPlayers == 1)
+   {
+      return false;
+   }
+
    uint32 player1 = 0;
    bool gameOver = true;
 

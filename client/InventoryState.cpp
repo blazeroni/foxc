@@ -24,6 +24,8 @@
 #define PISTOL_CLIP_INV_IMG "resources/images/gui/pistol_clip_gui_inv.png"
 #define GRENADE_IMG "resources/images/gui/grenade_gui.png"
 #define GRENADE_INV_IMG "resources/images/gui/grenade_gui_inv.png"
+#define MEDKIT_IMG "resources/images/gui/medkit_gui.png"
+#define MEDKIT_INV_IMG "resources/images/gui/medkit_gui_inv.png"
 #define READY_IMG "resources/images/gui/ready.png"
 
 InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) : 
@@ -38,6 +40,7 @@ InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
 #define COST_PISTOL 30
 #define COST_PISTOLCLIP 10
 #define COST_GRENADE 30
+#define COST_MEDKIT 30
 #define pointsLeft (_pointsMax - _pointsSpent)
 
 bool InventoryState::load_files()
@@ -57,6 +60,8 @@ bool InventoryState::load_files()
     _pistolClipInvImage = Display::instance().loadImage(PISTOL_CLIP_INV_IMG);
     _grenadeImage = Display::instance().loadImage(GRENADE_IMG);
     _grenadeInvImage = Display::instance().loadImage(GRENADE_INV_IMG);
+    _medkitImage = Display::instance().loadImage(MEDKIT_IMG);
+    _medkitInvImage = Display::instance().loadImage(MEDKIT_INV_IMG);
     _readyImage = Display::instance().loadImage(READY_IMG);
     return true;
 }
@@ -103,6 +108,8 @@ int cost( itemtype item )
         return COST_PISTOLCLIP;
     if ( item == GRENADE )
         return COST_GRENADE;
+    if ( item == MEDKIT )
+        return COST_MEDKIT;
 
     return 0;
 }
@@ -176,6 +183,15 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                 {
                     _loadout[_selectedUnit][_selectedInv] = GRENADE;
                     _pointsSpent += cost( GRENADE );
+                }
+            }
+            else if ( click.x > 50 + 1*(_weaponBox->w+15) && click.x < 50 + 1*(_weaponBox->w+15)+_weaponBox->w &&
+            click.y > 475 && click.y < 475 + _weaponBox->h )
+            {
+                if ( pointsLeft >= cost(MEDKIT) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = MEDKIT;
+                    _pointsSpent += cost( MEDKIT );
                 }
             }
         }
@@ -269,6 +285,8 @@ void InventoryState::update(uint32 X)
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_pistolClipImage->w/2, 200+_weaponBox->h/2-_pistolClipImage->h/2, _pistolClipImage );
             else if ( _loadout[_selectedUnit][i] == GRENADE )
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_grenadeImage->w/2, 200+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
+            else if ( _loadout[_selectedUnit][i] == MEDKIT )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_medkitImage->w/2, 200+_weaponBox->h/2-_medkitImage->h/2, _medkitImage );
         }
     }
     // unit items
@@ -286,6 +304,8 @@ void InventoryState::update(uint32 X)
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_pistolClipInvImage->w/2, 200+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
             else if ( _loadout[_selectedUnit][i+2] == GRENADE )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_grenadeInvImage->w/2, 200+_itemBox->h/2-_grenadeInvImage->h/2, _grenadeInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == MEDKIT )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_medkitInvImage->w/2, 200+_itemBox->h/2-_medkitInvImage->h/2, _medkitInvImage );
         }
     }
     // weapons
@@ -302,6 +322,8 @@ void InventoryState::update(uint32 X)
         d.draw( 50 + (_weaponBox->w+15)*(i), 475, _weaponBox );
 	// grenade
     d.draw( 50 + (_weaponBox->w)*(0)+_weaponBox->w/2-_grenadeImage->w/2, 475+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
+        // medkit
+    d.draw( 50 + (_weaponBox->w+15)*(1)+_weaponBox->w/2-_medkitImage->w/2, 475+_weaponBox->h/2-_medkitImage->h/2, _medkitImage );
     // ready button
     d.draw( 650, 200, _readyImage );
 

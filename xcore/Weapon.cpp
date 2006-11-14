@@ -137,6 +137,7 @@ MedKit::MedKit(uint32 entityID) : Weapon(entityID)
     _turnCost = 20;
 //    _image = NULL;
     _ammo = _clipSize;
+    _type = MEDKIT;
 }
 
 // should be changed to only heal units once other objects can take damage

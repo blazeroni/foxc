@@ -422,6 +422,7 @@ void Unit::fire( spMapTile tile )
 void Unit::takeDamage( int damage )
 {
    _health -= damage;
+   if ( _health > _maxHealth ) _health = _maxHealth;
    if ( _health <= 0 )
       die();
 }
@@ -613,7 +614,8 @@ void Unit::use( spMapTile tile, int wHand )
         _hand[wHand] = spItem();
         return;
     }
-    if ( !tile || tile == _tile || !_hand[wHand]->hasAmmo() )
+    if ( !tile || !_hand[wHand]->hasAmmo() )
+    //if ( !tile || tile == _tile || !_hand[wHand]->hasAmmo() )
         return;
     int used = _hand[wHand]->use( tile );
     if ( used >= 0 )

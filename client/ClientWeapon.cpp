@@ -42,8 +42,8 @@ ClientGrenade::ClientGrenade(uint32 entityID) :
 ClientMedKit::ClientMedKit(uint32 entityID) :
    ClientItem(entityID, spItem(new MedKit(0)))
 {
-   _image = Display::instance().loadImage("resources/images/gui/cartridge_gui.png");
-   _invImage = Display::instance().loadImage("resources/images/gui/cartridge_gui.png");
+   _image = Display::instance().loadImage("resources/images/gui/medkit_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/medkit_gui_inv.png");
    //_image = NULL;
    //_invImage = NULL;
 }

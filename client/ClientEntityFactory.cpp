@@ -57,5 +57,5 @@ spItem ClientEntityFactory::makeMedKit()
 
 spItem ClientEntityFactory::makePistolClip()
 {
-   return makeItemHelper<PistolClip>();
+   return makeItemHelper<ClientPistolClip>();
 }

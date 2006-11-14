@@ -64,6 +64,8 @@ spItem EntityFactory::makePistolClip()
 spItem EntityFactory::makeItem( itemtype item )
 {
    spItem i;
+   // switches are so ugly when they're one line each
+   // let it be noted i just lost 20 mins of work because i forgot to put break after medkit
    switch (item)
    {
       case PISTOL:
@@ -74,6 +76,9 @@ spItem EntityFactory::makeItem( itemtype item )
          break;
       case GRENADE:
          i = makeGrenade();
+         break;
+      case MEDKIT:
+         i = makeMedKit();
          break;
       case NONE:
       default:

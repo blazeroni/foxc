@@ -45,3 +45,4 @@ void Client::setPlayerNumber(uint16 num)
 {
    _playerNum = num;
 }
+

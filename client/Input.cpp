@@ -63,7 +63,7 @@ void Input::processSDLEvent(SDL_Event& event)
             }
             else if ( event.button.button == SDL_BUTTON_LEFT )
             {
-                if ( unit->getActionPoints() > unit->getHand(_hand)->getTurnCost() )
+                if ( unit->getActionPoints() >= unit->getHand(_hand)->getTurnCost() )
                 {
                     //unit->use( ((MainGameState*)gs)->getMap()->getMouseOverTile(), _hand );
                     ((MainGameState*)gs)->fire(((MainGameState*)gs)->getActiveUnit(),
@@ -233,11 +233,9 @@ bool Input::GUIInput( SDL_Event& event )
         {
             if ( event.button.button == SDL_BUTTON_LEFT && activeUnit->getLeft().get() )
             {
-                cout << "click" << endl;
                 _hand = 1;
                 if ( activeUnit->getLeft()->getRange() == 0 )
                 {
-                    cout << "bad" << endl;
                     ((MainGameState*)gs)->fire(((MainGameState*)gs)->getActiveUnit(),
                                           ((MainGameState*)gs)->getMap()->getTile(0,0), _hand);
                     return true;

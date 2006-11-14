@@ -17,8 +17,6 @@ class StartGameEvent : public Event
       StartGameEvent(uint32 seed = 0);
       virtual ~StartGameEvent();
 
-      bool _dummy;
-
       virtual void process(IEventListener* handler);
 
       template<class T>
@@ -33,7 +31,6 @@ class StartGameEvent : public Event
 template<class T>
 void StartGameEvent::serialize(T & archive, const unsigned int version) {
    archive & boost::serialization::base_object<Event>(*this);
-   archive & _dummy;
    archive & _seed;
 }
 

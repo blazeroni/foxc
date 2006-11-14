@@ -31,26 +31,21 @@ class EntityFactory
       virtual spItem makePistolClip();
       virtual spItem makeItem( itemtype item );
 
-      spGameEntity get(uint32 entityID);
+      void resetEntities();
 
    protected: 
       uint32 checkID(uint32 id);
-      void add(spGameEntity entity);
       uint32 _gameID;
       uint32 _lastEntityID;
 
       template <class T>
       spItem makeItemHelper();
-
-   private:
-      //map<unsigned long, wpGameEntity> _entities;
 };
 
 template <class T>
 spItem EntityFactory::makeItemHelper()
 {
    spItem item = spItem(new T(++_lastEntityID));
-   add(item);
    return item;
 }
 

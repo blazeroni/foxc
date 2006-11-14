@@ -35,6 +35,7 @@ void Input::processSDLEvent(SDL_Event& event)
         if ( !(unit->getHand(_hand).get()) || unit->getActionPoints() < unit->getHand(_hand)->getTurnCost() )
         {
             _mode = COMMAND;
+            ((MainGameState*)gs)->setDisplayMouseOverHighlight(true);
             Display::instance().setCursor();
             return;
         }
@@ -46,6 +47,7 @@ void Input::processSDLEvent(SDL_Event& event)
                 case SDLK_f:
                 case SDLK_u:
                     _mode = COMMAND;
+                    ((MainGameState*)gs)->setDisplayMouseOverHighlight(true);
                     Display::instance().setCursor();
                     break;
             }
@@ -55,6 +57,7 @@ void Input::processSDLEvent(SDL_Event& event)
             if ( event.button.button == SDL_BUTTON_RIGHT )
             {
                 _mode = COMMAND;
+                ((MainGameState*)gs)->setDisplayMouseOverHighlight(true);
                 Display::instance().setCursor();
                 return;
             }
@@ -70,10 +73,15 @@ void Input::processSDLEvent(SDL_Event& event)
                 else
                 {
                     _mode = COMMAND;
+                    ((MainGameState*)gs)->setDisplayMouseOverHighlight(true);
                     Display::instance().setCursor();
                     return;
                 }
             }
+        }
+        else if ( event.type == SDL_MOUSEMOTION )
+        {
+           ((MainGameState*)gs)->processSDLEvent(event);
         }
     }
     /*
@@ -139,6 +147,7 @@ void Input::processSDLEvent(SDL_Event& event)
                     return;
                 _mode = USE;
                 _hand = 1;
+                ((MainGameState*)gs)->setDisplayMouseOverHighlight(false);
                 Display::instance().setCursor( Display::instance()._crosshair );
                 break;
              case SDLK_u:
@@ -234,6 +243,7 @@ bool Input::GUIInput( SDL_Event& event )
                     return true;
                 }
                 _mode = USE;
+                ((MainGameState*)gs)->setDisplayMouseOverHighlight(false);
                 Display::instance().setCursor( Display::instance()._crosshair );
                 return true;
             }
@@ -261,6 +271,7 @@ bool Input::GUIInput( SDL_Event& event )
                     return true;
                 }
                 _mode = USE;
+                ((MainGameState*)gs)->setDisplayMouseOverHighlight(false);
                 Display::instance().setCursor( Display::instance()._crosshair );
                 return true;
             }

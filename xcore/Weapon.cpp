@@ -148,112 +148,112 @@ void Weapon::explosion( spMapTile tileInit, int damage )
     // giving tile out to range 2 decreasing damage
     //Audio::instance().playEffect(Audio::_explosion, 1);
     spMapTile tile, tile2;
-    tileInit->takeDamage( damage );
+    tileInit->takeDamage( damage, true);
 	tileInit->addDebris();
     //tileInit->addObject( spMapObject(new Debris()) );
     tile = tileInit->getTileInDirection( Direction::NW );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::W );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::NW );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::N );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::NE );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::E );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::NE );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::N );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::SW );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::W );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::SW );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::S );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::SE );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::E );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::SE );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
         tile2 = tile->getTileInDirection( Direction::S );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::N );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::N );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::S );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::S );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::E );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::E );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
     tile = tileInit->getTileInDirection( Direction::W );
     if ( tile.get() )
     {
-        tile->takeDamage( damage / 2 );
+        tile->takeDamage( damage / 2, true );
         //tile->addObject( spMapObject(new Debris()) );
 		tile->addDebris();
         tile2 = tile->getTileInDirection( Direction::W );
         if ( tile2.get() )
-            tile2->takeDamage( damage / 4 );
+            tile2->takeDamage( damage / 4, true );
     }
 }
 

@@ -39,24 +39,20 @@ class Wall : public MapObject
       ~Wall();
 
       bool isPassable() const;
-      //bool isPassable(const Direction& dir) const;
+
       void destroy();
-      //spMapTile tile1;
-      //spMapTile tile2;
+      bool isDestroyed() const;
 
       void draw(Point position, Point dimensions) const;
+
+      // allows for destruction of adjacent walls
+      virtual void removeType(WALL_DIRECTION wd);
 
    protected:
       WALL_TYPE _type;
 
    private:
       bool _destroyed;
-/*      static SDL_Surface* _image;
-      static SDL_Surface* _imageNE;
-      static SDL_Surface* _imageNW;
-      static SDL_Surface* _imageSE;
-      static SDL_Surface* _imageSW;
-*/
 };
 
 } // namespace

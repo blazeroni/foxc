@@ -18,14 +18,12 @@ ClientEntityFactory::~ClientEntityFactory()
 spUnit ClientEntityFactory::makeUnit(int playerID, spMapTile tile) 
 {
    spUnit u = ClientUnit::makeUnit(++_lastEntityID, playerID, tile);
-   add(u);
    return u;
 }
 
 spWall ClientEntityFactory::makeWall(WALL_TYPE type)
 {
    spWall wall = spWall(new ClientWall(++_lastEntityID, type));
-   //add(wall);
    return wall;
 }
 

@@ -78,7 +78,7 @@ class MapTile
       virtual void highlight(Point offset);
       virtual void highlightMoveable(Point offset);
         // passes on damage from explosions, etc.
-        void takeDamage( int damage );
+        void takeDamage( int damage, bool explosion = false );
         // gets the distance between two tiles
         int getDistance( spMapTile tile );
 		void addDebris();
@@ -93,9 +93,11 @@ class MapTile
       spTerrain getTerrain() const;
       void setTerrain(spTerrain terrain);
 
+      void updateAdjacentWalls();
+
       list<spMapObject> _objects;
       spUnit _unit;
-		bool _hasDebris;
+      bool _hasDebris;
 
    private:
       /// Used when the tile needs to pass the 'this' pointer to something that only
@@ -105,7 +107,7 @@ class MapTile
       uint32 _x;
       uint32 _y;
 
-      spTerrain _terrain;      
+      spTerrain _terrain;
 
       map<Direction, spMapTile> directionTileMap;
 

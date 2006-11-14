@@ -17,6 +17,8 @@ SDL_Surface* ClientWall::_lw = NULL;
 SDL_Surface* ClientWall::_ln = NULL;
 SDL_Surface* ClientWall::_ls = NULL;
 SDL_Surface* ClientWall::_all = NULL;
+SDL_Surface* ClientWall::_destroyed = NULL;
+
 
 SDL_Surface* ClientWall::_door = NULL;
 
@@ -35,8 +37,7 @@ SDL_Surface* ClientWall::_door = NULL;
 #define WALL_IMAGE_L_W   "resources/images/wall_l_w.png"
 #define WALL_IMAGE_L_S   "resources/images/wall_l_s.png"
 #define WALL_IMAGE_ALL   "resources/images/wall_all.png"
-
-#define DOOR_IMAGE_OPEN  "resources/images/door_open.png"
+#define WALL_IMAGE_DESTROYED "resources/images/tile_debris.png"
 
 ClientWall::ClientWall(uint32 entityID, WALL_TYPE type) :
    Wall(entityID, type),
@@ -59,11 +60,20 @@ ClientWall::ClientWall(uint32 entityID, WALL_TYPE type) :
       _ln = Display::instance().loadImage(WALL_IMAGE_L_N);
       _ls = Display::instance().loadImage(WALL_IMAGE_L_S);
       _all = Display::instance().loadImage(WALL_IMAGE_ALL);
-
-      _door = Display::instance().loadImage(DOOR_IMAGE_OPEN);
+      _destroyed = Display::instance().loadImage(WALL_IMAGE_DESTROYED);
    }
 
-   switch (type)
+   updateImage();
+}
+
+ClientWall::~ClientWall()
+{
+
+}
+
+void ClientWall::updateImage()
+{
+      switch (_type)
    {
       case WT_NE:
          _image = _ne;
@@ -123,12 +133,21 @@ ClientWall::ClientWall(uint32 entityID, WALL_TYPE type) :
    }
 }
 
-ClientWall::~ClientWall()
+void ClientWall::destroy()
 {
+   Wall::destroy();
+   _image = _destroyed;
+}
 
+void ClientWall::removeType(WALL_DIRECTION wd)
+{
+   Wall::removeType(wd);
+   updateImage();
 }
 
 void ClientWall::draw(Point position, Point dimensions) const
 {
    Display::instance().draw(position.x, position.y - (_image->h - dimensions.y), _image);
 }
+
+

@@ -261,13 +261,34 @@ void MapTile::drawTerrain(Point offset) const
 //   resIDs.push_back(_terrain.getResourceID());
 //}
 
-void MapTile::takeDamage( int damage )
+void MapTile::takeDamage( int damage, bool explosion )
 {
     if ( _unit.get() )
     {
         _unit->takeDamage( damage );
     }
+    if (explosion)
+    {
+        list<spMapObject>::iterator iter;
+        for (iter = _objects.begin(); iter != _objects.end(); ++iter)
+        {
+           (*iter)->takeDamage(damage);
+        }
+    }
+    updateAdjacentWalls();
 }
+
+// hackerrific
+void MapTile::updateAdjacentWalls()
+{
+   vector<const Direction*> dirs = Direction::getNonCardinalDirections();
+   vector<const Direction*>::const_iterator iter;
+   for(iter = dirs.begin(); iter != dirs.end(); ++iter)
+   {
+      spMapTile t = getTileInDirection(**iter);
+   }
+}
+
 #include <cmath>
 int MapTile::getDistance( spMapTile tile )
 {

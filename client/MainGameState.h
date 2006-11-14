@@ -65,6 +65,8 @@ class MainGameState : public GameState, public IEventListener
         // is it my turn?
       bool isMyTurn() const;
 
+      void setDisplayMouseOverHighlight(bool on);
+
       //virtual void handleEvent(ClientConnectEvent& e);
       //virtual void handleEvent(GameListEvent& evnt);
       virtual void handleEvent(PlayerJoinEvent& e);
@@ -110,6 +112,8 @@ class MainGameState : public GameState, public IEventListener
       spUnit _activeUnit;
 
       bool _canUseObject;
+
+      bool _displayMouseOverHighlight;
 
       /**
        * Unit action order

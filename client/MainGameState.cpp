@@ -65,6 +65,8 @@ void MainGameState::init()
    EventManager::instance().addListener<GameOverEvent>(this);
    EventManager::instance().addListener<UseMapObjectEvent>(this);
 
+   ClientEntityFactory::instance().resetEntities();
+
    ConfigOptions& o = ConfigOptions::instance();
 
    Display::instance().loadFont("resources/fonts/FreeMono.ttf");
@@ -105,7 +107,10 @@ void MainGameState::update(uint32 deltaTime)
            _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y ); 
      }
 
-      _map->highlightMouseOverTile(offset);
+      if (_displayMouseOverHighlight)
+      {
+         _map->highlightMouseOverTile(offset);
+      }
       _map->drawObjectLayer(offset);
       spUnit u = getActiveUnit();
       u->drawMovePath(offset);
@@ -188,14 +193,6 @@ void MainGameState::processSDLEvent(SDL_Event& event)
    {
       switch ( event.key.keysym.sym )
       {
-         case SDLK_n:
-            if (_map->getTile(0, 0)->isPassable())
-            {
-               // for now, the position will be determined by the server
-               ClientNetwork::instance().send(UnitCreateEvent(_localPlayer->getID(), 0,0));
-               //spUnit u = createUnit(1,0,0);
-            }
-            break;
          case SDLK_SPACE:
             endActiveUnitTurn();
             break;
@@ -578,3 +575,7 @@ void MainGameState::useObject()
    ClientNetwork::instance().send(UseMapObjectEvent(_activeUnit->getID()));
 }
 
+void MainGameState::setDisplayMouseOverHighlight(bool on)
+{
+   _displayMouseOverHighlight = on;
+}

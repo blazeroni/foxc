@@ -10,7 +10,13 @@ class ClientWall : public Wall
       ClientWall(uint32 entityID, WALL_TYPE type);
       ~ClientWall();
 
+      void destroy();
+
       void draw(Point position, Point dimensions) const;
+
+      virtual void removeType(WALL_DIRECTION wd);
+
+      void updateImage();
 
    private:
       SDL_Surface* _image;
@@ -31,6 +37,7 @@ class ClientWall : public Wall
       static SDL_Surface* _ln;
       static SDL_Surface* _ls;
       static SDL_Surface* _all;
+      static SDL_Surface* _destroyed;
 
       // temporary
       static SDL_Surface* _door;

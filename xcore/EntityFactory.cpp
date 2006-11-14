@@ -14,25 +14,25 @@ EntityFactory::~EntityFactory()
 {
 }
 
+void EntityFactory::resetEntities()
+{
+   _lastEntityID = 0;
+}
+
 spUnit EntityFactory::makeUnit(int playerID, spMapTile tile) 
 {
    spUnit u = Unit::makeUnit(++_lastEntityID, playerID, tile);
-   add(u);
    return u;
 }
 
 spWall EntityFactory::makeWall(WALL_TYPE type)
 {
-   // entityID is ignored
    spWall wall = spWall(new Wall(++_lastEntityID, type));
-   //add(wall);
    return wall;
 }
 spDoor EntityFactory::makeDoor(WALL_TYPE type, bool open)
 {
-   // entityID is ignored
    spDoor door = spDoor(new Door(++_lastEntityID, type, open));
-   //add(wall);
    return door;
 }
 
@@ -81,21 +81,6 @@ spItem EntityFactory::makeItem( itemtype item )
          break;
    }
    return i;
-}
-
-spGameEntity EntityFactory::get(uint32 entityID)
-{
-   /*if (_entities.find(entityID) != _entities.end())
-   {
-      return spGameEntity(_entities[entityID]);
-   }*/
-   return spGameEntity();
-}
-
-void EntityFactory::add(spGameEntity entity)
-{
-   wpGameEntity wp(entity);
-   //_entities[_lastEntityID] = entity;
 }
 
 

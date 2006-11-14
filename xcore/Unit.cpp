@@ -593,9 +593,28 @@ void Unit::use( spMapTile tile, int wHand )
 {
     if ( !_hand[wHand].get() )
         return;
+    if ( _hand[wHand]->getType() == STIM ) 
+    {
+        _actionPoints -= _hand[wHand]->getTurnCost();
+        _actionPoints += 50;
+        takeDamage( 20 );
+        _hand[wHand] = spItem();
+        return;
+    }
     if ( _hand[wHand]->getType() == PISTOLCLIP ) 
     {
         if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == PISTOL )
+        {
+            (_hand[(wHand+1)%2])->reload();
+            _actionPoints -= _hand[wHand]->getTurnCost();
+            _hand[wHand] = spItem();
+            //updatePossibleMoves();
+        }
+        return;
+    }
+    if ( _hand[wHand]->getType() == RIFLECLIP ) 
+    {
+        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == RIFLE )
         {
             (_hand[(wHand+1)%2])->reload();
             _actionPoints -= _hand[wHand]->getTurnCost();

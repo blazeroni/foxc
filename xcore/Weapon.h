@@ -63,6 +63,11 @@ class PistolClip : public Clip
     public:
         PistolClip(uint32 entityID);
 };
+class RifleClip : public Clip
+{
+    public:
+        RifleClip(uint32 entityID);
+};
 
 class Rifle : public Weapon
 {
@@ -76,6 +81,11 @@ class RPG : public Weapon
     public:
         RPG(uint32 entityID);
         int use( spMapTile tile );
+};
+class Stimpack : public Weapon
+{
+    public:
+        Stimpack(uint32 entityID);
 };
 class Rocket : public Clip
 {

@@ -69,7 +69,14 @@ PistolClip::PistolClip(uint32 entityID) :
    Clip(entityID)
 {
     _type = PISTOLCLIP;
-    _name = "Clip";
+    _name = "P. Clip";
+    _turnCost = 20;
+}
+RifleClip::RifleClip(uint32 entityID) :
+   Clip(entityID)
+{
+    _type = RIFLECLIP;
+    _name = "R. Clip";
     _turnCost = 20;
 }
 Rocket::Rocket(uint32 entityID) :
@@ -85,14 +92,15 @@ int Pistol::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
 Rifle::Rifle(uint32 entityID) : Weapon(entityID)
 {
     _name = "Rifle";
-    _baseDamage = 100;
-    _damageRange = 0;
-    _effectiveRange = 50;
-    _baseAccuracy = 90;
-    _clipSize = 3;
+    _baseDamage = 90;
+    _damageRange = 12;
+    _effectiveRange = 40;
+    _baseAccuracy = 85;
+    _clipSize = 4;
     _turnCost = 30;
     //_image = Display::instance().loadImage("images/rifle.png", false);
     _ammo = _clipSize;
+    _type = RIFLE;
 }
 
 int Rifle::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
@@ -142,6 +150,21 @@ int Grenade::use( spMapTile tile )
 {
     explosion( tile, calcDamage() );
     return 0;
+}
+
+Stimpack::Stimpack(uint32 entityID) : Weapon(entityID)
+{
+    _name = "Stimpack";
+    _type = STIM;
+    _baseDamage = 0;
+    _damageRange = 0;
+    _effectiveRange = 0;
+    _baseAccuracy = 100;
+    _clipSize = -1;
+    _turnCost = 5;
+    //_image = Display::instance().loadImage("images/gui/grenade_gui.png");
+    //_invImage = Display::instance().loadImage("images/gui/grenade_gui_inv.png");
+    _ammo = _clipSize;
 }
 
 MedKit::MedKit(uint32 entityID) : Weapon(entityID)

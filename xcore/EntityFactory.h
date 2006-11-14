@@ -26,11 +26,13 @@ class EntityFactory
       virtual spDoor makeDoor(WALL_TYPE type, bool open = false);
       virtual spItem makePistol();
       virtual spItem makeRifle();
+      virtual spItem makeRifleClip();
       virtual spItem makeGrenade();
       virtual spItem makeMedKit();
       virtual spItem makePistolClip();
       virtual spItem makeRPG();
       virtual spItem makeRocket();
+      virtual spItem makeStimpack();
       virtual spItem makeItem( itemtype item );
 
       void resetEntities();

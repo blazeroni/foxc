@@ -23,6 +23,12 @@ ClientRocket::ClientRocket(uint32 entityID) :
    _image = Display::instance().loadImage("resources/images/gui/rocket_gui.png");
    _invImage = Display::instance().loadImage("resources/images/gui/rocket_gui_inv.png");
 }
+ClientStimpack::ClientStimpack(uint32 entityID) :
+   ClientItem(entityID, spItem(new Stimpack(0)))
+{
+   _image = Display::instance().loadImage("resources/images/gui/stim_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/stim_gui_inv.png");
+}
 
 ClientPistolClip::ClientPistolClip(uint32 entityID) :
    ClientItem(entityID, spItem(new PistolClip(0)))
@@ -37,9 +43,14 @@ ClientPistolClip::ClientPistolClip(uint32 entityID) :
 ClientRifle::ClientRifle(uint32 entityID) :
    ClientItem(entityID, spItem(new Rifle(0)))
 {
-   _image = Display::instance().loadImage("resources/resources/images/gui/cartridge_gui.png");
-   _invImage = Display::instance().loadImage("resources/resources/images/gui/cartridge_gui.png");
-   //_image = Display::instance().loadImage("images/rifle.png", false);
+   _image = Display::instance().loadImage("resources/images/gui/rifle_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/rifle_gui_inv.png");
+}
+ClientRifleClip::ClientRifleClip(uint32 entityID) :
+   ClientItem(entityID, spItem(new RifleClip(0)))
+{
+   _image = Display::instance().loadImage("resources/images/gui/rifleclip_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/rifleclip_gui_inv.png");
 }
 
 ClientGrenade::ClientGrenade(uint32 entityID) :

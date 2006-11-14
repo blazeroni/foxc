@@ -23,6 +23,11 @@ class ClientRifle : public ClientItem
    public:
       ClientRifle(uint32 entityID);
 };
+class ClientRifleClip : public ClientItem
+{
+   public:
+      ClientRifleClip(uint32 entityID);
+};
 class ClientRPG : public ClientItem
 {
    public:
@@ -32,6 +37,11 @@ class ClientRocket : public ClientItem
 {
    public:
       ClientRocket(uint32 entityID);
+};
+class ClientStimpack : public ClientItem
+{
+   public:
+      ClientStimpack(uint32 entityID);
 };
 
 /*

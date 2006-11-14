@@ -579,3 +579,4 @@ void MainGameState::setDisplayMouseOverHighlight(bool on)
 {
    _displayMouseOverHighlight = on;
 }
+

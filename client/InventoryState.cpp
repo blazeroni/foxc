@@ -26,10 +26,16 @@
 #define RPG_IMG_INV "resources/images/gui/rpg_gui_inv.png"
 #define ROCKET_IMG "resources/images/gui/rocket_gui.png"
 #define ROCKET_IMG_INV "resources/images/gui/rocket_gui_inv.png"
+#define RIFLE_IMG "resources/images/gui/rifle_gui.png"
+#define RIFLE_IMG_INV "resources/images/gui/rifle_gui_inv.png"
+#define RIFLECLIP_IMG "resources/images/gui/rifleclip_gui.png"
+#define RIFLECLIP_IMG_INV "resources/images/gui/rifleclip_gui_inv.png"
 #define GRENADE_IMG "resources/images/gui/grenade_gui.png"
 #define GRENADE_INV_IMG "resources/images/gui/grenade_gui_inv.png"
 #define MEDKIT_IMG "resources/images/gui/medkit_gui.png"
 #define MEDKIT_INV_IMG "resources/images/gui/medkit_gui_inv.png"
+#define STIM_IMG "resources/images/gui/stim_gui.png"
+#define STIM_INV_IMG "resources/images/gui/stim_gui_inv.png"
 #define READY_IMG "resources/images/gui/ready.png"
 
 InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) : 
@@ -47,6 +53,9 @@ InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
 #define COST_MEDKIT 30
 #define COST_RPGL 70
 #define COST_ROCKET 30
+#define COST_RIFLE 50
+#define COST_RIFLECLIP 15
+#define COST_STIM 30
 #define pointsLeft (_pointsMax - _pointsSpent)
 
 bool InventoryState::load_files()
@@ -68,10 +77,16 @@ bool InventoryState::load_files()
     _rpgInvImage = Display::instance().loadImage(RPG_IMG_INV);
     _rocketImage = Display::instance().loadImage(ROCKET_IMG);
     _rocketInvImage = Display::instance().loadImage(ROCKET_IMG_INV);
+    _rifleImage = Display::instance().loadImage(RIFLE_IMG);
+    _rifleInvImage = Display::instance().loadImage(RIFLE_IMG_INV);
+    _rifleClipImage = Display::instance().loadImage(RIFLECLIP_IMG);
+    _rifleClipInvImage = Display::instance().loadImage(RIFLECLIP_IMG_INV);
     _grenadeImage = Display::instance().loadImage(GRENADE_IMG);
     _grenadeInvImage = Display::instance().loadImage(GRENADE_INV_IMG);
     _medkitImage = Display::instance().loadImage(MEDKIT_IMG);
     _medkitInvImage = Display::instance().loadImage(MEDKIT_INV_IMG);
+    _stimImage = Display::instance().loadImage(STIM_IMG);
+    _stimInvImage = Display::instance().loadImage(STIM_INV_IMG);
     _readyImage = Display::instance().loadImage(READY_IMG);
     return true;
 }
@@ -120,10 +135,16 @@ int cost( itemtype item )
         return COST_GRENADE;
     if ( item == MEDKIT )
         return COST_MEDKIT;
+    if ( item == STIM )
+        return COST_STIM;
     if ( item == RPGL )
         return COST_RPGL;
     if ( item == ROCKET )
         return COST_ROCKET;
+    if ( item == RIFLE )
+        return COST_RIFLE;
+    if ( item == RIFLECLIP )
+        return COST_RIFLECLIP;
 
     return 0;
 }
@@ -191,6 +212,25 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                     _pointsSpent += cost( PISTOLCLIP );
                 }
             }
+                // rifle
+            if ( click.x > 50 + 1*(_weaponBox->w+15) && click.x < 50 + 1*(_weaponBox->w+15) + _weaponBox->w &&
+            click.y > 350 && click.y < 350 + _weaponBox->h )
+            {
+                if ( pointsLeft >= cost(RIFLE) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = RIFLE;
+                    _pointsSpent += cost( RIFLE );
+                }
+            }
+            else if ( click.x > 50 + 1*(_weaponBox->w+_itemBox->w+15)+_weaponBox->w+5 && click.x < 50 + 1*(_weaponBox->w+_itemBox->w+15)+_weaponBox->w+5 + _itemBox->w &&
+            click.y > 350 && click.y < 350 + _itemBox->h )
+            {
+                if ( pointsLeft >= cost(RIFLECLIP) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = RIFLECLIP;
+                    _pointsSpent += cost( RIFLECLIP );
+                }
+            }
                 // rpg
             else if ( click.x > 50 + 2*(_weaponBox->w+_itemBox->w+15) && click.x < 50 + 2*(_weaponBox->w+_itemBox->w+15) + _itemBox->w &&
             click.y > 350 && click.y < 350 + _itemBox->h )
@@ -227,6 +267,15 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                 {
                     _loadout[_selectedUnit][_selectedInv] = MEDKIT;
                     _pointsSpent += cost( MEDKIT );
+                }
+            }
+            else if ( click.x > 50 + 2*(_weaponBox->w+15) && click.x < 50 + 2*(_weaponBox->w+15)+_weaponBox->w &&
+            click.y > 475 && click.y < 475 + _weaponBox->h )
+            {
+                if ( pointsLeft >= cost(STIM) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = STIM;
+                    _pointsSpent += cost( STIM );
                 }
             }
         }
@@ -326,6 +375,12 @@ void InventoryState::update(uint32 X)
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rpgImage->w/2, 200+_weaponBox->h/2-_rpgImage->h/2, _rpgImage );
             else if ( _loadout[_selectedUnit][i] == ROCKET )
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rocketImage->w/2, 200+_weaponBox->h/2-_rocketImage->h/2, _rocketImage );
+            else if ( _loadout[_selectedUnit][i] == STIM )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_stimImage->w/2, 200+_weaponBox->h/2-_stimImage->h/2, _stimImage );
+            else if ( _loadout[_selectedUnit][i] == RIFLE )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rifleImage->w/2, 200+_weaponBox->h/2-_rifleImage->h/2, _rifleImage );
+            else if ( _loadout[_selectedUnit][i] == RIFLECLIP )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rifleClipImage->w/2, 200+_weaponBox->h/2-_rifleClipImage->h/2, _rifleClipImage );
         }
     }
     // unit items
@@ -349,6 +404,12 @@ void InventoryState::update(uint32 X)
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rpgInvImage->w/2, 200+_itemBox->h/2-_rpgInvImage->h/2, _rpgInvImage );
             else if ( _loadout[_selectedUnit][i+2] == ROCKET )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rocketInvImage->w/2, 200+_itemBox->h/2-_rocketInvImage->h/2, _rocketInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == STIM )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_stimInvImage->w/2, 200+_itemBox->h/2-_stimInvImage->h/2, _stimInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == RIFLE )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleImage->w/2, 200+_itemBox->h/2-_rifleImage->h/2, _rifleImage );
+            else if ( _loadout[_selectedUnit][i+2] == RIFLECLIP )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleClipImage->w/2, 200+_itemBox->h/2-_rifleClipImage->h/2, _rifleClipImage );
         }
     }
     // weapons
@@ -360,6 +421,9 @@ void InventoryState::update(uint32 X)
         // pistol
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w/2-_pistolImage->w/2, 350+_weaponBox->h/2-_pistolImage->h/2, _pistolImage );
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w+5+_itemBox->w/2-_pistolClipInvImage->w/2, 350+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
+        // rifle
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(1)+_weaponBox->w/2-_rifleImage->w/2, 350+_weaponBox->h/2-_rifleImage->h/2, _rifleImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(1)+_weaponBox->w+5+_itemBox->w/2-_rifleClipInvImage->w/2, 350+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
         // rpg
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w/2-_rpgImage->w/2, 350+_weaponBox->h/2-_rpgImage->h/2, _rpgImage );
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w+5+_itemBox->w/2-_rocketInvImage->w/2, 350+_itemBox->h/2-_rocketInvImage->h/2, _rocketInvImage );
@@ -370,6 +434,8 @@ void InventoryState::update(uint32 X)
     d.draw( 50 + (_weaponBox->w)*(0)+_weaponBox->w/2-_grenadeImage->w/2, 475+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
         // medkit
     d.draw( 50 + (_weaponBox->w+15)*(1)+_weaponBox->w/2-_medkitImage->w/2, 475+_weaponBox->h/2-_medkitImage->h/2, _medkitImage );
+        // stimpack
+    d.draw( 50 + (_weaponBox->w+15)*(2)+_weaponBox->w/2-_stimImage->w/2, 475+_weaponBox->h/2-_stimImage->h/2, _stimImage );
     // ready button
     d.draw( 650, 200, _readyImage );
 

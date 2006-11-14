@@ -327,13 +327,13 @@ void InventoryState::commit()
       {
          //cn.send( UnitCreateEvent(_playerID, 0, 0,
          cn.send( UnitCreateEvent(_localPlayer->getID(), 0, 0,
-         _loadout[i][0],
          _loadout[i][1],
-         _loadout[i][2],
-         _loadout[i][3],
-         _loadout[i][4],
+         _loadout[i][0],
+         _loadout[i][6],
          _loadout[i][5],
-         _loadout[i][6] ) ); 
+         _loadout[i][4],
+         _loadout[i][3],
+         _loadout[i][2] ) ); 
       }
    }
    cn.send( StartGameEvent() );

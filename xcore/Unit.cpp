@@ -524,8 +524,14 @@ int Unit::getRank() const
   return _rank;
 } // end of getRank
 
-bool Unit::addItem(spItem item)
+bool Unit::addItem(spItem item, int slot)
 {
+	if ( slot == 0 || slot == 1 )
+		_hand[slot] = item;
+	else
+		_inventory[slot-2] = item;
+	return true;
+	/*
    for ( int i = 0; i < 5; ++i )
    {
       if ( !_inventory[i] )
@@ -535,6 +541,7 @@ bool Unit::addItem(spItem item)
       }
    }
    return false;
+   */
 } // end of addItem
 
 

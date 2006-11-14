@@ -391,6 +391,7 @@ void MainGameState::handleEvent(UnitMoveEvent& e)
 
 void MainGameState::handleEvent(StartGameEvent& e)
 {
+   srand(e.getSeed());
    selectUnit(getActiveUnit());
    _readyToLoad = true;
    cout << "start game" << endl;

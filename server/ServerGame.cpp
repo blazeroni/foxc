@@ -222,7 +222,7 @@ spUnit ServerGame::getActiveUnit()
 void ServerGame::start()
 {
    cout << "start game" << endl;
-   send(StartGameEvent());
+   send(StartGameEvent(SDL_GetTicks()));
 }
 
 uint32 ServerGame::getGameID() const

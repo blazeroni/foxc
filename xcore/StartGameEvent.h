@@ -14,7 +14,7 @@ class StartGameEvent : public Event
 {
    friend class boost::serialization::access;
    public:
-      StartGameEvent();
+      StartGameEvent(uint32 seed = 0);
       virtual ~StartGameEvent();
 
       bool _dummy;
@@ -23,12 +23,18 @@ class StartGameEvent : public Event
 
       template<class T>
       void serialize(T & archive, const unsigned int version);
+
+      uint32 getSeed() const;
+
+    private:
+	uint32 _seed;
 };
 
 template<class T>
 void StartGameEvent::serialize(T & archive, const unsigned int version) {
    archive & boost::serialization::base_object<Event>(*this);
    archive & _dummy;
+   archive & _seed;
 }
 
 } // namespace

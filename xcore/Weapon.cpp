@@ -69,8 +69,15 @@ PistolClip::PistolClip(uint32 entityID) :
    Clip(entityID)
 {
     _type = PISTOLCLIP;
-    //_image = Display::instance().loadImage( "images/gui/pistol_clip_gui.png" );
-    //_invImage = Display::instance().loadImage( "images/gui/pistol_clip_gui_inv.png" );
+    _name = "Clip";
+    _turnCost = 20;
+}
+Rocket::Rocket(uint32 entityID) :
+   Clip(entityID)
+{
+    _type = ROCKET;
+    _name = "Rocket";
+    _turnCost = 40;
 }
 
 int Pistol::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
@@ -90,20 +97,31 @@ Rifle::Rifle(uint32 entityID) : Weapon(entityID)
 
 int Rifle::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
 
-Bazooka::Bazooka(uint32 entityID) : Weapon(entityID)
+RPG::RPG(uint32 entityID) : Weapon(entityID)
 {
-    _name = "Bazooka";
+    _name = "RPG L'r";
     _baseDamage = 200;
     _damageRange = 20;
-    _effectiveRange = 20;
-    _baseAccuracy = 45;
-    _clipSize = 12;
-    _turnCost = 30;
+    _effectiveRange = 35;
+    _baseAccuracy = 100;
+    _clipSize = 1;
+    _turnCost = 50;
     //_image = Display::instance().loadImage("images/bazooka.png", false);
     _ammo = _clipSize;
+    _type = RPGL;
 }
 
-int Bazooka::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
+int RPG::use( spMapTile tile )
+{
+    if ( _ammo )
+    {
+        _ammo--;
+        explosion( tile, calcDamage() );
+        return 1;
+    }
+    else
+        return 0;
+}
 
 Grenade::Grenade(uint32 entityID) : Weapon(entityID)
 {

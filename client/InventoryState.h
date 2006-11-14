@@ -28,6 +28,7 @@ class InventoryState : public GameState, public IEventListener
       Mix_Music* _music;
       SDL_Surface *_unitBox, *_unitBoxHL, *_itemBox, *_itemBoxHL, *_weaponBox, *_weaponBoxHL, *_unitImage;
       SDL_Surface *_pistolImage, *_pistolInvImage, *_pistolClipImage, *_pistolClipInvImage;
+      SDL_Surface *_rpgImage, *_rpgInvImage, *_rocketImage, *_rocketInvImage;
       SDL_Surface *_grenadeImage, *_grenadeInvImage, *_medkitImage, *_medkitInvImage;
       SDL_Surface *_readyImage;
       int _pointsMax;

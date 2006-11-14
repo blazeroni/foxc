@@ -60,6 +60,8 @@ spItem EntityFactory::makePistolClip()
 {
    return makeItemHelper<PistolClip>();
 }
+spItem EntityFactory::makeRPG() { return makeItemHelper<RPG>(); }
+spItem EntityFactory::makeRocket() { return makeItemHelper<Rocket>(); }
 
 spItem EntityFactory::makeItem( itemtype item )
 {
@@ -79,6 +81,12 @@ spItem EntityFactory::makeItem( itemtype item )
          break;
       case MEDKIT:
          i = makeMedKit();
+         break;
+      case RPGL:
+         i = makeRPG();
+         break;
+      case ROCKET:
+         i = makeRocket();
          break;
       case NONE:
       default:

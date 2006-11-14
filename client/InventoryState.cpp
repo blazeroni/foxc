@@ -22,6 +22,10 @@
 #define PISTOL_INV_IMG "resources/images/gui/pistol_gui_inv.png"
 #define PISTOL_CLIP_IMG "resources/images/gui/pistol_clip_gui.png"
 #define PISTOL_CLIP_INV_IMG "resources/images/gui/pistol_clip_gui_inv.png"
+#define RPG_IMG "resources/images/gui/rpg_gui.png"
+#define RPG_IMG_INV "resources/images/gui/rpg_gui_inv.png"
+#define ROCKET_IMG "resources/images/gui/rocket_gui.png"
+#define ROCKET_IMG_INV "resources/images/gui/rocket_gui_inv.png"
 #define GRENADE_IMG "resources/images/gui/grenade_gui.png"
 #define GRENADE_INV_IMG "resources/images/gui/grenade_gui_inv.png"
 #define MEDKIT_IMG "resources/images/gui/medkit_gui.png"
@@ -41,6 +45,8 @@ InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
 #define COST_PISTOLCLIP 10
 #define COST_GRENADE 30
 #define COST_MEDKIT 30
+#define COST_RPGL 70
+#define COST_ROCKET 30
 #define pointsLeft (_pointsMax - _pointsSpent)
 
 bool InventoryState::load_files()
@@ -58,6 +64,10 @@ bool InventoryState::load_files()
     _pistolInvImage = Display::instance().loadImage(PISTOL_INV_IMG);
     _pistolClipImage = Display::instance().loadImage(PISTOL_CLIP_IMG);
     _pistolClipInvImage = Display::instance().loadImage(PISTOL_CLIP_INV_IMG);
+    _rpgImage = Display::instance().loadImage(RPG_IMG);
+    _rpgInvImage = Display::instance().loadImage(RPG_IMG_INV);
+    _rocketImage = Display::instance().loadImage(ROCKET_IMG);
+    _rocketInvImage = Display::instance().loadImage(ROCKET_IMG_INV);
     _grenadeImage = Display::instance().loadImage(GRENADE_IMG);
     _grenadeInvImage = Display::instance().loadImage(GRENADE_INV_IMG);
     _medkitImage = Display::instance().loadImage(MEDKIT_IMG);
@@ -110,6 +120,10 @@ int cost( itemtype item )
         return COST_GRENADE;
     if ( item == MEDKIT )
         return COST_MEDKIT;
+    if ( item == RPGL )
+        return COST_RPGL;
+    if ( item == ROCKET )
+        return COST_ROCKET;
 
     return 0;
 }
@@ -158,6 +172,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                     _selectedInv = i+2;
             }
             // weapons
+                // pistol
             if ( click.x > 50 + 0*(_weaponBox->w+15) && click.x < 50 + 0*(_weaponBox->w+15) + _weaponBox->w &&
             click.y > 350 && click.y < 350 + _weaponBox->h )
             {
@@ -176,6 +191,26 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                     _pointsSpent += cost( PISTOLCLIP );
                 }
             }
+                // rpg
+            else if ( click.x > 50 + 2*(_weaponBox->w+_itemBox->w+15) && click.x < 50 + 2*(_weaponBox->w+_itemBox->w+15) + _itemBox->w &&
+            click.y > 350 && click.y < 350 + _itemBox->h )
+            {
+                if ( pointsLeft >= cost(RPGL) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = RPGL;
+                    _pointsSpent += cost( RPGL );
+                }
+            }
+            else if ( click.x > 50 + 2*(_weaponBox->w+_itemBox->w+15)+_weaponBox->w+5 && click.x < 50 + 2*(_weaponBox->w+_itemBox->w+15)+_weaponBox->w+5 + _itemBox->w &&
+            click.y > 350 && click.y < 350 + _itemBox->h )
+            {
+                if ( pointsLeft >= cost(ROCKET) )
+                {
+                    _loadout[_selectedUnit][_selectedInv] = ROCKET;
+                    _pointsSpent += cost( ROCKET );
+                }
+            }
+            // items
             else if ( click.x > 50 + 0*(_weaponBox->w+15) && click.x < 50 + 0*(_weaponBox->w+15)+_weaponBox->w &&
             click.y > 475 && click.y < 475 + _weaponBox->h )
             {
@@ -287,6 +322,10 @@ void InventoryState::update(uint32 X)
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_grenadeImage->w/2, 200+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
             else if ( _loadout[_selectedUnit][i] == MEDKIT )
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_medkitImage->w/2, 200+_weaponBox->h/2-_medkitImage->h/2, _medkitImage );
+            else if ( _loadout[_selectedUnit][i] == RPGL )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rpgImage->w/2, 200+_weaponBox->h/2-_rpgImage->h/2, _rpgImage );
+            else if ( _loadout[_selectedUnit][i] == ROCKET )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rocketImage->w/2, 200+_weaponBox->h/2-_rocketImage->h/2, _rocketImage );
         }
     }
     // unit items
@@ -306,6 +345,10 @@ void InventoryState::update(uint32 X)
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_grenadeInvImage->w/2, 200+_itemBox->h/2-_grenadeInvImage->h/2, _grenadeInvImage );
             else if ( _loadout[_selectedUnit][i+2] == MEDKIT )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_medkitInvImage->w/2, 200+_itemBox->h/2-_medkitInvImage->h/2, _medkitInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == RPGL )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rpgInvImage->w/2, 200+_itemBox->h/2-_rpgInvImage->h/2, _rpgInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == ROCKET )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rocketInvImage->w/2, 200+_itemBox->h/2-_rocketInvImage->h/2, _rocketInvImage );
         }
     }
     // weapons
@@ -317,6 +360,9 @@ void InventoryState::update(uint32 X)
         // pistol
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w/2-_pistolImage->w/2, 350+_weaponBox->h/2-_pistolImage->h/2, _pistolImage );
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w+5+_itemBox->w/2-_pistolClipInvImage->w/2, 350+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
+        // rpg
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w/2-_rpgImage->w/2, 350+_weaponBox->h/2-_rpgImage->h/2, _rpgImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w+5+_itemBox->w/2-_rocketInvImage->w/2, 350+_itemBox->h/2-_rocketInvImage->h/2, _rocketInvImage );
     // items
     for ( int i = 0; i < 6; ++i )
         d.draw( 50 + (_weaponBox->w+15)*(i), 475, _weaponBox );

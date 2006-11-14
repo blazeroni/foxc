@@ -11,6 +11,18 @@ ClientPistol::ClientPistol(uint32 entityID) :
    _image = Display::instance().loadImage("resources/images/gui/pistol_gui.png");
    _invImage = Display::instance().loadImage("resources/images/gui/pistol_gui_inv.png");
 }
+ClientRPG::ClientRPG(uint32 entityID) :
+   ClientItem(entityID, spItem(new RPG(0)))
+{
+   _image = Display::instance().loadImage("resources/images/gui/rpg_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/rpg_gui_inv.png");
+}
+ClientRocket::ClientRocket(uint32 entityID) :
+   ClientItem(entityID, spItem(new Rocket(0)))
+{
+   _image = Display::instance().loadImage("resources/images/gui/rocket_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/rocket_gui_inv.png");
+}
 
 ClientPistolClip::ClientPistolClip(uint32 entityID) :
    ClientItem(entityID, spItem(new PistolClip(0)))

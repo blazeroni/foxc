@@ -29,6 +29,8 @@ class EntityFactory
       virtual spItem makeGrenade();
       virtual spItem makeMedKit();
       virtual spItem makePistolClip();
+      virtual spItem makeRPG();
+      virtual spItem makeRocket();
       virtual spItem makeItem( itemtype item );
 
       void resetEntities();

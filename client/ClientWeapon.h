@@ -23,6 +23,16 @@ class ClientRifle : public ClientItem
    public:
       ClientRifle(uint32 entityID);
 };
+class ClientRPG : public ClientItem
+{
+   public:
+      ClientRPG(uint32 entityID);
+};
+class ClientRocket : public ClientItem
+{
+   public:
+      ClientRocket(uint32 entityID);
+};
 
 /*
 class ClientBazooka : public ClientItem

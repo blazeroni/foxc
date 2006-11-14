@@ -42,6 +42,8 @@ spItem ClientEntityFactory::makeRifle()
 {
    return makeItemHelper<ClientRifle>();
 }
+spItem ClientEntityFactory::makeRPG() { return makeItemHelper<ClientRPG>(); }
+spItem ClientEntityFactory::makeRocket() { return makeItemHelper<ClientRocket>(); }
  
 spItem ClientEntityFactory::makeGrenade()
 {

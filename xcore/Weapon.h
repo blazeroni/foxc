@@ -71,11 +71,16 @@ class Rifle : public Weapon
         int use( spMapTile tile );
 };
 
-class Bazooka : public Weapon
+class RPG : public Weapon
 {
     public:
-        Bazooka(uint32 entityID);
+        RPG(uint32 entityID);
         int use( spMapTile tile );
+};
+class Rocket : public Clip
+{
+    public:
+        Rocket(uint32 entityID);
 };
 
 class Grenade : public Weapon

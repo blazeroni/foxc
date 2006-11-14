@@ -7,7 +7,7 @@ namespace xcore
     class Item;
     typedef boost::shared_ptr<Item> spItem;
 
-    enum itemtype { NONE, PISTOL, PISTOLCLIP, GRENADE, MEDKIT, RPGL, ROCKET };
+    enum itemtype { NONE, PISTOL, PISTOLCLIP, GRENADE, MEDKIT, RPGL, ROCKET, STIM, RIFLE, RIFLECLIP };
 }
 
 #include "MapTile.h"

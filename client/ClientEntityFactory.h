@@ -17,8 +17,10 @@ class ClientEntityFactory : public EntityFactory, public Singleton<ClientEntityF
       virtual spDoor makeDoor(WALL_TYPE type, bool open = false);
       virtual spItem makePistol();
       virtual spItem makeRifle();
+      virtual spItem makeRifleClip();
       virtual spItem makeRPG();
       virtual spItem makeRocket();
+      virtual spItem makeStimpack();
       virtual spItem makeGrenade();
       virtual spItem makeMedKit();
       virtual spItem makePistolClip();

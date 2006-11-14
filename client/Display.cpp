@@ -300,3 +300,4 @@ void Display::highlightUsable( spMapTile tile, int radius, int ox, int oy )
         }
     }
 }
+

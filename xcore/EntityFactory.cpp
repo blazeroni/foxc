@@ -62,6 +62,8 @@ spItem EntityFactory::makePistolClip()
 }
 spItem EntityFactory::makeRPG() { return makeItemHelper<RPG>(); }
 spItem EntityFactory::makeRocket() { return makeItemHelper<Rocket>(); }
+spItem EntityFactory::makeStimpack() { return makeItemHelper<Stimpack>(); }
+spItem EntityFactory::makeRifleClip() { return makeItemHelper<RifleClip>(); }
 
 spItem EntityFactory::makeItem( itemtype item )
 {
@@ -87,6 +89,15 @@ spItem EntityFactory::makeItem( itemtype item )
          break;
       case ROCKET:
          i = makeRocket();
+         break;
+      case STIM:
+         i = makeStimpack();
+         break;
+      case RIFLE:
+         i = makeRifle();
+         break;
+      case RIFLECLIP:
+         i = makeRifleClip();
          break;
       case NONE:
       default:

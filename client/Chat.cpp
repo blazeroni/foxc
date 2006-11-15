@@ -48,6 +48,6 @@ void Chat::handleEvent(ChatEvent& e)
         _message[i] = _message[i-1];
         _time[i] = _time[i-1];
     }
-   _message[0] = e.getPlayerName() + "->" + e.getMessage();
+   _message[0] = e.getPlayerName() + ": " + e.getMessage();
    _time[0] = SDL_GetTicks() + 20000;
 }

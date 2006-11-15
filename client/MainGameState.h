@@ -103,7 +103,7 @@ class MainGameState : public GameState, public IEventListener
       spPlayer _localPlayer;
 
       // _players includes _localPlayer to ease cycling through all players;
-      list<spPlayer> _players;
+      map<int, spPlayer> _players;
 
       // waiting to load should really be somewhere before this or represented by the state pattern
       bool _readyToLoad;

@@ -15,8 +15,8 @@ class ClientUnit : public Unit
    friend class Unit;
 
    public:
-      static spClientUnit makeUnit(uint32 entityID, int playerID);
-      static spClientUnit makeUnit(uint32 entityID, int playerID, spMapTile tile);
+      static spClientUnit makeUnit(uint32 entityID, int playerID, int playerNum);
+      static spClientUnit makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum);
       virtual ~ClientUnit();
 
       virtual void move( spMapTile tile );
@@ -31,7 +31,7 @@ class ClientUnit : public Unit
       static SDL_Surface* _image;
 
    protected:
-      ClientUnit(uint32 entityID, int playerID, spMapTile tile);
+      ClientUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum);
 
    private:
       static spUnit _selectedUnit;

@@ -16,6 +16,11 @@ spSprite ClientUnit::_sprite = spSprite();
 
 #define UNIT_SPRITE_ID "unit"
 
+#define PLAYER_1_SPRITES "unit1"
+#define PLAYER_2_SPRITES "unit2"
+#define PLAYER_3_SPRITES "unit3"
+#define PLAYER_4_SPRITES "unit4"
+
 #define UNIT_IMAGE  "resources/images/CharFront.png"
 #define UNIT_IMAGEF "resources/images/CharFront.png"
 #define UNIT_IMAGEL "resources/images/CharLeft.png"
@@ -28,8 +33,8 @@ spSprite ClientUnit::_sprite = spSprite();
 #define UNIT_ACTIVE_IMAGE "resources/images/unit_active.png"
 #define UNIT_SELECTED_IMAGE "resources/images/unit_selected.png"
 
-ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile) :
-   Unit(entityID, playerID, tile)
+ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum) :
+   Unit(entityID, playerID, tile, playerNum)
 {
    static bool mapped = false;
    if (!mapped) 
@@ -41,6 +46,9 @@ ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile) :
       _selectedImage = Display::instance().loadImage(UNIT_SELECTED_IMAGE);
       _activeImage = Display::instance().loadImage(UNIT_ACTIVE_IMAGE);
 
+    if ( playerNum == 1 )
+      _sprite = ResourceManager::instance().getSprite(UNIT_SPRITE_ID);
+    else// if ( playerNum == 2 )
       _sprite = ResourceManager::instance().getSprite(UNIT_SPRITE_ID);
 
       mapped = true;
@@ -51,14 +59,14 @@ ClientUnit::~ClientUnit()
 {
 }
 
-spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID)
+spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, int playerNum)
 {
-   return makeUnit(entityID, playerID, spMapTile());
+   return makeUnit(entityID, playerID, spMapTile(), playerNum);
 }
 
-spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, spMapTile tile)
+spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum)
 {
-   return makeUnitHelper<ClientUnit>(entityID, playerID, tile);
+   return makeUnitHelper<ClientUnit>(entityID, playerID, tile, playerNum);
 }
 
 // this needs to be changed...

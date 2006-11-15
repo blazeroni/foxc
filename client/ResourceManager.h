@@ -16,7 +16,7 @@ class ResourceManager : public Singleton<ResourceManager>
       void unload(string filename);
       void unloadAll();
 
-      spSprite getSprite(string resource);
+      spLightweightSprite getSprite(string resource);
 
    private: 
       ResourceManager();

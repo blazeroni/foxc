@@ -2,6 +2,9 @@
 #include "ClientWeapon.h"
 #include "Display.h"
 #include "xcore/Weapon.h"
+#include "ResourceManager.h"
+
+#define SPRITE_EXPLOSION "explosion"
 
 ClientPistol::ClientPistol(uint32 entityID) :
    ClientItem(entityID, spItem(new Pistol(0)))
@@ -17,12 +20,21 @@ ClientRPG::ClientRPG(uint32 entityID) :
    _image = Display::instance().loadImage("resources/images/gui/rpg_gui.png");
    _invImage = Display::instance().loadImage("resources/images/gui/rpg_gui_inv.png");
 }
+
+int ClientRPG::use( spMapTile tile )
+{
+   ClientItem::use(tile);
+   Sprite::abandon(ResourceManager::instance().getSprite(SPRITE_EXPLOSION), tile->getCenterX() , tile->getCenterY());
+   return 0;
+}
+
 ClientRocket::ClientRocket(uint32 entityID) :
    ClientItem(entityID, spItem(new Rocket(0)))
 {
    _image = Display::instance().loadImage("resources/images/gui/rocket_gui.png");
    _invImage = Display::instance().loadImage("resources/images/gui/rocket_gui_inv.png");
 }
+
 ClientStimpack::ClientStimpack(uint32 entityID) :
    ClientItem(entityID, spItem(new Stimpack(0)))
 {
@@ -61,6 +73,14 @@ ClientGrenade::ClientGrenade(uint32 entityID) :
    _image = Display::instance().loadImage("resources/images/gui/grenade_gui.png");
    _invImage = Display::instance().loadImage("resources/images/gui/grenade_gui_inv.png");
 }
+
+int ClientGrenade::use( spMapTile tile )
+{
+   ClientItem::use(tile);
+   Sprite::abandon(ResourceManager::instance().getSprite(SPRITE_EXPLOSION), tile->getCenterX(), tile->getCenterY());
+   return 0;
+}
+
 
 ClientMedKit::ClientMedKit(uint32 entityID) :
    ClientItem(entityID, spItem(new MedKit(0)))

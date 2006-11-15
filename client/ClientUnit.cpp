@@ -12,11 +12,11 @@ SDL_Surface* ClientUnit::_pathEndImage = NULL;
 SDL_Surface* ClientUnit::_selectedImage = NULL;
 SDL_Surface* ClientUnit::_activeImage = NULL;
 
-spSprite ClientUnit::_player1 = spSprite();
-spSprite ClientUnit::_player2 = spSprite();
+spLightweightSprite ClientUnit::_player1 = spLightweightSprite();
+spLightweightSprite ClientUnit::_player2 = spLightweightSprite();
 
-spSprite ClientUnit::_player1GUI = spSprite();
-spSprite ClientUnit::_player2GUI = spSprite();
+spLightweightSprite ClientUnit::_player1GUI = spLightweightSprite();
+spLightweightSprite ClientUnit::_player2GUI = spLightweightSprite();
 
 #define UNIT_SPRITE_ID "unit"
 

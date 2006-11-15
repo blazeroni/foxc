@@ -2,6 +2,9 @@
 #include "Sprite.h"
 #include "Display.h"
 
+list<spLightweightSprite> Sprite::_orphans;
+map<spLightweightSprite, Point> Sprite::_orphanMap;
+
 Sprite::Sprite(string id) :
    Resource(id),
    _image(NULL)
@@ -38,20 +41,70 @@ void Sprite::load(ticpp::Element* xml)
 
       _animations[id] = anim;
 
-      if (id == defaultAnimation)
-      {
-         _current = anim;
-         _current->start();
-      }
+      //if (id == defaultAnimation)
+      //{
+      //   _current = anim;
+      //   _current->start();
+      //}
    }
 }
 
-void Sprite::draw(int x, int y)
+void Sprite::draw(spLightweightAnimation anim, int x, int y)
 {
-   _current->draw(_image, x, y);
+   anim->draw(_image, x, y);
 }
 
-void Sprite::playAnimation(string id)
+//void Sprite::playAnimation(string id)
+//{
+//   _animations[id]->start();
+//}
+
+void Sprite::drawOrphans(Point offset)
 {
-   _animations[id]->start();
+   list<spLightweightSprite>::iterator iter;
+   list<spLightweightSprite> remove;
+   for (iter = _orphans.begin(); iter != _orphans.end(); ++iter)
+   {
+      Point loc = _orphanMap[(*iter)];
+      (*iter)->draw(loc.x - offset.x, loc.y - offset.y);
+      if ((*iter)->isDone())
+      {
+         remove.push_back(*iter);
+      }
+   }
+
+   for (iter = remove.begin(); iter != remove.end(); ++iter)
+   {
+      _orphans.remove(*iter);
+      _orphanMap.erase(*iter);
+   }
+}
+
+void Sprite::abandon(spLightweightSprite sprite, int x, int y)
+{
+   _orphans.push_back(sprite);
+   _orphanMap[sprite] = Point(x,y);
+}
+
+LightweightSprite::LightweightSprite(spSprite sprite) :
+   _heavy(sprite)
+{
+   _current = spLightweightAnimation(new LightweightAnimation(_heavy->_animations[sprite->defaultAnimation]));
+   _current->start();
+}
+
+void LightweightSprite::draw(int x, int y)
+{
+   _heavy->draw(_current, x, y);
+}
+
+void LightweightSprite::playAnimation(string id)
+{
+   _current = spLightweightAnimation(new LightweightAnimation(_heavy->_animations[id]));
+   _current->start();
+}
+
+bool LightweightSprite::isDone()
+{
+   return _current->isDone();
 }

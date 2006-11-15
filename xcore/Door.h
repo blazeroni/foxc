@@ -32,6 +32,7 @@ class Door : public MapObject
       bool isPassable() const;
       //bool isPassable(const Direction& dir) const;
       void destroy();
+      bool isDestroyed() const;
 
       void draw(Point position, Point dimensions) const;
 

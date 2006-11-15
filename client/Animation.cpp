@@ -95,41 +95,42 @@ void Animation::load(ticpp::Element* element, int offsetX, int offsetY)
 }
 
 
-void Animation::draw(SDL_Surface* image, int x, int y)
+void Animation::draw(SDL_Surface* image, spAnimationFrame frame, int x, int y)
 {
-   _current->update(this);
-   _current->draw(image, x, y);
-}
-
-void Animation::start()
-{
-   _current = _first;
-   _current->_start = 0;
+   frame->draw(image, x, y);
 }
 
 Animation::AnimationFrame::AnimationFrame(uint32 id, SDL_Rect clip, uint32 duration, int adjustX, int adjustY) :
    _id(id),
    _clip(clip),
-   _start(0),
    _duration(duration),
    _adjustX(adjustX),
    _adjustY(adjustY)
 {
 }
 
-void Animation::AnimationFrame::update(Animation* animation)
+void Animation::AnimationFrame::getCurrentFrame(spAnimationFrame& current, uint32& start)
 {
    uint32 ticks = SDL_GetTicks();
    
-   if (_start == 0)
+   if (start == 0)
    {
-      _start = ticks;
+      start = ticks;
    }
-   else if (ticks - _start > _duration)
+   else if (ticks - start > _duration)
    {
-      spAnimationFrame nf = spAnimationFrame(_next);
-      nf->_start = ticks;
-      animation->_current = nf;
+      if (!_next.expired())
+      {
+         spAnimationFrame nf = spAnimationFrame(_next);
+         start = ticks;
+         //return nf;
+         current = nf;
+      } 
+      else 
+      {
+         current = spAnimationFrame();
+         //animation->_done = true;
+      }
    }
 }
 
@@ -141,4 +142,38 @@ void Animation::AnimationFrame::draw(SDL_Surface* image, int x, int y)
 void Animation::AnimationFrame::setNext(wpAnimationFrame next)
 {
    _next = next;
+}
+
+
+LightweightAnimation::LightweightAnimation(spAnimation animation) :
+   _heavy(animation),
+   _start(0),
+   _done(false)
+{
+   _current = _heavy->_first;
+}
+
+void LightweightAnimation::draw(SDL_Surface* image, int x, int y)
+{
+   _current->getCurrentFrame(_current, _start);
+   if (_current.get())
+   {
+      _heavy->draw(image, _current, x, y);
+   }
+   else
+   {
+      _done = true;
+   }
+}
+
+void LightweightAnimation::start()
+{
+   _current = _heavy->_first;
+   _current->_start = 0;
+}
+
+
+bool LightweightAnimation::isDone()
+{
+   return _done;
 }

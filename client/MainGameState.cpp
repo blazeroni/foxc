@@ -118,6 +118,8 @@ void MainGameState::update(uint32 deltaTime)
       spUnit u = getActiveUnit();
       u->drawMovePath(offset);
 
+      Sprite::drawOrphans(offset);
+
       ostringstream stream;
       Point p = Input::instance().getMousePosition();
       stream << "Mouse Position: " << p.x << ", " << p.y;
@@ -464,6 +466,7 @@ void MainGameState::handleEvent(UnitFireEvent& e)
    }
 
    updateCanUseObject();
+   updateFog();
 }
 
 void MainGameState::handleEvent(UnitInvSwapEvent& e)

@@ -56,7 +56,8 @@ void ResourceManager::createResource(ticpp::Element* element)
    }
 }
 
-spSprite ResourceManager::getSprite(string id)
+spLightweightSprite ResourceManager::getSprite(string id)
 {
-   return _sprites[id];
+   spLightweightSprite lite = spLightweightSprite(new LightweightSprite(_sprites[id]));
+   return lite;
 }

@@ -47,9 +47,9 @@ ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile, int player
       _activeImage = Display::instance().loadImage(UNIT_ACTIVE_IMAGE);
 
     if ( playerNum == 1 )
-      _sprite = ResourceManager::instance().getSprite(UNIT_SPRITE_ID);
-    else// if ( playerNum == 2 )
-      _sprite = ResourceManager::instance().getSprite(UNIT_SPRITE_ID);
+      _sprite = ResourceManager::instance().getSprite(PLAYER_1_SPRITES);
+    else if ( playerNum == 2 )
+      _sprite = ResourceManager::instance().getSprite(PLAYER_2_SPRITES);
 
       mapped = true;
    }

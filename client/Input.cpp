@@ -312,7 +312,6 @@ bool Input::GUIInput( SDL_Event& event )
         {
            cout << "clicked" << endl;
            mgs->useObject();
-           mgs->updateFog();
            return true;
         }
     }

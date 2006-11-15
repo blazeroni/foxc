@@ -324,6 +324,7 @@ void XServer::handleEvent(GameJoinEvent& e)
          bool joined = iter->second->join(_clients[e.getSource()]);
 
          _lobbyClients.erase(e.getSource());
+         sendToLobby(PlayerLeaveEvent(_clients[e.getSource()]->getPlayerName(), e.getSource()));
 
          response.setJoined(joined);
          response.setMaxPoints(iter->second->getMaxPoints());
@@ -359,7 +360,7 @@ void XServer::handleEvent(GameJoinEvent& e)
 
 void XServer::handleEvent(GameHostEvent& e)
 {
-   spServerGame sg = spServerGame(new ServerGame(e.getSource(), e.getGameName(), 
+   spServerGame sg = spServerGame(new ServerGame(e.getSource(), e.getGameName(), _nameFileMap[e.getMapName()],
       _nameClientFileMap[e.getMapName()], _nameInfoMap[e.getMapName()].maxPlayers, _nameInfoMap[e.getMapName()].points));
 
    sg->init();
@@ -369,6 +370,7 @@ void XServer::handleEvent(GameHostEvent& e)
    GameJoinEvent response = GameJoinEvent(e.getGameName(), sg->getMaxPoints(), _clients[e.getSource()]->getPlayerNumber());
 
    _lobbyClients.erase(e.getSource());
+   sendToLobby(PlayerLeaveEvent(_clients[e.getSource()]->getPlayerName(), e.getSource()));
    
    response.setJoined(true);
    _clients[e.getSource()]->send(response);
@@ -381,8 +383,7 @@ void XServer::handleEvent(GameHostEvent& e)
 
 void XServer::handleEvent(UnitCreateEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -390,8 +391,7 @@ void XServer::handleEvent(UnitCreateEvent& e)
 
 void XServer::handleEvent(UnitMoveEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -400,15 +400,25 @@ void XServer::handleEvent(UnitMoveEvent& e)
 void XServer::handleEvent(GameOverEvent& e)
 {
    cout << "Game Over" << endl;
-   _clients.clear();
-   //_games.erase(e.getGameID());
-   _games.clear();
+
+   //_clients.clear();
+   map<uint32, spClient> clients = _games[e.getGameID()]->getClients();
+   map<uint32, spClient>::iterator iter;
+   for (iter = _clients.begin(); iter != _clients.end(); ++iter)
+   {
+      if (iter->second->getGameID() == e.getGameID())
+      {
+         _clients.erase(iter->second->getPlayerID());
+      }
+   }
+
+   _games.erase(e.getGameID());
+   //_games.clear();
 }
 
 void XServer::handleEvent(UnitActiveEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -416,8 +426,7 @@ void XServer::handleEvent(UnitActiveEvent& e)
 
 void XServer::handleEvent(UnitWaitEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -425,8 +434,7 @@ void XServer::handleEvent(UnitWaitEvent& e)
 
 void XServer::handleEvent(UnitFireEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -434,8 +442,7 @@ void XServer::handleEvent(UnitFireEvent& e)
 
 void XServer::handleEvent(UseMapObjectEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -443,8 +450,7 @@ void XServer::handleEvent(UseMapObjectEvent& e)
 
 void XServer::handleEvent(UnitInvSwapEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
@@ -460,9 +466,15 @@ void XServer::handleEvent(MapListEvent& e)
 
 void XServer::handleEvent(StartGameEvent& e)
 {
-   if (_clients.find(e.getSource()) != _clients.end() &&
-       _games.find(_clients[e.getSource()]->getGameID()) != _games.end())
+   if (isInGame(e.getSource()))
    {
       _games[_clients[e.getSource()]->getGameID()]->handleEvent(e);
    }
+}
+
+
+bool XServer::isInGame(uint32 id)
+{
+   return (_clients.find(id) != _clients.end() &&
+           _games.find(_clients[id]->getGameID()) != _games.end());
 }

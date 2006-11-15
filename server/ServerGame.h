@@ -13,7 +13,7 @@ typedef boost::shared_ptr<ServerGame> spServerGame;
 class ServerGame : public Game
 {
    public:
-      ServerGame(uint32 gameID, string gameName, string mapFile, uint16 players, uint32 points);
+      ServerGame(uint32 gameID, string gameName, string mapFile, string clientMapFile, uint16 players, uint32 points);
       virtual ~ServerGame();
 
       virtual void init();
@@ -24,6 +24,8 @@ class ServerGame : public Game
 
       bool join(spClient client);
       void leave(spClient client);
+
+      map<uint32, spClient> getClients();
 
       // sends to all clients
       template <class T>
@@ -75,6 +77,7 @@ class ServerGame : public Game
       uint32 _maxPoints;
 
       string _mapFile;
+      string _clientMapFile;
 
       map<uint32, spClient> _clients;
 

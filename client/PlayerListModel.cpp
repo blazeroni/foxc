@@ -32,6 +32,7 @@ void PlayerListModel::removePlayer(string name)
    _players.erase(find(_players.begin(), _players.end(), name));
    //_players.erase(_players.find(name));
    _playerIDs.erase(name);
+   sort(_players.begin(), _players.end());
 }
 
 //string PlayerListModel::getPlayerByID(uint32 id)

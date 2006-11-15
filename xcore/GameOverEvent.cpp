@@ -6,7 +6,7 @@ BOOST_CLASS_EXPORT_GUID(xcore::GameOverEvent, "GAME_OVER_EVENT")
 namespace xcore
 {
 
-GameOverEvent::GameOverEvent(uint32 winner, uint32 gameID) :
+GameOverEvent::GameOverEvent(uint32 gameID, uint32 winner) :
    Event(GAME_OVER),
    _winner(winner),
    _gameID(gameID)

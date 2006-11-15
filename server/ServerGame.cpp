@@ -10,10 +10,11 @@
 #include "xcore/UnitInvSwapEvent.h"
 #include "xcore/UseMapObjectEvent.h"
 
-ServerGame::ServerGame(uint32 gameID, string gameName, string mapFile, uint16 players, uint32 points) :
+ServerGame::ServerGame(uint32 gameID, string gameName, string mapFile, string clientMapFile, uint16 players, uint32 points) :
    _gameID(gameID),
    _gameName(gameName),
    _mapFile(mapFile),
+   _clientMapFile(mapFile),
    _maxPlayers(players),
    _maxPoints(points)
 {
@@ -72,6 +73,11 @@ void ServerGame::setMaxPoints(uint32 points)
    _maxPoints = points;
 }
 
+map<uint32, spClient> ServerGame::getClients()
+{
+   return _clients;
+}
+
 bool ServerGame::join(spClient client)
 {
    if (_maxPlayers == getNumberOfPlayers())
@@ -120,7 +126,7 @@ void ServerGame::tryStart()
          sendToOthers(PlayerJoinEvent(c->getPlayerName(), c->getPlayerID(), c->getPlayerNumber()), c);
       }
 
-      send(MapLoadEvent(_map->getName(), _map->getFileName()));
+      send(MapLoadEvent(_map->getName(), _clientMapFile));
       
       map<uint32, spUnit>::iterator iter;
       for (iter = _units.begin(); iter != _units.end(); ++iter)

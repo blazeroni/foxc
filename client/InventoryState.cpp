@@ -223,7 +223,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                 }
             }
                 // rifle
-            if ( click.x > 50 + 1*(_weaponBox->w+15) && click.x < 50 + 1*(_weaponBox->w+15) + _weaponBox->w &&
+            if ( click.x > 50 + 1*(_weaponBox->w+15+_itemBox->w) && click.x < 50 + 1*(_weaponBox->w+15+_itemBox->w) + _weaponBox->w &&
             click.y > 350 && click.y < 350 + _weaponBox->h )
             {
                 if ( pointsLeft >= cost(RIFLE) )

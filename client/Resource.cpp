@@ -14,3 +14,4 @@ string Resource::getID()
 {
    return _id;
 }
+

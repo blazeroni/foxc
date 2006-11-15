@@ -603,7 +603,7 @@ void Unit::use( spMapTile tile, int wHand )
     }
     if ( _hand[wHand]->getType() == PISTOLCLIP ) 
     {
-        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == PISTOL )
+        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == PISTOL && !_hand[(wHand+1)%2]->hasAmmo() )
         {
             (_hand[(wHand+1)%2])->reload();
             _actionPoints -= _hand[wHand]->getTurnCost();
@@ -614,7 +614,7 @@ void Unit::use( spMapTile tile, int wHand )
     }
     if ( _hand[wHand]->getType() == RIFLECLIP ) 
     {
-        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == RIFLE )
+        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == RIFLE && !_hand[(wHand+1)%2]->hasAmmo() )
         {
             (_hand[(wHand+1)%2])->reload();
             _actionPoints -= _hand[wHand]->getTurnCost();
@@ -625,7 +625,7 @@ void Unit::use( spMapTile tile, int wHand )
     }
     if ( _hand[wHand]->getType() == ROCKET ) 
     {
-        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == RPGL )
+        if ( _hand[(wHand+1)%2].get() && _hand[(wHand+1)%2]->getType() == RPGL && !_hand[(wHand+1)%2]->hasAmmo())
         {
             (_hand[(wHand+1)%2])->reload();
             _actionPoints -= _hand[wHand]->getTurnCost();

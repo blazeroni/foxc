@@ -61,3 +61,4 @@ spLightweightSprite ResourceManager::getSprite(string id)
    spLightweightSprite lite = spLightweightSprite(new LightweightSprite(_sprites[id]));
    return lite;
 }
+

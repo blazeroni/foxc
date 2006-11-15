@@ -37,6 +37,8 @@
 #define STIM_IMG "resources/images/gui/stim_gui.png"
 #define STIM_INV_IMG "resources/images/gui/stim_gui_inv.png"
 #define READY_IMG "resources/images/gui/ready.png"
+#define MELEE_IMG "resources/images/gui/knife_gui.png"
+#define MELEE_INV_IMG "resources/images/gui/knife_inv_gui.png"
 
 InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
   GameState(app),
@@ -56,6 +58,8 @@ InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
 #define COST_RIFLE 50
 #define COST_RIFLECLIP 15
 #define COST_STIM 30
+#define COST_MELEE 10
+
 #define pointsLeft (_pointsMax - _pointsSpent)
 
 bool InventoryState::load_files()
@@ -88,6 +92,8 @@ bool InventoryState::load_files()
     _stimImage = Display::instance().loadImage(STIM_IMG);
     _stimInvImage = Display::instance().loadImage(STIM_INV_IMG);
     _readyImage = Display::instance().loadImage(READY_IMG);
+    _meleeImage = Display::instance().loadImage(MELEE_IMG);
+    _meleeInvImage = Display::instance().loadImage(MELEE_INV_IMG);
     return true;
 }
 
@@ -145,6 +151,8 @@ int cost( itemtype item )
         return COST_RIFLE;
     if ( item == RIFLECLIP )
         return COST_RIFLECLIP;
+    if ( item == MELEE )
+        return COST_MELEE;
 
     return 0;
 }
@@ -256,6 +264,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                     _pointsSpent += cost( ROCKET );
                 }
             }
+
             // items
             else if ( click.x > 50 + 0*(_weaponBox->w+15) && click.x < 50 + 0*(_weaponBox->w+15)+_weaponBox->w &&
             click.y > 475 && click.y < 475 + _weaponBox->h )
@@ -285,6 +294,16 @@ void InventoryState::processSDLEvent(SDL_Event& event)
                     _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = STIM;
                     _pointsSpent += cost( STIM );
+                }
+            }
+            else if ( click.x > 50 + 3*(_weaponBox->w+15) && click.x < 50 + 3*(_weaponBox->w+15)+_weaponBox->w &&
+            click.y > 475 && click.y < 475 + _weaponBox->h )
+            {
+                if ( pointsLeft >= cost(MELEE) )
+                {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
+                    _loadout[_selectedUnit][_selectedInv] = MELEE;
+                    _pointsSpent += cost( MELEE );
                 }
             }
         }
@@ -390,6 +409,8 @@ void InventoryState::update(uint32 X)
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rifleImage->w/2, 200+_weaponBox->h/2-_rifleImage->h/2, _rifleImage );
             else if ( _loadout[_selectedUnit][i] == RIFLECLIP )
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rifleClipImage->w/2, 200+_weaponBox->h/2-_rifleClipImage->h/2, _rifleClipImage );
+            else if ( _loadout[_selectedUnit][i] == MELEE )
+                d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_meleeImage->w/2, 200+_weaponBox->h/2-_meleeImage->h/2, _meleeImage );
         }
     }
     // unit items
@@ -419,6 +440,8 @@ void InventoryState::update(uint32 X)
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleInvImage->w/2, 200+_itemBox->h/2-_rifleInvImage->h/2, _rifleInvImage );
             else if ( _loadout[_selectedUnit][i+2] == RIFLECLIP )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleClipInvImage->w/2, 200+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
+            else if ( _loadout[_selectedUnit][i+2] == MELEE )
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_meleeInvImage->w/2, 200+_itemBox->h/2-_meleeInvImage->h/2, _meleeInvImage );
         }
     }
     // weapons
@@ -445,6 +468,8 @@ void InventoryState::update(uint32 X)
     d.draw( 50 + (_weaponBox->w+15)*(1)+_weaponBox->w/2-_medkitImage->w/2, 475+_weaponBox->h/2-_medkitImage->h/2, _medkitImage );
         // stimpack
     d.draw( 50 + (_weaponBox->w+15)*(2)+_weaponBox->w/2-_stimImage->w/2, 475+_weaponBox->h/2-_stimImage->h/2, _stimImage );
+    // melee
+    d.draw( 50 + (_weaponBox->w+15)*(3)+_weaponBox->w/2-_meleeImage->w/2, 475+_weaponBox->h/2-_meleeImage->h/2, _meleeImage );
     // ready button
     d.draw( 650, 200, _readyImage );
 

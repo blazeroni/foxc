@@ -181,6 +181,19 @@ MedKit::MedKit(uint32 entityID) : Weapon(entityID)
     _type = MEDKIT;
 }
 
+Melee::Melee(uint32 entityID) : Weapon(entityID)
+{
+   _name = "Knife";
+   _baseDamage = 25;
+   _damageRange = 25;
+   _effectiveRange = 1;
+   _baseAccuracy = 75;
+   _clipSize = -1;
+   _turnCost = 10;
+   _ammo = _clipSize;
+   _type = MELEE;
+}
+
 // should be changed to only heal units once other objects can take damage
 int MedKit::use( spMapTile tile ) { Weapon::use( tile ); return 0; }
 

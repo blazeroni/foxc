@@ -33,6 +33,7 @@ class EntityFactory
       virtual spItem makeRPG();
       virtual spItem makeRocket();
       virtual spItem makeStimpack();
+      virtual spItem makeMelee();
       virtual spItem makeItem( itemtype item );
 
       void resetEntities();

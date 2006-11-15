@@ -402,13 +402,16 @@ void XServer::handleEvent(GameOverEvent& e)
    cout << "Game Over" << endl;
 
    //_clients.clear();
-   map<uint32, spClient> clients = _games[e.getGameID()]->getClients();
-   map<uint32, spClient>::iterator iter;
-   for (iter = _clients.begin(); iter != _clients.end(); ++iter)
+   if (_games[e.getGameID()].get())
    {
-      if (iter->second->getGameID() == e.getGameID())
+      map<uint32, spClient> clients = _games[e.getGameID()]->getClients();
+      map<uint32, spClient>::iterator iter;
+      for (iter = clients.begin(); iter != clients.end(); ++iter)
       {
-         _clients.erase(iter->second->getPlayerID());
+         if (iter->second->getGameID() == e.getGameID())
+         {
+            _clients.erase(iter->second->getPlayerID());
+         }
       }
    }
 

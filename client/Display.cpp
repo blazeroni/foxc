@@ -284,7 +284,7 @@ void Display::drawGUI(bool showUseButton)
             invItem = activeUnit->getInv(i);
             if ( invItem.get() )
             {
-                draw( _screenWidth - _guiHands->w - 10 - 17 - 65*i - invItem->getInvImage()->w/2, _screenHeight - 37 - invItem->getInvImage()->h/2, invItem->getInvImage() );
+                draw( _screenWidth - _guiHands->w - 10 - 22 - 60*i - invItem->getInvImage()->w/2, _screenHeight - 37 - invItem->getInvImage()->h/2, invItem->getInvImage() );
             }
         }
     }

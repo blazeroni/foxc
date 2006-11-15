@@ -35,7 +35,7 @@ class Display : public Singleton<Display>
       void drawGUI(bool showUseButton);
       SDL_Surface *_crosshair;
       /// highlights the usable radius for an item
-      void highlightUsable( spMapTile tile, int radius, int offsetx, int offsety );
+      void highlightUsable( spMapTile tile, int radius, int offsetx, int offsety, bool ignorelos = false );
 
    private:
       Display();

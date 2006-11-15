@@ -107,7 +107,7 @@ void MainGameState::update(uint32 deltaTime)
 	  if ( Input::instance().getMode() == USE && _activeUnit->getHand(Input::instance().getHand()).get() )
      {
         Display::instance().highlightUsable( _map->getTile(_activeUnit->getX(),_activeUnit->getY()),
-           _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y ); 
+           _activeUnit->getHand(Input::instance().getHand())->getRange(), offset.x, offset.y, _activeUnit->getHand(Input::instance().getHand())->getType() == GRENADE ); 
      }
 
       if (_displayMouseOverHighlight)

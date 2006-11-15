@@ -1,22 +1,5 @@
 <resources>
-  <sprite id="grass" 
-          filename="images/tile_grass.png"/>
-  <sprite id="water" 
-          filename="images/tile_water.png"/>
-  <sprite id="highlight" 
-          filename="images/tile_highlight.png"/>
-  <sprite id="moveable" 
-          filename="images/tile_moveable.png"/>
-  <sprite id="mousemap" 
-          filename="images/tile_mousemap.png"/>
-  <sprite id="unit" 
-          filename="images/unit.png"/>
-  <sprite id="active" 
-          filename="images/unit_active.png"/>
-  <sprite id="path" 
-          filename="images/unit_path.png"/>
-  <sprite id="path_end" 
-          filename="images/unit_path_end.png"/>
-  <sprite id="path_selected" 
-          filename="images/unit_selected.png"/>
+  <sprite id="unit" filename="unit_animations.png" default="move_south" frameOffsetX=0 frameOffsetY=432>
+     <animation id="move_south" width=64 height=64 startX=0 startY=0 count=4 adjustX=5 adjustY=-20 loop="true" loopType="reverse" duration="100"/>
+  </sprite>
 </resources>

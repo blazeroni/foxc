@@ -3,21 +3,21 @@
 
 #include "includes.h"
 
+class Resource;
+typedef boost::shared_ptr<Resource> spResource;
+
 class Resource
 {
    public:
-      Resource();
+      Resource(string id);
       virtual ~Resource();
 
-      virtual void load(ticpp::Element* xml);
+      virtual void load(ticpp::Element* xml) = 0;
 
-      void incRef();
-      void decRef();
-
-      int getRefCount();
+      string getID();
 
    private:
-      int ref;
+      string _id;
 };
 
 #endif

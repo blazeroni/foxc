@@ -4,6 +4,7 @@
 #include "includes.h"
 #include "xcore/Singleton.h"
 #include "Resource.h"
+#include "Sprite.h"
 
 class ResourceManager : public Singleton<ResourceManager>
 {
@@ -15,14 +16,13 @@ class ResourceManager : public Singleton<ResourceManager>
       void unload(string filename);
       void unloadAll();
 
-      template <class T>
-      T* get(string resource);
+      spSprite getSprite(string resource);
 
    private: 
       ResourceManager();
-      Resource* createResource(ticpp::Element* element);
+      void createResource(ticpp::Element* element);
 
-
+      map<string, spSprite> _sprites;
 };
 
 #endif

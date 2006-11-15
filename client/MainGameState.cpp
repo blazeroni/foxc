@@ -242,7 +242,11 @@ void MainGameState::processSDLEvent(SDL_Event& event)
       {
          if (u == ClientUnit::getSelectedUnit())
          {
-            u->computeMovePath(_map->getMouseOverTile());
+            spMapTile mot = _map->getMouseOverTile();
+            if (!getFog(mot->getX(), mot->getY()))
+            {
+               u->computeMovePath(_map->getMouseOverTile());
+            }
          }
       }
    }

@@ -52,16 +52,27 @@ InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
 }
 
 #define COST_UNIT 50
+#define COST_UNIT_S "50"
 #define COST_PISTOL 30
+#define COST_PISTOL_S "30"
 #define COST_PISTOLCLIP 10
+#define COST_PISTOLCLIP_S "10"
 #define COST_GRENADE 30
+#define COST_GRENADE_S "30"
 #define COST_MEDKIT 30
+#define COST_MEDKIT_S "30"
 #define COST_RPGL 70
+#define COST_RPGL_S "70"
 #define COST_ROCKET 30
+#define COST_ROCKET_S "30"
 #define COST_RIFLE 50
+#define COST_RIFLE_S "50"
 #define COST_RIFLECLIP 15
+#define COST_RIFLECLIP_S "15"
 #define COST_STIM 30
+#define COST_STIM_S "30"
 #define COST_MELEE 10
+#define COST_MELEE_S "10"
 
 #define pointsLeft (_pointsMax - _pointsSpent)
 
@@ -401,11 +412,25 @@ void InventoryState::update(uint32 X)
     {
         d.draw( 30 + (_unitBox->w+15)*(i), 50, _unitBox );
         if ( _unit[i] >= 0 )
+        {
             d.draw( 30 + (_unitBox->w+15)*(i)+_unitBox->w/2-_unitImage->w/2, 50+_unitBox->h/2-_unitImage->h/2, _unitImage );
+            int costs = _unit[i];
+            for ( int j = 0; j < 7; ++j )
+                costs += cost(_loadout[i][j]);
+            stringstream ss;
+            ss << costs;
+            string refund = "";
+            ss >> refund;
+            d.draw( 30 + (_unitBox->w+15)*(i)+10, 60, refund );
+        }
+        else
+            d.draw( 30 + (_unitBox->w+15)*(i)+_unitBox->w/2+15, 105, COST_UNIT_S);
     }
     d.draw( 6, 50 + _unitBox->h + 5, _labelUnits );
     if ( _selectedUnit >= 0 )
+    {
         d.draw( 30 + _selectedUnit*(_unitBox->w+15), 50, _unitBoxHL );
+    }
     // unit weapons
     d.draw( 10, 170, _labelInv );
     d.draw( 50, 200, _weaponBox );
@@ -436,6 +461,12 @@ void InventoryState::update(uint32 X)
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_rifleClipImage->w/2, 200+_weaponBox->h/2-_rifleClipImage->h/2, _rifleClipImage );
             else if ( _loadout[_selectedUnit][i] == MELEE )
                 d.draw( 50 + i*(_weaponBox->w+15)+_weaponBox->w/2-_meleeImage->w/2, 200+_weaponBox->h/2-_meleeImage->h/2, _meleeImage );
+
+            stringstream ss;
+            string points = "";
+            ss << cost(_loadout[_selectedUnit][i]);
+            ss >> points;
+            d.draw( 50 + i*(_weaponBox->w+15)+10, 215, points );
         }
     }
     // unit items
@@ -467,6 +498,12 @@ void InventoryState::update(uint32 X)
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleClipInvImage->w/2, 200+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
             else if ( _loadout[_selectedUnit][i+2] == MELEE )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_meleeInvImage->w/2, 200+_itemBox->h/2-_meleeInvImage->h/2, _meleeInvImage );
+
+            stringstream ss;
+            string points = "";
+            ss << cost(_loadout[_selectedUnit][i+2]);
+            ss >> points;
+            d.draw( 300 + i*(_itemBox->w+15)+3, 203, points );
         }
     }
     // unit name
@@ -480,24 +517,34 @@ void InventoryState::update(uint32 X)
     }
         // pistol
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w/2-_pistolImage->w/2, 350+_weaponBox->h/2-_pistolImage->h/2, _pistolImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w/2+25, 350+_weaponBox->h/2+25, COST_PISTOL_S );
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w+5+_itemBox->w/2-_pistolClipInvImage->w/2, 350+_itemBox->h/2-_pistolClipInvImage->h/2, _pistolClipInvImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(0)+_weaponBox->w+5+_itemBox->w/2+10, 350+_itemBox->h/2+10, COST_PISTOLCLIP_S );
         // rifle
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(1)+_weaponBox->w/2-_rifleImage->w/2, 350+_weaponBox->h/2-_rifleImage->h/2, _rifleImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(1)+_weaponBox->w/2+25, 350+_weaponBox->h/2+25, COST_RIFLE_S );
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(1)+_weaponBox->w+5+_itemBox->w/2-_rifleClipInvImage->w/2, 350+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(1)+_weaponBox->w+5+_itemBox->w/2+10, 350+_itemBox->h/2+10, COST_RIFLECLIP_S );
         // rpg
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w/2-_rpgImage->w/2, 350+_weaponBox->h/2-_rpgImage->h/2, _rpgImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w/2+25, 350+_weaponBox->h/2+25, COST_RPGL_S );
     d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w+5+_itemBox->w/2-_rocketInvImage->w/2, 350+_itemBox->h/2-_rocketInvImage->h/2, _rocketInvImage );
+    d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(2)+_weaponBox->w+5+_itemBox->w/2+10, 350+_itemBox->h/2+10, COST_ROCKET_S );
     // items
     for ( int i = 0; i < 6; ++i )
         d.draw( 50 + (_weaponBox->w+15)*(i), 475, _weaponBox );
 	// grenade
     d.draw( 50 + (_weaponBox->w)*(0)+_weaponBox->w/2-_grenadeImage->w/2, 475+_weaponBox->h/2-_grenadeImage->h/2, _grenadeImage );
+    d.draw( 50 + (_weaponBox->w+15)*(0)+_weaponBox->w/2+25, 475+_weaponBox->h/2+25, COST_GRENADE_S);
         // medkit
     d.draw( 50 + (_weaponBox->w+15)*(1)+_weaponBox->w/2-_medkitImage->w/2, 475+_weaponBox->h/2-_medkitImage->h/2, _medkitImage );
+    d.draw( 50 + (_weaponBox->w+15)*(1)+_weaponBox->w/2+25, 475+_weaponBox->h/2+25, COST_MEDKIT_S);
         // stimpack
     d.draw( 50 + (_weaponBox->w+15)*(2)+_weaponBox->w/2-_stimImage->w/2, 475+_weaponBox->h/2-_stimImage->h/2, _stimImage );
+    d.draw( 50 + (_weaponBox->w+15)*(2)+_weaponBox->w/2+25, 475+_weaponBox->h/2+25, COST_STIM_S);
     // melee
     d.draw( 50 + (_weaponBox->w+15)*(3)+_weaponBox->w/2-_meleeImage->w/2, 475+_weaponBox->h/2-_meleeImage->h/2, _meleeImage );
+    d.draw( 50 + (_weaponBox->w+15)*(3)+_weaponBox->w/2+25, 475+_weaponBox->h/2+25, COST_MELEE_S);
     // ready button
     d.draw( 650, 200, _readyImage );
 

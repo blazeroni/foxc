@@ -93,6 +93,12 @@ LightweightSprite::LightweightSprite(spSprite sprite) :
    _current->start();
 }
 
+LightweightSprite::LightweightSprite(spLightweightSprite ls) :
+   _heavy(ls->_heavy)
+{
+   _current = spLightweightAnimation(new LightweightAnimation(ls->_current));
+}
+
 void LightweightSprite::draw(int x, int y)
 {
    _heavy->draw(_current, x, y);

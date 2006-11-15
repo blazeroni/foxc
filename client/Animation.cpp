@@ -3,7 +3,8 @@
 #include "Display.h"
 
 Animation::Animation(string id) :
-   _id(id)
+   _id(id),
+   _randomStart(false)
 {
 }
 
@@ -58,6 +59,14 @@ void Animation::load(ticpp::Element* element, int offsetX, int offsetY)
    else
    {
       _loopType = LT_NONE;
+   }
+
+   string start = "";
+   element->GetAttributeOrDefault("start", &start, "");
+
+   if (start == "random")
+   {
+      _randomStart = true;
    }
 
    uint16 maxID = count - 1;
@@ -152,6 +161,14 @@ LightweightAnimation::LightweightAnimation(spAnimation animation) :
 {
    _current = _heavy->_first;
 }
+   
+LightweightAnimation::LightweightAnimation(spLightweightAnimation la) :
+   _heavy(la->_heavy),
+   _start(0)
+{
+   start();
+}
+
 
 void LightweightAnimation::draw(SDL_Surface* image, int x, int y)
 {
@@ -168,7 +185,14 @@ void LightweightAnimation::draw(SDL_Surface* image, int x, int y)
 
 void LightweightAnimation::start()
 {
-   _current = _heavy->_first;
+   if (_heavy->_randomStart)
+   {
+      _current = _heavy->_frames[rand() % _heavy->_frames.size()];
+   }
+   else
+   {
+      _current = _heavy->_first;
+   }
    _current->_start = 0;
 }
 

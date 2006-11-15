@@ -67,12 +67,12 @@ ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile, int player
    {
       case 1:
       default:
-         _sprite = _player1;
-         _guiSprite = _player1GUI;
+         _sprite = spLightweightSprite(new LightweightSprite(_player1));
+         _guiSprite = spLightweightSprite(new LightweightSprite(_player1GUI));
          break;
       case 2:
-         _sprite = _player2;
-         _guiSprite = _player2GUI;
+         _sprite = spLightweightSprite(new LightweightSprite(_player2));
+         _guiSprite = spLightweightSprite(new LightweightSprite(_player2GUI));
          break;
    }
 

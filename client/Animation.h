@@ -43,6 +43,7 @@ class Animation
       //spAnimationFrame _current;
       string _id;
       bool _loop;
+      bool _randomStart;
       LOOP_TYPE _loopType;
 
       struct AnimationFrame
@@ -70,6 +71,7 @@ class LightweightAnimation
 {
    public:
       explicit LightweightAnimation(spAnimation animation);
+      LightweightAnimation(spLightweightAnimation la);
 
       void draw (SDL_Surface* image, int x, int y);
 

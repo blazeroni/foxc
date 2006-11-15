@@ -29,6 +29,9 @@ class ServerGame : public Game
       template <class T>
       void send(const T &e);
 
+      template <class T>
+      void sendToOthers(const T& e, spClient self);
+
       uint32 getGameID() const;
       string getGameName() const;
       string getMapName() const;
@@ -90,6 +93,19 @@ void ServerGame::send(const T& e)
    for (iter = _clients.begin(); iter != _clients.end(); ++iter)
    {
       iter->second->send(e);
+   }
+}
+
+template <class T>
+void ServerGame::sendToOthers(const T& e, spClient self)
+{
+   map<uint32, spClient>::iterator iter;
+   for (iter = _clients.begin(); iter != _clients.end(); ++iter)
+   {
+      if (iter->second->getPlayerID() != self->getPlayerID())
+      {
+         iter->second->send(e);
+      }
    }
 }
 

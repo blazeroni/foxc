@@ -113,6 +113,13 @@ void ServerGame::tryStart()
 {
    if (_maxPlayers == getNumberOfPlayers() && _playersReady == _maxPlayers)
    {
+      map<uint32, spClient>::iterator i;
+      for (i = _clients.begin(); i != _clients.end(); ++i)
+      {
+         spClient c = i->second;
+         sendToOthers(PlayerJoinEvent(c->getPlayerName(), c->getPlayerID(), c->getPlayerNumber()), c);
+      }
+
       send(MapLoadEvent(_map->getName(), _map->getFileName()));
       
       map<uint32, spUnit>::iterator iter;

@@ -199,6 +199,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(PISTOL) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = PISTOL;
                     _pointsSpent += cost( PISTOL );
                 }
@@ -208,6 +209,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(PISTOLCLIP) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = PISTOLCLIP;
                     _pointsSpent += cost( PISTOLCLIP );
                 }
@@ -218,6 +220,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(RIFLE) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = RIFLE;
                     _pointsSpent += cost( RIFLE );
                 }
@@ -227,6 +230,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(RIFLECLIP) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = RIFLECLIP;
                     _pointsSpent += cost( RIFLECLIP );
                 }
@@ -237,6 +241,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(RPGL) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = RPGL;
                     _pointsSpent += cost( RPGL );
                 }
@@ -246,6 +251,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(ROCKET) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = ROCKET;
                     _pointsSpent += cost( ROCKET );
                 }
@@ -256,6 +262,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(GRENADE) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = GRENADE;
                     _pointsSpent += cost( GRENADE );
                 }
@@ -265,6 +272,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(MEDKIT) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = MEDKIT;
                     _pointsSpent += cost( MEDKIT );
                 }
@@ -274,6 +282,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             {
                 if ( pointsLeft >= cost(STIM) )
                 {
+                    _pointsSpent -= cost(_loadout[_selectedUnit][_selectedInv]);
                     _loadout[_selectedUnit][_selectedInv] = STIM;
                     _pointsSpent += cost( STIM );
                 }
@@ -407,9 +416,9 @@ void InventoryState::update(uint32 X)
             else if ( _loadout[_selectedUnit][i+2] == STIM )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_stimInvImage->w/2, 200+_itemBox->h/2-_stimInvImage->h/2, _stimInvImage );
             else if ( _loadout[_selectedUnit][i+2] == RIFLE )
-                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleImage->w/2, 200+_itemBox->h/2-_rifleImage->h/2, _rifleImage );
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleInvImage->w/2, 200+_itemBox->h/2-_rifleInvImage->h/2, _rifleInvImage );
             else if ( _loadout[_selectedUnit][i+2] == RIFLECLIP )
-                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleClipImage->w/2, 200+_itemBox->h/2-_rifleClipImage->h/2, _rifleClipImage );
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleInvClipImage->w/2, 200+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
         }
     }
     // weapons

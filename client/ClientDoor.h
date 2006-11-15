@@ -10,6 +10,8 @@ class ClientDoor : public Door
       ClientDoor(uint32 entityID, WALL_TYPE type, bool open = false);
       ~ClientDoor();
 
+      void destroy();
+
       virtual void use();
 
       void draw(Point position, Point dimensions) const;
@@ -23,6 +25,7 @@ class ClientDoor : public Door
       static SDL_Surface* _nwse_open;
       static SDL_Surface* _nesw_closed;
       static SDL_Surface* _nesw_open;
+      static SDL_Surface* _destroyed;
 };
 
 #endif

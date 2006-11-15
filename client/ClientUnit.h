@@ -29,7 +29,7 @@ class ClientUnit : public Unit
       virtual void draw(const Point& position, const Point& dimensions) const;
       virtual void drawMovePath(const Point& offset) const;
 
-      spSprite _guiSprite;
+      spLightweightSprite _guiSprite;
 
       static SDL_Surface* _image;
 
@@ -37,15 +37,15 @@ class ClientUnit : public Unit
       ClientUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum);
 
    private:
-      spSprite _sprite;
+      spLightweightSprite _sprite;
 
       static spUnit _selectedUnit;
 
-      static spSprite _player1;
-      static spSprite _player2;
+      static spLightweightSprite _player1;
+      static spLightweightSprite _player2;
 
-      static spSprite _player1GUI;
-      static spSprite _player2GUI;
+      static spLightweightSprite _player1GUI;
+      static spLightweightSprite _player2GUI;
 
       static SDL_Surface* _corpseImage;
       static SDL_Surface* _pathImage;

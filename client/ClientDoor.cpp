@@ -6,11 +6,13 @@ SDL_Surface* ClientDoor::_nwse_closed = NULL;
 SDL_Surface* ClientDoor::_nwse_open = NULL;
 SDL_Surface* ClientDoor::_nesw_closed = NULL;
 SDL_Surface* ClientDoor::_nesw_open = NULL;
+SDL_Surface* ClientDoor::_destroyed = NULL;
 
 #define DOOR_IMAGE_NWSE_CLOSED "resources/images/door_nwse_closed.png"
 #define DOOR_IMAGE_NWSE_OPEN   "resources/images/door_nwse_open.png"
 #define DOOR_IMAGE_NESW_CLOSED "resources/images/door_nesw_closed.png"
 #define DOOR_IMAGE_NESW_OPEN   "resources/images/door_nesw_open.png"
+#define DOOR_IMAGE_DESTROYED "resources/images/tile_debris.png"
 
 ClientDoor::ClientDoor(uint32 entityID, WALL_TYPE type, bool open) :
    Door(entityID, type, open),
@@ -23,6 +25,7 @@ ClientDoor::ClientDoor(uint32 entityID, WALL_TYPE type, bool open) :
       _nwse_open = Display::instance().loadImage(DOOR_IMAGE_NWSE_OPEN);
       _nesw_closed = Display::instance().loadImage(DOOR_IMAGE_NESW_CLOSED);
       _nesw_open = Display::instance().loadImage(DOOR_IMAGE_NESW_OPEN);
+      _destroyed = Display::instance().loadImage(DOOR_IMAGE_DESTROYED);
       imagesLoaded = true;
    }
 
@@ -60,6 +63,13 @@ void ClientDoor::updateImage()
          break;
    }
 }
+
+void ClientDoor::destroy()
+{
+   Door::destroy();
+   _image = _destroyed;
+}
+
 
 void ClientDoor::draw(Point position, Point dimensions) const
 {

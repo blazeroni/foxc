@@ -2,11 +2,13 @@
 #include "Door.h"
 #include "UnsupportedOperationException.h"
 
+#define DOOR_HEALTH 100
+
 namespace xcore
 {
 
 Door::Door(uint32 entityID, WALL_TYPE type, bool open) :
-   MapObject(entityID),
+   MapObject(entityID, DOOR_HEALTH),
    _open(open),
    _type(type),
    _destroyed(false)
@@ -39,7 +41,12 @@ bool Door::isPassable() const
 
 void Door::destroy()
 {
-   // @ todo fill in later
+   _destroyed = true;
+}
+
+bool Door::isDestroyed() const
+{
+   return _destroyed;
 }
 
 void Door::draw(Point position, Point dimensions) const

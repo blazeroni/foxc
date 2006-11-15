@@ -6,10 +6,12 @@
      <animation id="move_south" width=64 height=64 startX=0 startY=0 count=4 adjustX=5 adjustY=-20 loop="true" loopType="reverse" duration="100"/>
   </sprite>
   <sprite id="unit1gui" filename="unit_animations.png" default="unit_gui" frameOffsetX=0 frameOffsetY=432>
-     <animation id="unit_gui" width=64 height=64 startX=0 startY=0 
-count=1 loop=true duration=1/>
+     <animation id="unit_gui" width=64 height=64 startX=0 startY=0 count=1 loop=true duration=1/>
   </sprite>
   <sprite id="unit2gui" filename="unit_animations_red.png" default="unit_gui" frameOffsetX=0 frameOffsetY=432>
      <animation id="unit_gui" width=64 height=64 startX=0 startY=0 count=1 loop=true duration=1/>
+  </sprite>
+  <sprite id="explosion" filename="explosion.png" default="boom" frameOffsetX=128 frameOffsetY=0>
+     <animation id="boom" width=128 height=96 startX=0 startY=0 count=8 loop=false duration=75/>
   </sprite>
 </resources>

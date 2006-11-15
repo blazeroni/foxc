@@ -3,6 +3,7 @@
 
 #include "includes.h"
 #include "ClientItem.h"
+#include "Sprite.h"
 
 // no need for a specific ClientWeapon or ClientClip class b/c they don't have images
 
@@ -32,6 +33,7 @@ class ClientRPG : public ClientItem
 {
    public:
       ClientRPG(uint32 entityID);
+      int use( spMapTile tile );
 };
 class ClientRocket : public ClientItem
 {
@@ -56,6 +58,7 @@ class ClientGrenade : public ClientItem
 {
    public:
       ClientGrenade(uint32 entityID);
+      int use( spMapTile tile );
 };
 
 class ClientMedKit : public ClientItem

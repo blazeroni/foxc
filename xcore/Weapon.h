@@ -30,7 +30,7 @@ class Weapon : public Item
         /// current ammunition
         int _ammo;
         /// creates an explosion on a tile
-        void explosion( spMapTile tile, int damage );
+        virtual void explosion( spMapTile tile, int damage );
         /// calculated damage given
         int calcDamage( int range = 0 ) const;
 		

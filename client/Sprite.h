@@ -43,6 +43,7 @@ class LightweightSprite
 {
    public:
       explicit LightweightSprite(spSprite sprite);
+      LightweightSprite(spLightweightSprite ls);
 
       void draw(int x, int y);
 

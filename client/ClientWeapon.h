@@ -67,5 +67,11 @@ class ClientMedKit : public ClientItem
       ClientMedKit(uint32 entityID);
 };
 
+class ClientMelee : public ClientItem
+{
+   public:
+      ClientMelee(uint32 entityID);
+};
+
 #endif
 

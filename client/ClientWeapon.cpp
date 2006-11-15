@@ -91,3 +91,11 @@ ClientMedKit::ClientMedKit(uint32 entityID) :
    //_invImage = NULL;
 }
 
+ClientMelee::ClientMelee(uint32 entityID) :
+   ClientItem(entityID, spItem(new Melee(0)))
+{
+   _image = Display::instance().loadImage("resources/images/gui/knife_gui.png");
+   _invImage = Display::instance().loadImage("resources/images/gui/knife_inv_gui.png");
+   //_image = NULL;
+   //_invImage = NULL;
+}

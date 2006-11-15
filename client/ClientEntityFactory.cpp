@@ -64,3 +64,8 @@ spItem ClientEntityFactory::makePistolClip()
 {
    return makeItemHelper<ClientPistolClip>();
 }
+
+spItem ClientEntityFactory::makeMelee()
+{
+   return makeItemHelper<ClientMelee>();
+}

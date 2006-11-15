@@ -31,7 +31,7 @@ class InventoryState : public GameState, public IEventListener
       SDL_Surface *_rpgImage, *_rpgInvImage, *_rocketImage, *_rocketInvImage;
       SDL_Surface *_grenadeImage, *_grenadeInvImage, *_medkitImage, *_medkitInvImage;
       SDL_Surface *_stimImage, *_stimInvImage, *_rifleImage, *_rifleInvImage, *_rifleClipImage, *_rifleClipInvImage;
-      SDL_Surface *_readyImage;
+      SDL_Surface *_readyImage, *_meleeImage, *_meleeInvImage;
       int _pointsMax;
       int _pointsSpent;
       int _selectedUnit;

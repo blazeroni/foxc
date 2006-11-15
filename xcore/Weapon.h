@@ -107,5 +107,11 @@ class MedKit : public Weapon
         int use( spMapTile tile );
 };
 
+class Melee : public Weapon
+{
+   public:
+      Melee(uint32 entityID);
+};
+
 } // namespace
 #endif /* XCLONE_WEAPON_H */

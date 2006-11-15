@@ -24,6 +24,7 @@ class ClientEntityFactory : public EntityFactory, public Singleton<ClientEntityF
       virtual spItem makeGrenade();
       virtual spItem makeMedKit();
       virtual spItem makePistolClip();
+      virtual spItem makeMelee();
 
       //virtual spMapTile makeMapTile(TerrainType type, int x, int y);
       //virtual spWall makeWall(const Direction& dir);

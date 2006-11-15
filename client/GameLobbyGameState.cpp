@@ -15,7 +15,15 @@
 
 GameLobbyGameState::GameLobbyGameState(Game* game) :
    GameState(game),
-   _cancel(false)
+   _cancel(false),
+   input(NULL),
+   graphics(NULL),
+   imageLoader(NULL),
+   gui(NULL),
+   top(NULL),
+   font(NULL),
+   _refreshButton(NULL),
+   _backButton(NULL)
 {
 }
 
@@ -27,7 +35,14 @@ GameLobbyGameState::~GameLobbyGameState()
 
 void GameLobbyGameState::deinit()
 {
-
+   SAFE_DELETE(input);
+   SAFE_DELETE(graphics);
+   SAFE_DELETE(imageLoader);
+   SAFE_DELETE(gui);
+   SAFE_DELETE(top);
+   SAFE_DELETE(font);
+   SAFE_DELETE(_refreshButton);
+   SAFE_DELETE(_backButton);
 }
 
 void GameLobbyGameState::init()
@@ -120,11 +135,29 @@ void GameLobbyGameState::buildGUI()
    _playerScroll->setBorderSize(2);
    _playerScroll->setBackgroundColor(gcn::Color(0,0,0));
 
+   _refreshButton = new gcn::Button("Refresh");
+   _refreshButton->addActionListener(this);
+   _backButton = new gcn::Button("Back");
+   _backButton->addActionListener(this);
+
    top->add(_gameList->getGUI().get(), 0, 0);
-   top->add(_playerScroll, 600, 350);
-   top->add(_chat, 20, 350);
+   top->add(_playerScroll, 500, 340);
+   top->add(_chat, 20, 340);
+   top->add(_refreshButton, 695, 350);
+   top->add(_backButton, 705, 380);
 }
 
+void GameLobbyGameState::action(const string& eventId, gcn::Widget* widget)
+{
+   if (widget == _backButton)
+   {
+      _cancel = true;
+   }
+   if (widget == _refreshButton)
+   {
+      ClientNetwork::instance().send(GameListEvent());
+   }
+}
 
 void GameLobbyGameState::update(uint32 deltaTime)
 {

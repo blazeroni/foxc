@@ -486,6 +486,7 @@ void MainGameState::handleEvent(UseMapObjectEvent& e)
    u->useNearbyObjects();
    u->updatePossibleMoves();
    updateCanUseObject();
+   updateFog();
 }
 
 bool MainGameState::isMyTurn() const
@@ -529,25 +530,27 @@ void MainGameState::updateFog()
     }
 }
 
+#define ROUND(d)  (int)floor(d + 0.5)
+
 Point MainGameState::existsLOS( spMapTile start, spMapTile end )
 {
-    int xi = start->getX(), yi = start->getY();
-    int xf = end->getX(), yf = end->getY();
-    double x = (double)xi, y = (double)yi;
+    double xi = (double)start->getX(), yi = (double)start->getY();
+    double xf = (double)end->getX(), yf = (double)end->getY();
+    double x = xi, y = yi;
     int d = start->getDistance(end);
-    double dx = (double)(xf-xi)/(double)d, dy = (double)(yf-yi)/(double)d;
+    double dx = (xf-xi)/d, dy = (yf-yi)/d;
     spMapTile tile = spMapTile();
     for ( int i = 0; i < d; ++i )
     {
         x += dx; y += dy;
-        tile = _map->getTile((int)x,(int)y);
+        tile = _map->getTile(ROUND(x),ROUND(y));
         if ( tile->getTerrainType() != WATER && !tile->isPassable() )
         {
-            Point obstruction; obstruction.x = (int)x; obstruction.y = (int)y;
+            Point obstruction; obstruction.x = ROUND(x); obstruction.y = ROUND(y);
             return obstruction;
         }
     }
-    Point destination; destination.x = xf; destination.y = yf;
+    Point destination; destination.x = ROUND(xf); destination.y = ROUND(yf);
     return destination;
 }
 

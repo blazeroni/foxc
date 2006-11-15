@@ -10,7 +10,7 @@
 #include "PlayerListModel.h"
 #include "ChatBox.h"
 
-class GameLobbyGameState : public GameState, public IEventListener
+class GameLobbyGameState : public GameState, public IEventListener, public gcn::ActionListener
 {
    public:
       GameLobbyGameState(Game* game);
@@ -27,6 +27,8 @@ class GameLobbyGameState : public GameState, public IEventListener
       void markCancelled();
       void cancel();
       void connect(string ipAddress);
+
+      virtual void action(const string& eventId, gcn::Widget* widget);
 
       virtual void handleEvent(ClientConnectEvent& e);
       virtual void handleEvent(GameListEvent& evnt);
@@ -55,6 +57,9 @@ class GameLobbyGameState : public GameState, public IEventListener
       gcn::Gui* gui;
       gcn::Container* top;
       gcn::ImageFont* font;
+
+      gcn::Button* _refreshButton;
+      gcn::Button* _backButton;
 
       gcn::ScrollArea* _playerScroll;
       gcn::ListBox* _playerList;

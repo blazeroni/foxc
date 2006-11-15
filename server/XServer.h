@@ -53,6 +53,8 @@ class XServer : public IEventListener, public Singleton<XServer>
 
       bool isInLobby(uint32 id);
 
+      bool isInGame(uint32 id);
+
       string createPlayerName(string requested, uint32 source);
 
       void quitSDL();

@@ -146,7 +146,10 @@ void GameListEmptyRow::action(const string& eventId, gcn::Widget* widget)
    }
    else if (widget == _host.get())
    {
-      ClientNetwork::instance().send(GameHostEvent(_gameName->getText(), _mlm->getElementAt(_mapList->getSelected())));
+      if (_gameName->getText() != "" && _mlm->getElementAt(_mapList->getSelected()) != "")
+      {
+        ClientNetwork::instance().send(GameHostEvent(_gameName->getText(), _mlm->getElementAt(_mapList->getSelected())));
+      }
    }
 }
 

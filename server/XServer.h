@@ -75,6 +75,8 @@ class XServer : public IEventListener, public Singleton<XServer>
 
       map<string, string> _nameFileMap;
 
+      map<string, string> _nameClientFileMap;
+
       fs::path _mapDir;
 };
 

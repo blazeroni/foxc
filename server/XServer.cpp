@@ -196,6 +196,7 @@ void XServer::loadMapInfo()
             _maps.push_back(mpi);
             _nameInfoMap[mpi.mapName] = mpi;
             _nameFileMap[mpi.mapName] = itr->string();
+            _nameClientFileMap[mpi.mapName] = "maps/" + itr->leaf();
          }
          catch (ticpp::Exception& e)
          {
@@ -359,7 +360,7 @@ void XServer::handleEvent(GameJoinEvent& e)
 void XServer::handleEvent(GameHostEvent& e)
 {
    spServerGame sg = spServerGame(new ServerGame(e.getSource(), e.getGameName(), 
-      _nameFileMap[e.getMapName()], _nameInfoMap[e.getMapName()].maxPlayers, _nameInfoMap[e.getMapName()].points));
+      _nameClientFileMap[e.getMapName()], _nameInfoMap[e.getMapName()].maxPlayers, _nameInfoMap[e.getMapName()].points));
 
    sg->init();
    sg->join(_clients[e.getSource()]);

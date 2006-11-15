@@ -416,7 +416,7 @@ void MainGameState::handleEvent(GameOverEvent& e)
 void MainGameState::handleEvent(UnitActiveEvent& e)
 {
    //_activeUnit = _units[e.getUnitID()];
-	spUnit u = getUnitFromID(e.getUnitID());
+	spUnit u = _units[e.getUnitID()];
 	u->markActive();
 	_activeUnit = u;
    // this could probably be replaced by a single function call for each unit that regens a certain number of times

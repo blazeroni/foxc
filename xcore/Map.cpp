@@ -216,7 +216,7 @@ spMapTile Map::getNextStartPref(uint16 playerNum)
    map<int, spMapTile>::iterator iter;
    for (iter = tiles.begin(); iter != tiles.end(); ++iter)
    {
-      if (iter->second->isPassable())
+      if (!iter->second->hasUnit())
       {
          empty = iter->second;
          break;

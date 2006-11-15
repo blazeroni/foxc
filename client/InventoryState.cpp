@@ -38,7 +38,7 @@
 #define STIM_INV_IMG "resources/images/gui/stim_gui_inv.png"
 #define READY_IMG "resources/images/gui/ready.png"
 
-InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) : 
+InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
   GameState(app),
   _localPlayer(player),
   _pointsMax(maxPoints)

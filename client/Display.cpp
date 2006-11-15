@@ -190,7 +190,8 @@ void Display::drawGUI(bool showUseButton)
     {
         // Unit
         draw( _screenWidth - _guiUnit->w, 0, _guiUnit );
-        draw( _screenWidth - 155 - ClientUnit::_image->w/2, 40 - ClientUnit::_image->h/2, ClientUnit::_image ); 
+        ((ClientUnit*)activeUnit.get())->_guiSprite->draw(_screenWidth - 155, 40);
+        //draw( _screenWidth - 155 - ClientUnit::_image->w/2, 40 - ClientUnit::_image->h/2, ClientUnit::_image ); 
         draw( _screenWidth - 65, 20, activeUnit->getName(), true );
         stringstream ss;
         string text = "";
@@ -217,7 +218,8 @@ void Display::drawGUI(bool showUseButton)
         if ( selectedUnit.get() && selectedUnit != activeUnit )
         {
             draw( _screenWidth - _guiUnit->w, _guiUnit->h - 5, _guiUnit );
-            draw( _screenWidth - 155 - ClientUnit::_image->w/2, _guiUnit->h - 5 + 40 - ClientUnit::_image->h/2, ClientUnit::_image ); 
+             ((ClientUnit*)selectedUnit.get())->_guiSprite->draw(_screenWidth - 155, _guiUnit->h - 5 + 40);
+            //draw( _screenWidth - 155 - ClientUnit::_image->w/2, _guiUnit->h - 5 + 40 - ClientUnit::_image->h/2, ClientUnit::_image ); 
             draw( _screenWidth - 65, _guiUnit->h - 5+ 20, selectedUnit->getName(), true );
             ss.clear(stringstream::goodbit);
             text = "";

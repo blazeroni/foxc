@@ -12,7 +12,11 @@ SDL_Surface* ClientUnit::_pathEndImage = NULL;
 SDL_Surface* ClientUnit::_selectedImage = NULL;
 SDL_Surface* ClientUnit::_activeImage = NULL;
 
-spSprite ClientUnit::_sprite = spSprite();
+spSprite ClientUnit::_player1 = spSprite();
+spSprite ClientUnit::_player2 = spSprite();
+
+spSprite ClientUnit::_player1GUI = spSprite();
+spSprite ClientUnit::_player2GUI = spSprite();
 
 #define UNIT_SPRITE_ID "unit"
 
@@ -20,6 +24,9 @@ spSprite ClientUnit::_sprite = spSprite();
 #define PLAYER_2_SPRITES "unit2"
 #define PLAYER_3_SPRITES "unit3"
 #define PLAYER_4_SPRITES "unit4"
+
+#define PLAYER_1_GUI_SPRITE "unit1gui"
+#define PLAYER_2_GUI_SPRITE "unit2gui"
 
 #define UNIT_IMAGE  "resources/images/CharFront.png"
 #define UNIT_IMAGEF "resources/images/CharFront.png"
@@ -46,13 +53,29 @@ ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile, int player
       _selectedImage = Display::instance().loadImage(UNIT_SELECTED_IMAGE);
       _activeImage = Display::instance().loadImage(UNIT_ACTIVE_IMAGE);
 
-    if ( playerNum == 1 )
-      _sprite = ResourceManager::instance().getSprite(PLAYER_1_SPRITES);
-    else if ( playerNum == 2 )
-      _sprite = ResourceManager::instance().getSprite(PLAYER_2_SPRITES);
+
+      _player1 = ResourceManager::instance().getSprite(PLAYER_1_SPRITES);
+      _player2 = ResourceManager::instance().getSprite(PLAYER_2_SPRITES);
+
+      _player1GUI = ResourceManager::instance().getSprite(PLAYER_1_GUI_SPRITE);
+      _player2GUI = ResourceManager::instance().getSprite(PLAYER_2_GUI_SPRITE);
 
       mapped = true;
    }
+
+   switch (playerNum)
+   {
+      case 1:
+      default:
+         _sprite = _player1;
+         _guiSprite = _player1GUI;
+         break;
+      case 2:
+         _sprite = _player2;
+         _guiSprite = _player2GUI;
+         break;
+   }
+
 }
 
 ClientUnit::~ClientUnit()

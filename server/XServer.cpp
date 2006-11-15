@@ -347,7 +347,8 @@ void XServer::handleEvent(GameJoinEvent& e)
    //      response.setJoined(false);
    //   }
    //}
-   _clients[e.getSource()]->send(response);
+   sg->send(response);
+   //_clients[e.getSource()]->send(response);
    if (found)
    {
       sg->tryStart();
@@ -364,7 +365,7 @@ void XServer::handleEvent(GameHostEvent& e)
    sg->join(_clients[e.getSource()]);
    _games[e.getSource()] = sg;
 
-   GameJoinEvent response = GameJoinEvent(e.getGameName(), sg->getMaxPoints());
+   GameJoinEvent response = GameJoinEvent(e.getGameName(), sg->getMaxPoints(), _clients[e.getSource()]->getPlayerNumber());
 
    _lobbyClients.erase(e.getSource());
    

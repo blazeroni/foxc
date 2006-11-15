@@ -19,9 +19,9 @@ void EntityFactory::resetEntities()
    _lastEntityID = 0;
 }
 
-spUnit EntityFactory::makeUnit(int playerID, spMapTile tile) 
+spUnit EntityFactory::makeUnit(int playerID, spMapTile tile, int playerNum) 
 {
-   spUnit u = Unit::makeUnit(++_lastEntityID, playerID, tile);
+   spUnit u = Unit::makeUnit(++_lastEntityID, playerID, tile, playerNum);
    return u;
 }
 

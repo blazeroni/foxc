@@ -35,6 +35,7 @@ MainGameState::MainGameState(Game* game, spPlayer localPlayer) :
   _fog(NULL),
   _canUseObject(false)
 {
+    _players[_localPlayer->getID()] = _localPlayer;
 }
 
 
@@ -147,7 +148,7 @@ spUnit MainGameState::createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s
                                  itemtype s3, itemtype s4, itemtype s5, itemtype s6)
 {
    ClientEntityFactory& cef = ClientEntityFactory::instance();
-   spUnit u = cef.makeUnit(playerID, _map->getTile(x, y));
+   spUnit u = cef.makeUnit(playerID, _map->getTile(x, y), _players[playerID]->getPlayerNumber());
    // all items added here must be added in server as well so that itemids match
    u->addItem(cef.makeItem(s0), 0);
    u->addItem(cef.makeItem(s1), 1);
@@ -337,7 +338,7 @@ void MainGameState::handleEvent(PlayerJoinEvent& e)
    else
    {
       spPlayer p = spPlayer(new Player(e.getPlayerID(), e.getPlayerName(), e.getPlayerNumber()));
-      _players.push_back(p);
+      _players[e.getPlayerID()] = (p);
    }
 }
 

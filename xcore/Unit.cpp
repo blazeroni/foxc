@@ -36,14 +36,14 @@ spUnit Unit::_activeUnit;
 //   Unit(playerID);
 //}
 
-spUnit Unit::makeUnit(uint32 entityID, int playerID)
+spUnit Unit::makeUnit(uint32 entityID, int playerID, int playerNum)
 {
-   return makeUnit(entityID, playerID, spMapTile());
+   return makeUnit(entityID, playerID, spMapTile(), playerNum);
 }
 
-spUnit Unit::makeUnit(uint32 entityID, int playerID, spMapTile tile)
+spUnit Unit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum)
 {
-   return makeUnitHelper<Unit>(entityID, playerID, tile);
+   return makeUnitHelper<Unit>(entityID, playerID, tile, playerNum);
    //if (tile->isPassable())
    //{
    //   spUnit unit = makeUnitHelper<Unit>(playerID, tile);
@@ -54,7 +54,7 @@ spUnit Unit::makeUnit(uint32 entityID, int playerID, spMapTile tile)
    //return spUnit();
 }
 
-Unit::Unit(uint32 entityID, int playerID, spMapTile tile) :
+Unit::Unit(uint32 entityID, int playerID, spMapTile tile, int playerNum) :
    GameEntity(entityID),
    _playerID(playerID),
    _actionPoints(_maxActionPoints),

@@ -2,4 +2,7 @@
   <sprite id="unit" filename="unit_animations.png" default="move_south" frameOffsetX=0 frameOffsetY=432>
      <animation id="move_south" width=64 height=64 startX=0 startY=0 count=4 adjustX=5 adjustY=-20 loop="true" loopType="reverse" duration="100"/>
   </sprite>
+  <sprite id="unit2" filename="unit_animations_red.png" default="move_south" frameOffsetX=0 frameOffsetY=432>
+     <animation id="move_south" width=64 height=64 startX=0 startY=0 count=4 adjustX=5 adjustY=-20 loop="true" loopType="reverse" duration="100"/>
+  </sprite>
 </resources>

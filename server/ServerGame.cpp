@@ -135,7 +135,7 @@ void ServerGame::tryStart()
       start();
    }
 }
-
+/*
 void ServerGame::createInitialUnits()
 {
    map<uint32, spClient>::iterator iter;
@@ -158,6 +158,7 @@ void ServerGame::createInitialUnits()
       send(UnitCreateEvent(iter->second->getPlayerID(), x, y));
    }
 }
+*/
 
 void ServerGame::leave(spClient client)
 {
@@ -297,7 +298,7 @@ void ServerGame::handleEvent(UnitCreateEvent& e)
       return;
    }
 
-   spUnit u = _factory->makeUnit(e.getPlayerID(), tile);
+   spUnit u = _factory->makeUnit(e.getPlayerID(), tile, _clients[e.getPlayerID()]->getPlayerNumber());
    u->addItem(_factory->makeItem(e.getS0()), 0);
    u->addItem(_factory->makeItem(e.getS1()), 1);
    u->addItem(_factory->makeItem(e.getS2()), 2);

@@ -15,9 +15,9 @@ ClientEntityFactory::~ClientEntityFactory()
 {
 }
 
-spUnit ClientEntityFactory::makeUnit(int playerID, spMapTile tile) 
+spUnit ClientEntityFactory::makeUnit(int playerID, spMapTile tile, int playerNum) 
 {
-   spUnit u = ClientUnit::makeUnit(++_lastEntityID, playerID, tile);
+   spUnit u = ClientUnit::makeUnit(++_lastEntityID, playerID, tile, playerNum);
    return u;
 }
 

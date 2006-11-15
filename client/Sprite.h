@@ -3,21 +3,28 @@
 
 #include "includes.h"
 #include "Resource.h"
+#include "Animation.h"
+
+class Sprite;
+typedef boost::shared_ptr<Sprite> spSprite;
 
 class Sprite : public Resource
 {
    public:
-      Sprite();
+      Sprite(string id);
       ~Sprite();
 
       virtual void load(ticpp::Element* xml);
-      SDL_Surface* loadImage(string fileName, bool useAlpha = true);
 
       void draw(int x, int y);
 
+      void playAnimation(string id);
+
    private:
+      map<string, spAnimation> _animations;
+      spAnimation _current;
+      string defaultAnimation;
       SDL_Surface* _image;
-      int _zIndex;
 };
 
 #endif

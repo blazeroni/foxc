@@ -15,6 +15,15 @@ Display::Display() :
    // empty
 }
 
+Display::~Display()
+{
+   vector<SDL_Surface*>::iterator iter;
+   for (iter = _loadedImages.begin(); iter != _loadedImages.end(); ++iter)
+   {
+      SAFE_DELETE(*iter);
+   }
+}
+
 void Display::init()
 {
    ConfigOptions& o = ConfigOptions::instance();
@@ -102,6 +111,8 @@ SDL_Surface* Display::loadImage( string filename, bool useAlpha )
    {
       cout << SDL_GetError() << endl;
    }
+
+   _loadedImages.push_back(optimizedImage);
 
    return optimizedImage;
 }

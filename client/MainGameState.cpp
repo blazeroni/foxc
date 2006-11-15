@@ -24,8 +24,7 @@
 #include "ClientNetwork.h"
 #include "FrontEndGameState.h"
 
-
-
+#define RESOURCE_FILE "resources/main.xcr"
 #define GAME_THEME "resources/sounds/GameTheme.wav"
 
 MainGameState::MainGameState(Game* game, spPlayer localPlayer) :
@@ -49,6 +48,7 @@ MainGameState::~MainGameState()
 void MainGameState::deinit()
 {
    Input::instance().setMode( (InputMode)0 );
+   ResourceManager::instance().unloadAll();
 }
 
 void MainGameState::init()
@@ -66,6 +66,8 @@ void MainGameState::init()
    EventManager::instance().addListener<UseMapObjectEvent>(this);
 
    ClientEntityFactory::instance().resetEntities();
+
+   ResourceManager::instance().load(RESOURCE_FILE);
 
    ConfigOptions& o = ConfigOptions::instance();
 

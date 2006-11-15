@@ -22,7 +22,7 @@ void ResourceManager::load(string filename)
       ticpp::Iterator< ticpp::Element > child;
       for ( child = root->FirstChildElement(); child != child.end(); child++ )
       {
-         Resource* r = createResource(child.Get());
+         createResource(child.Get());
       }
    }
    catch (ticpp::Exception&) {
@@ -30,21 +30,33 @@ void ResourceManager::load(string filename)
    }
 }
 
-Resource* ResourceManager::createResource(ticpp::Element* element) 
+void ResourceManager::unloadAll()
+{
+   _sprites.clear();
+}
+
+void ResourceManager::createResource(ticpp::Element* element) 
 {
    string type = element->Value();
-   Resource* res = NULL;
+   spResource res;
+
+   string id;
+
+   element->GetAttribute("id", &id);
 
    if (type == "sprite")
    {
-      res = new Sprite();
+      _sprites[id] = spSprite(new Sprite(id));
+      res = _sprites[id];
    }
 
    if (res != NULL) 
    {
       res->load(element);
    }
-
-   return res;
 }
 
+spSprite ResourceManager::getSprite(string id)
+{
+   return _sprites[id];
+}

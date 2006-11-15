@@ -14,6 +14,7 @@ class Display : public Singleton<Display>
    friend class Singleton<Display>;
 
    public:
+      ~Display();
       void init();
       void deinit();
       SDL_Surface* getScreen() const;
@@ -44,6 +45,8 @@ class Display : public Singleton<Display>
       SDL_Surface *_guiHands, *_guiInv, *_guiUnit, *_guiUse;
       SDL_Surface *_cartridge, *_usableHighlight;
       TTF_Font* _font;
+
+      vector<SDL_Surface*> _loadedImages;
 };
 
 #endif

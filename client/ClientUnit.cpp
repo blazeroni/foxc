@@ -1,6 +1,7 @@
 #include "includes.h"
 #include "ClientUnit.h"
 #include "Display.h"
+#include "ResourceManager.h"
 
 spUnit ClientUnit::_selectedUnit;
 
@@ -10,6 +11,10 @@ SDL_Surface* ClientUnit::_pathImage = NULL;
 SDL_Surface* ClientUnit::_pathEndImage = NULL;
 SDL_Surface* ClientUnit::_selectedImage = NULL;
 SDL_Surface* ClientUnit::_activeImage = NULL;
+
+spSprite ClientUnit::_sprite = spSprite();
+
+#define UNIT_SPRITE_ID "unit"
 
 #define UNIT_IMAGE  "resources/images/CharFront.png"
 #define UNIT_IMAGEF "resources/images/CharFront.png"
@@ -35,6 +40,8 @@ ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile) :
       _pathEndImage = Display::instance().loadImage(UNIT_PATH_END_IMAGE);
       _selectedImage = Display::instance().loadImage(UNIT_SELECTED_IMAGE);
       _activeImage = Display::instance().loadImage(UNIT_ACTIVE_IMAGE);
+
+      _sprite = ResourceManager::instance().getSprite(UNIT_SPRITE_ID);
 
       mapped = true;
    }
@@ -126,10 +133,11 @@ void ClientUnit::draw(const Point& position, const Point& dimensions) const
    }
    else
    {
+      //d.draw(position.x + dimensions.x/2 - _image->w/2,
+      //      position.y + dimensions.y/2 - _image->h + 5, 
+      //      _image);
 
-      d.draw(position.x + dimensions.x/2 - _image->w/2,
-            position.y + dimensions.y/2 - _image->h + 5, 
-            _image);
+      _sprite->draw(position.x + dimensions.x/2, position.y + dimensions.y/2);
    }
 }
 

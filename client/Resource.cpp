@@ -1,7 +1,8 @@
 #include "includes.h"
 #include "Resource.h"
 
-Resource::Resource()
+Resource::Resource(string id) :
+   _id(id)
 {
 }
 
@@ -9,7 +10,7 @@ Resource::~Resource()
 {
 }
 
-void Resource::load(ticpp::Element* xml)
+string Resource::getID()
 {
-
+   return _id;
 }

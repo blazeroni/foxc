@@ -237,7 +237,7 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             }
                 // rpg
             else if ( click.x > 50 + 2*(_weaponBox->w+_itemBox->w+15) && click.x < 50 + 2*(_weaponBox->w+_itemBox->w+15) + _itemBox->w &&
-            click.y > 350 && click.y < 350 + _itemBox->h )
+            click.y > 350 && click.y < 350 + _weaponBox->h )
             {
                 if ( pointsLeft >= cost(RPGL) )
                 {
@@ -418,7 +418,7 @@ void InventoryState::update(uint32 X)
             else if ( _loadout[_selectedUnit][i+2] == RIFLE )
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleInvImage->w/2, 200+_itemBox->h/2-_rifleInvImage->h/2, _rifleInvImage );
             else if ( _loadout[_selectedUnit][i+2] == RIFLECLIP )
-                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleInvClipImage->w/2, 200+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
+                d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_rifleClipInvImage->w/2, 200+_itemBox->h/2-_rifleClipInvImage->h/2, _rifleClipInvImage );
         }
     }
     // weapons

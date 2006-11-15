@@ -36,14 +36,14 @@ spUnit Unit::_activeUnit;
 //   Unit(playerID);
 //}
 
-spUnit Unit::makeUnit(uint32 entityID, int playerID, int playerNum)
+spUnit Unit::makeUnit(uint32 entityID, int playerID, int playerNum, string name)
 {
-   return makeUnit(entityID, playerID, spMapTile(), playerNum);
+   return makeUnit(entityID, playerID, spMapTile(), playerNum, name);
 }
 
-spUnit Unit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum)
+spUnit Unit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum, string name)
 {
-   return makeUnitHelper<Unit>(entityID, playerID, tile, playerNum);
+   return makeUnitHelper<Unit>(entityID, playerID, tile, playerNum, name);
    //if (tile->isPassable())
    //{
    //   spUnit unit = makeUnitHelper<Unit>(playerID, tile);
@@ -54,7 +54,7 @@ spUnit Unit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerN
    //return spUnit();
 }
 
-Unit::Unit(uint32 entityID, int playerID, spMapTile tile, int playerNum) :
+Unit::Unit(uint32 entityID, int playerID, spMapTile tile, int playerNum, string name) :
    GameEntity(entityID),
    _playerID(playerID),
    _actionPoints(_maxActionPoints),
@@ -63,7 +63,7 @@ Unit::Unit(uint32 entityID, int playerID, spMapTile tile, int playerNum) :
    _regenRate(10),
    _accuracy(50),
    _rank(1),
-   _name("UnitName")
+   _name(name)
 {
    static bool mapped = false;
    //if (!mapped) 

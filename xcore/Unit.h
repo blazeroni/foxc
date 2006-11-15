@@ -29,8 +29,8 @@ namespace xcore
 class Unit : public GameEntity
 {
    public:
-      static spUnit makeUnit(uint32 entityID, int playerID, int playerNum);
-      static spUnit makeUnit(uint32 entityID, int playerID, spMapTile, int playerNum);
+      static spUnit makeUnit(uint32 entityID, int playerID, int playerNum, string name);
+      static spUnit makeUnit(uint32 entityID, int playerID, spMapTile, int playerNum, string name);
       virtual ~Unit();
 
       int getPlayerID() const;
@@ -143,10 +143,10 @@ class Unit : public GameEntity
     string getName() const;
 
    protected:
-      Unit(uint32 enittyID, int playerID, spMapTile tile, int playerNum);
+      Unit(uint32 enittyID, int playerID, spMapTile tile, int playerNum, string name);
 
       template <class T>
-      static boost::shared_ptr<T> makeUnitHelper(unsigned long entityID, int playerID, spMapTile tile, int playerNum);
+      static boost::shared_ptr<T> makeUnitHelper(unsigned long entityID, int playerID, spMapTile tile, int playerNum, string name);
 
       static spUnit _activeUnit;
 
@@ -189,9 +189,9 @@ class Unit : public GameEntity
 };
 
 template <class T>
-boost::shared_ptr<T> Unit::makeUnitHelper(long unsigned int entityID, int playerID, spMapTile tile, int playerNum)
+boost::shared_ptr<T> Unit::makeUnitHelper(long unsigned int entityID, int playerID, spMapTile tile, int playerNum, string name)
 {
-   boost::shared_ptr<T> unit(new T(entityID, playerID, tile, playerNum));
+   boost::shared_ptr<T> unit(new T(entityID, playerID, tile, playerNum, name));
    unit->_weak = unit;
    unit->_tile->addUnit(unit);
    return unit;

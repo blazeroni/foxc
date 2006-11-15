@@ -146,11 +146,10 @@ bool MainGameState::loadMap(string fileName)
    return _map->load(fileName);
 }
 
-spUnit MainGameState::createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s0, itemtype s1, itemtype s2, 
-                                 itemtype s3, itemtype s4, itemtype s5, itemtype s6)
+spUnit MainGameState::createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s0, itemtype s1, itemtype s2, itemtype s3, itemtype s4, itemtype s5, itemtype s6, string name)
 {
    ClientEntityFactory& cef = ClientEntityFactory::instance();
-   spUnit u = cef.makeUnit(playerID, _map->getTile(x, y), _players[playerID]->getPlayerNumber());
+   spUnit u = cef.makeUnit(playerID, _map->getTile(x, y), _players[playerID]->getPlayerNumber(), name);
    // all items added here must be added in server as well so that itemids match
    u->addItem(cef.makeItem(s0), 0);
    u->addItem(cef.makeItem(s1), 1);
@@ -364,7 +363,7 @@ void MainGameState::handleEvent(MapLoadEvent& e)
 void MainGameState::handleEvent(UnitCreateEvent& e)
 {
    createUnit(e.getPlayerID(), e.getX(), e.getY(), e.getS0(), e.getS1(), e.getS2(), 
-      e.getS3(), e.getS4(), e.getS5(), e.getS6());
+      e.getS3(), e.getS4(), e.getS5(), e.getS6(), e.getName());
    //cout << "new unit: " << e.getX() << "," << e.getY() << endl;
    // why does this crash?  are units created before the map?
    //if ( e.getPlayerID() == _localPlayer->getID() )

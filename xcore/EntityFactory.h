@@ -21,7 +21,7 @@ class EntityFactory
       EntityFactory(uint32 gameID);
       virtual ~EntityFactory();
 
-      virtual spUnit makeUnit(int playerID, spMapTile tile, int playerNum);
+      virtual spUnit makeUnit(int playerID, spMapTile tile, int playerNum, string name);
       virtual spWall makeWall(WALL_TYPE type);
       virtual spDoor makeDoor(WALL_TYPE type, bool open = false);
       virtual spItem makePistol();

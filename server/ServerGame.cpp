@@ -141,9 +141,10 @@ void ServerGame::tryStart()
          itemtype it2 = (u->getInv(2).get()) ? u->getInv(2)->getType() : itemtype(0);
          itemtype it3 = (u->getInv(3).get()) ? u->getInv(3)->getType() : itemtype(0);
          itemtype it4 = (u->getInv(4).get()) ? u->getInv(4)->getType() : itemtype(0);
+         string name = (u->getName());
 
          send( UnitCreateEvent( iter->second->getPlayerID(), iter->second->getX(), iter->second->getY(),
-            hand0, hand1, it0, it1, it2, it3, it4 ) );
+            hand0, hand1, it0, it1, it2, it3, it4, name ) );
       }
 
       activateNextUnit(true);
@@ -292,7 +293,7 @@ void ServerGame::handleEvent(UnitCreateEvent& e)
       return;
    }
 
-   spUnit u = _factory->makeUnit(e.getPlayerID(), tile, _clients[e.getPlayerID()]->getPlayerNumber());
+   spUnit u = _factory->makeUnit(e.getPlayerID(), tile, _clients[e.getPlayerID()]->getPlayerNumber(), e.getName());
    u->addItem(_factory->makeItem(e.getS0()), 0);
    u->addItem(_factory->makeItem(e.getS1()), 1);
    u->addItem(_factory->makeItem(e.getS2()), 2);

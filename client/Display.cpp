@@ -225,7 +225,7 @@ void Display::drawGUI(bool showUseButton)
             text = "";
             if ( gs->getLocalPlayer()->getID() == selectedUnit->getPlayerID() )
             {
-               ss << max ( activeUnit->getHealth(), 0 );
+               ss << max ( selectedUnit->getHealth(), 0 );
                ss >> text;
             }
             else
@@ -236,7 +236,7 @@ void Display::drawGUI(bool showUseButton)
             text = "";
             if ( gs->getLocalPlayer()->getID() == selectedUnit->getPlayerID() )
             {
-               ss << max ( activeUnit->getActionPoints(), 0 );
+               ss << max ( selectedUnit->getActionPoints(), 0 );
                ss >> text;
             }
             else

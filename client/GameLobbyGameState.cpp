@@ -189,9 +189,12 @@ void GameLobbyGameState::handleEvent(ClientConnectEvent& e)
 
 void GameLobbyGameState::handleEvent(PlayerJoinEvent& e)
 {
-   _localPlayer->setName(e.getPlayerName());
+   if (_localPlayer->getName() == "")
+   {
+      _localPlayer->setName(e.getPlayerName());
+      ClientNetwork::instance().send(GameListEvent());
+   }
    _playerListModel->addPlayer(e.getPlayerID(), e.getPlayerName());
-   ClientNetwork::instance().send(GameListEvent());
 }
 
 void GameLobbyGameState::handleEvent(PlayerLeaveEvent& e)

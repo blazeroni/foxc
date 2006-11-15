@@ -90,6 +90,7 @@ class MainGameState : public GameState, public IEventListener
      bool isUseObjectActive() const;
      void useObject();
      Point existsLOS( spMapTile start, spMapTile end );
+      void updateFog();
 
    private:
       spPlayer getPlayer() const;
@@ -99,7 +100,6 @@ class MainGameState : public GameState, public IEventListener
 
       spClientMap _map;
       bool *_fog, *_shroud;
-      void updateFog();
 
       spPlayer _localPlayer;
 

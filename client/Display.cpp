@@ -298,7 +298,7 @@ void Display::setCursor( SDL_Surface *image )
         SDL_ShowCursor( SDL_ENABLE );
 }
 
-void Display::highlightUsable( spMapTile tile, int radius, int ox, int oy )
+void Display::highlightUsable( spMapTile tile, int radius, int ox, int oy, bool ignorelos )
 {
     MainGameState* gs = (MainGameState*)XClient::instance().getCurrentGameState();
     spMap map = gs->getMap();
@@ -308,8 +308,12 @@ void Display::highlightUsable( spMapTile tile, int radius, int ox, int oy )
         for ( int j = 0; j < map->getHeight(); ++j )
         {
             tile2 = map->getTile(i,j);
+            Point los = ((MainGameState*)(XClient::instance().getCurrentGameState()))->existsLOS(tile,tile2);
             if ( tile->getDistance(tile2) <= radius )
-                draw( tile2->getScreenX()-ox, tile2->getScreenY()-oy, _usableHighlight );
+            {
+                if ( ignorelos || (tile2->getX() == los.x && tile2->getY() == los.y) )
+                    draw( tile2->getScreenX()-ox, tile2->getScreenY()-oy, _usableHighlight );
+            }
         }
     }
 }

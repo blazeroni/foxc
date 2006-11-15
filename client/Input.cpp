@@ -65,10 +65,19 @@ void Input::processSDLEvent(SDL_Event& event)
             {
                 if ( unit->getActionPoints() >= unit->getHand(_hand)->getTurnCost() )
                 {
-                    //unit->use( ((MainGameState*)gs)->getMap()->getMouseOverTile(), _hand );
-                    ((MainGameState*)gs)->fire(((MainGameState*)gs)->getActiveUnit(),
+                    if (unit->getHand(_hand)->getType() == GRENADE)
+                    {
+                        //unit->use( ((MainGameState*)gs)->getMap()->getMouseOverTile(), _hand );
+                        ((MainGameState*)gs)->fire(((MainGameState*)gs)->getActiveUnit(),
                                           ((MainGameState*)gs)->getMap()->getMouseOverTile(), _hand);
-                    return;
+                        return;
+                    }
+                    else
+                    {
+                        MainGameState *mgs = (MainGameState*)gs;
+                        Point t = mgs->existsLOS( mgs->getMap()->getTile(unit->getX(),unit->getY()), mgs->getMap()->getMouseOverTile() );
+                        mgs->fire( mgs->getActiveUnit(), mgs->getMap()->getTile(t.x,t.y), _hand);
+                    }
                 }
                 else
                 {

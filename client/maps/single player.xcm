@@ -3,10 +3,10 @@
      <tile id="1" x="0" y= "0" terrain="grass" startPlayer="1" startPref="1"/>
      <tile id="2" x="0" y= "1" terrain="grass" startPlayer="1" startPref="2"/>
      <tile id="3" x="0" y= "2" terrain="grass" startPlayer="1" startPref="3"/>
-     <tile id="4" x="0" y= "3" terrain="grass"/>
-     <tile id="5" x="0" y= "4" terrain="grass"/>
-     <tile id="6" x="0" y= "5" terrain="grass"/>
-     <tile id="7" x="0" y= "6" terrain="grass"/>
+     <tile id="4" x="0" y= "3" terrain="grass" startPlayer="1" startPref="4"/>
+     <tile id="5" x="0" y= "4" terrain="grass" startPlayer="1" startPref="5"/>
+     <tile id="6" x="0" y= "5" terrain="grass" startPlayer="1" startPref="6"/>/>
+     <tile id="7" x="0" y= "6" terrain="grass" startPlayer="1" startPref="7"/>
      <tile id="8" x="0" y= "7" terrain="grass"/>
      <tile id="9" x="0" y= "8" terrain="grass"/>
      <tile id="10" x="0" y= "9" terrain="grass"/>

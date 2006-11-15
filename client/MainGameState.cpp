@@ -518,14 +518,37 @@ void MainGameState::updateFog()
                         tile2 = _map->getTile(k,l);
                         if ( tile->getDistance(tile2) <= sightRadius )  
                         {
-                            _fog[k*width+l] = false;
-                            _shroud[k*width+l] = false;
+                            Point los = existsLOS( tile, tile2 );
+                            _fog[los.x*width+los.y] = false;
+                            _shroud[los.x*width+los.y] = false;
                         }
                     }
                 }
             }
         }
     }
+}
+
+Point MainGameState::existsLOS( spMapTile start, spMapTile end )
+{
+    int xi = start->getX(), yi = start->getY();
+    int xf = end->getX(), yf = end->getY();
+    double x = (double)xi, y = (double)yi;
+    int d = start->getDistance(end);
+    double dx = (double)(xf-xi)/(double)d, dy = (double)(yf-yi)/(double)d;
+    spMapTile tile = spMapTile();
+    for ( int i = 0; i < d; ++i )
+    {
+        x += dx; y += dy;
+        tile = _map->getTile((int)x,(int)y);
+        if ( tile->getTerrainType() != WATER && !tile->isPassable() )
+        {
+            Point obstruction; obstruction.x = (int)x; obstruction.y = (int)y;
+            return obstruction;
+        }
+    }
+    Point destination; destination.x = xf; destination.y = yf;
+    return destination;
 }
 
 bool MainGameState::getFog( int x, int y ) const

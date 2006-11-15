@@ -89,6 +89,7 @@ class MainGameState : public GameState, public IEventListener
 
      bool isUseObjectActive() const;
      void useObject();
+     Point existsLOS( spMapTile start, spMapTile end );
 
    private:
       spPlayer getPlayer() const;

@@ -116,9 +116,9 @@ void FrontEndGameState::update(uint32 X)
 
 void FrontEndGameState::deinit()
 {
-	SAFE_DELETE(hostButton);
-	SAFE_DELETE(joinButton);
-	SAFE_DELETE(helpButton);
-	SAFE_DELETE(exitButton);	
+	//SAFE_DELETE(hostButton);
+	//SAFE_DELETE(joinButton);
+	//SAFE_DELETE(helpButton);
+	//SAFE_DELETE(exitButton);	
 }
 

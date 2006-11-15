@@ -82,7 +82,7 @@ class ServerGame : public Game
       map<uint32, spClient> _clients;
 
       map<uint32, spUnit> _units;
-      list<spUnit> _unitQueue;
+      deque<spUnit> _unitQueue;
 
       spMap _map;
 

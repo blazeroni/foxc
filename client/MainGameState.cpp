@@ -122,7 +122,7 @@ void MainGameState::update(uint32 deltaTime)
 
       ostringstream stream;
       Point p = Input::instance().getMousePosition();
-      stream << "Mouse Position: " << p.x << ", " << p.y;
+      //stream << "Mouse Position: " << p.x << ", " << p.y;
 
       Display::instance().draw(5, 5, stream.str());
    //   _map->drawMinimap();

@@ -264,6 +264,11 @@ void Display::drawGUI(bool showUseButton)
         {
             draw( _screenWidth - 145 - item1->getImage()->w/2, _screenHeight - 70 - item1->getImage()->h/2, item1->getImage());
             draw( _screenWidth - 145, _screenHeight - 145, item1->getName(), true );
+            stringstream ss;
+            string cost = "";
+            ss << item1->getTurnCost();
+            ss >> cost;
+            draw( _screenWidth - 30-100, _screenHeight - 30, cost );
         for ( int i = 1; i <= 12; ++i )
         {
             if ( item1->hasAmmo() >= i )
@@ -274,6 +279,11 @@ void Display::drawGUI(bool showUseButton)
         {
             draw( _screenWidth - 45 - item2->getImage()->w/2, _screenHeight - 70 - item2->getImage()->h/2, item2->getImage());
             draw( _screenWidth - 45, _screenHeight - 145, item2->getName(), true );
+            stringstream ss;
+            string cost = "";
+            ss << item2->getTurnCost();
+            ss >> cost;
+            draw( _screenWidth - 30, _screenHeight - 30, cost );
         }
 
         //Inventory

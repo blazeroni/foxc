@@ -128,6 +128,8 @@ void ServerGame::tryStart()
 
       send(MapLoadEvent(_map->getName(), _clientMapFile));
       
+      random_shuffle(_unitQueue.begin(), _unitQueue.end());
+
       map<uint32, spUnit>::iterator iter;
       for (iter = _units.begin(); iter != _units.end(); ++iter)
 	   {
@@ -148,30 +150,6 @@ void ServerGame::tryStart()
       start();
    }
 }
-/*
-void ServerGame::createInitialUnits()
-{
-   map<uint32, spClient>::iterator iter;
-
-   static bool first = true;
-   uint32 x = (first) ? 0 : _map->getWidth() - 1;
-   uint32 y = (first) ? 0 : _map->getHeight() - 1;
-
-   for (iter = _clients.begin(); iter != _clients.end(); ++iter)
-   {
-      uint32 x = (first) ? 0 : _map->getWidth() - 1;
-      uint32 y = (first) ? 0 : _map->getHeight() - 1;
-      first = false;
-
-      spUnit u = _factory->makeUnit(iter->second->getPlayerID(), _map->getTile(x, y));
-      u->addItem(_factory->makePistol());
-      u->addItem(_factory->makeGrenade());
-	  //u->addItem(_factory->makePistolClip());
-      addUnit(u);
-      send(UnitCreateEvent(iter->second->getPlayerID(), x, y));
-   }
-}
-*/
 
 void ServerGame::leave(spClient client)
 {
@@ -206,11 +184,12 @@ void ServerGame::activateNextUnit(bool firstTurn)
       _unitQueue.push_back(u);
    }
    
-   _unitQueue.sort(boost::mem_fn(&Unit::hasTurnBefore));
+   sort( _unitQueue.begin(), _unitQueue.end(), boost::mem_fn(&Unit::hasTurnBefore));
+   //_unitQueue.sort(boost::mem_fn(&Unit::hasTurnBefore));
    uint32 regens = 0;
    while(!_unitQueue.front()->hasMaxActionPoints())
    {
-      list<spUnit>::iterator iter;
+      deque<spUnit>::iterator iter;
       for (iter = _unitQueue.begin(); iter != _unitQueue.end(); ++iter)
       {
          (*iter)->regenActionPoints();

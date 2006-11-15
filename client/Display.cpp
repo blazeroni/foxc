@@ -20,7 +20,7 @@ Display::~Display()
    vector<SDL_Surface*>::iterator iter;
    for (iter = _loadedImages.begin(); iter != _loadedImages.end(); ++iter)
    {
-      SAFE_DELETE(*iter);
+      SDL_FreeSurface(*iter);
    }
 }
 

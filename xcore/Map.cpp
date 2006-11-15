@@ -28,6 +28,8 @@ Map::Map(spEntityFactory factory) :
    {
       _terrainMap["grass"] = GRASS;
       _terrainMap["water"] = WATER;
+      _terrainMap["floor"] = FLOOR;
+      _terrainMap["snows"] = SNOWS;
 
       mapped = true;
    }

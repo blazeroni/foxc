@@ -17,7 +17,7 @@
 #define ITEM_BOX_HL "resources/images/gui/loadout_item_hl.png"
 #define WEAPON_BOX "resources/images/gui/loadout_weapon.png"
 #define WEAPON_BOX_HL "resources/images/gui/loadout_weapon_hl.png"
-#define UNIT "resources/images/unit.png"
+#define UNIT "resources/images/unit_portrait.png"
 #define PISTOL_IMG "resources/images/gui/pistol_gui.png"
 #define PISTOL_INV_IMG "resources/images/gui/pistol_gui_inv.png"
 #define PISTOL_CLIP_IMG "resources/images/gui/pistol_clip_gui.png"
@@ -39,6 +39,9 @@
 #define READY_IMG "resources/images/gui/ready.png"
 #define MELEE_IMG "resources/images/gui/knife_gui.png"
 #define MELEE_INV_IMG "resources/images/gui/knife_inv_gui.png"
+#define LABEL_UNITS_IMG "resources/images/gui/loadout_label_units.png"
+#define LABEL_INV_IMG "resources/images/gui/loadout_label_inv.png"
+#define LABEL_ITEMS_IMG "resources/images/gui/loadout_label_items.png"
 
 InventoryState::InventoryState(Game* app, spPlayer player, uint32 maxPoints) :
   GameState(app),
@@ -94,6 +97,9 @@ bool InventoryState::load_files()
     _readyImage = Display::instance().loadImage(READY_IMG);
     _meleeImage = Display::instance().loadImage(MELEE_IMG);
     _meleeInvImage = Display::instance().loadImage(MELEE_INV_IMG);
+    _labelUnits = Display::instance().loadImage(LABEL_UNITS_IMG);
+    _labelInv = Display::instance().loadImage(LABEL_INV_IMG);
+    _labelItems = Display::instance().loadImage(LABEL_ITEMS_IMG);
     return true;
 }
 
@@ -380,9 +386,11 @@ void InventoryState::update(uint32 X)
         if ( _unit[i] >= 0 )
             d.draw( 30 + (_unitBox->w+15)*(i)+_unitBox->w/2-_unitImage->w/2, 50+_unitBox->h/2-_unitImage->h/2, _unitImage );
     }
+    d.draw( 6, 50 + _unitBox->h + 5, _labelUnits );
     if ( _selectedUnit >= 0 )
         d.draw( 30 + _selectedUnit*(_unitBox->w+15), 50, _unitBoxHL );
     // unit weapons
+    d.draw( 10, 170, _labelInv );
     d.draw( 50, 200, _weaponBox );
     d.draw( 50 + (_weaponBox->w+15), 200, _weaponBox );
     if ( _selectedInv == 0 || _selectedInv == 1 )
@@ -445,6 +453,7 @@ void InventoryState::update(uint32 X)
         }
     }
     // weapons
+    d.draw( 0, 320, _labelItems );
     for ( int i = 0; i < 4; ++i )
     {
         d.draw( 50 + (_weaponBox->w+_itemBox->w+15)*(i), 350, _weaponBox );

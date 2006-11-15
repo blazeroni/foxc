@@ -481,3 +481,4 @@ bool XServer::isInGame(uint32 id)
    return (_clients.find(id) != _clients.end() &&
            _games.find(_clients[id]->getGameID()) != _games.end());
 }
+

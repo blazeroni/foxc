@@ -22,7 +22,8 @@ class UnitCreateEvent : public Event
          itemtype s3 = (itemtype)0,
          itemtype s4 = (itemtype)0,
          itemtype s5 = (itemtype)0,
-         itemtype s6 = (itemtype)0
+         itemtype s6 = (itemtype)0,
+         string name = "DefaultName"
       );
       virtual ~UnitCreateEvent();
 
@@ -36,6 +37,7 @@ class UnitCreateEvent : public Event
       itemtype getS4() const;
       itemtype getS5() const;
       itemtype getS6() const;
+      string getName() const;
 
       virtual void process(IEventListener* handler);
 
@@ -55,6 +57,7 @@ class UnitCreateEvent : public Event
       itemtype _s5;
       itemtype _s6;
       itemtype _s7;
+      string _name;
 };
 
 template<class T>
@@ -72,6 +75,7 @@ void UnitCreateEvent::serialize(T & archive, const unsigned int version)
    archive & _s4;
    archive & _s5;
    archive & _s6;
+   archive & _name;
 }
 
 } // namespace

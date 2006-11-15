@@ -39,6 +39,7 @@ class InventoryState : public GameState, public IEventListener
       int _selectedInv;
       int _unit[8];
       itemtype _loadout[8][7];
+      string _names[8];
       spPlayer _localPlayer;
       //bool _ready;
 

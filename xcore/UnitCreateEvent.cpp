@@ -8,7 +8,7 @@ namespace xcore
 
 UnitCreateEvent::UnitCreateEvent(uint32 playerID, uint32 x, uint32 y, 
 	itemtype s0, itemtype s1, itemtype s2, itemtype s3, itemtype s4,
-	itemtype s5, itemtype s6) :
+	itemtype s5, itemtype s6, string name) :
    Event(UNIT_CREATE),
    _playerID(playerID),
    _x(x),
@@ -19,7 +19,8 @@ UnitCreateEvent::UnitCreateEvent(uint32 playerID, uint32 x, uint32 y,
    _s3(s3),
    _s4(s4),
    _s5(s5),
-   _s6(s6)
+   _s6(s6),
+   _name(name)
 {
 }
 
@@ -48,6 +49,7 @@ itemtype UnitCreateEvent::getS3() const { return _s3; }
 itemtype UnitCreateEvent::getS4() const { return _s4; }
 itemtype UnitCreateEvent::getS5() const { return _s5; }
 itemtype UnitCreateEvent::getS6() const { return _s6; }
+string UnitCreateEvent::getName() const { return _name; }
 
 void UnitCreateEvent::process(IEventListener* handler)
 {

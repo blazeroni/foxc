@@ -112,7 +112,7 @@ void InventoryState::init()
 {
     //ConfigOptions& o = ConfigOptions::instance();
     //ClientNetwork &cn = ClientNetwork::instance();
-    //cn.connectToServer(o.get<string>(HOSTNAME).c_str(), o.get<int>(PORT));
+    //cn.connectToServer(o.get<string>(HOSTNAME).c_names[_selectedUnit](), o.get<int>(PORT));
     //bool host = true;
     //cin >> host;
     //ClientNetwork::instance().send(GameListEvent());
@@ -125,6 +125,7 @@ void InventoryState::init()
     for ( int i = 0; i < 8; ++i )
     {
         _unit[i] = -1;
+        _names[i] = "UnitName";
         for ( int j = 0; j < 7; ++j )
             _loadout[i][j] = (itemtype)0;
     }
@@ -355,6 +356,22 @@ void InventoryState::processSDLEvent(SDL_Event& event)
             }
         }
     }
+    else if ( event.type == SDL_KEYDOWN )
+    {
+          if( _names[_selectedUnit].length() <= 64 )
+          {
+             if( event.key.keysym.unicode == SDLK_SPACE )
+                _names[_selectedUnit] += " ";
+             if( ( event.key.keysym.unicode >= (Uint16)'0' ) && ( event.key.keysym.unicode <= (Uint16)'9' ) )
+                _names[_selectedUnit] += (char)event.key.keysym.unicode;
+             else if( ( event.key.keysym.unicode >= (Uint16)'A' ) && ( event.key.keysym.unicode <= (Uint16)'Z' ) )
+                _names[_selectedUnit] += (char)event.key.keysym.unicode;
+             else if( ( event.key.keysym.unicode >= (Uint16)'a' ) && ( event.key.keysym.unicode <= (Uint16)'z' ) )
+                _names[_selectedUnit] += (char)event.key.keysym.unicode;
+          }
+          if( ( event.key.keysym.sym == SDLK_BACKSPACE ) && ( _names[_selectedUnit].length() != 0 ) )
+             _names[_selectedUnit].erase( _names[_selectedUnit].length() - 1 );
+    }
 }
 
 void InventoryState::update(uint32 X)
@@ -452,6 +469,8 @@ void InventoryState::update(uint32 X)
                 d.draw( 300 + i*(_itemBox->w+15)+_itemBox->w/2-_meleeInvImage->w/2, 200+_itemBox->h/2-_meleeInvImage->h/2, _meleeInvImage );
         }
     }
+    // unit name
+    d.draw( 330, 260, "Name:"+_names[_selectedUnit] );
     // weapons
     d.draw( 0, 320, _labelItems );
     for ( int i = 0; i < 4; ++i )
@@ -510,7 +529,8 @@ void InventoryState::commit()
          _loadout[i][5],
          _loadout[i][4],
          _loadout[i][3],
-         _loadout[i][2] ) ); 
+         _loadout[i][2],
+         _names[i]) ); 
       }
    }
    cn.send( StartGameEvent() );

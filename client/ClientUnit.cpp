@@ -40,8 +40,8 @@ spLightweightSprite ClientUnit::_player2GUI = spLightweightSprite();
 #define UNIT_ACTIVE_IMAGE "resources/images/unit_active.png"
 #define UNIT_SELECTED_IMAGE "resources/images/unit_selected.png"
 
-ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum) :
-   Unit(entityID, playerID, tile, playerNum)
+ClientUnit::ClientUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum, string name) :
+   Unit(entityID, playerID, tile, playerNum, name)
 {
    static bool mapped = false;
    if (!mapped) 
@@ -82,14 +82,14 @@ ClientUnit::~ClientUnit()
 {
 }
 
-spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, int playerNum)
+spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, int playerNum, string name)
 {
-   return makeUnit(entityID, playerID, spMapTile(), playerNum);
+   return makeUnit(entityID, playerID, spMapTile(), playerNum, name);
 }
 
-spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum)
+spClientUnit ClientUnit::makeUnit(uint32 entityID, int playerID, spMapTile tile, int playerNum, string name)
 {
-   return makeUnitHelper<ClientUnit>(entityID, playerID, tile, playerNum);
+   return makeUnitHelper<ClientUnit>(entityID, playerID, tile, playerNum, name);
 }
 
 // this needs to be changed...

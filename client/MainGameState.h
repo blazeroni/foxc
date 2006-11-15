@@ -37,7 +37,7 @@ class MainGameState : public GameState, public IEventListener
       /// Creates a unit using the specified player and location
       spUnit createUnit(uint32 playerID, uint32 x, uint32 y, itemtype s0 = (itemtype)0, 
          itemtype s1 = (itemtype)0, itemtype s2 = (itemtype)0, itemtype s3 = (itemtype)0,
-         itemtype s4 = (itemtype)0, itemtype s5 = (itemtype)0, itemtype s6 = (itemtype)0);
+         itemtype s4 = (itemtype)0, itemtype s5 = (itemtype)0, itemtype s6 = (itemtype)0, string name = "DefaultName");
 
       /// Returns the unit which can currently perform actions
       spUnit getActiveUnit();

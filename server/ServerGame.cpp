@@ -230,7 +230,9 @@ spUnit ServerGame::getActiveUnit()
 void ServerGame::start()
 {
    cout << "start game" << endl;
+   uint32 seed = SDL_GetTicks();
    send(StartGameEvent(SDL_GetTicks()));
+   srand(seed);
 }
 
 uint32 ServerGame::getGameID() const

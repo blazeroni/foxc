@@ -114,3 +114,4 @@ bool LightweightSprite::isDone()
 {
    return _current->isDone();
 }
+

@@ -516,7 +516,7 @@ void MainGameState::updateFog()
         {
             tile = _map->getTile(i,j);
             unit = tile->getUnit();
-            if ( unit.get() && unit->getPlayerID() == _localPlayer->getID() )
+            if ( unit.get() && unit->getPlayerID() == _localPlayer->getID() && unit->getHealth() > 0 )
             {
                 for ( int k = 0; k < width; ++k )
                 {

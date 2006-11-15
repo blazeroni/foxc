@@ -67,14 +67,14 @@ void FrontEndGameState::processSDLEvent(SDL_Event& event)
 			int x = event.button.x;
 			int y = event.button.y;
 			//If the mouse is over the button 
-			if( ( x > hostButton->getX() ) && ( x < hostButton->getX() + hostButton->getW() ) && ( y > hostButton->getY() ) && ( y < hostButton->getY() + hostButton->getH() ) ) 
-			{
-/*				Audio::instance().StopMusic();
-				GameState* gs = new InventoryState(_game);
-				gs->init();
-				_game->changeState(gs);		*/		
-				return;
-			}
+//			if( ( x > hostButton->getX() ) && ( x < hostButton->getX() + hostButton->getW() ) && ( y > hostButton->getY() ) && ( y < hostButton->getY() + hostButton->getH() ) ) 
+//			{
+///*				Audio::instance().StopMusic();
+//				GameState* gs = new InventoryState(_game);
+//				gs->init();
+//				_game->changeState(gs);		*/		
+//				return;
+//			}
 			if( ( x > joinButton->getX() ) && ( x < joinButton->getX() + joinButton->getW() ) && ( y > joinButton->getY() ) && ( y < joinButton->getY() + joinButton->getH() ) ) 
 			{ 
 			    Audio::instance().StopMusic();
@@ -105,8 +105,8 @@ void FrontEndGameState::processSDLEvent(SDL_Event& event)
 void FrontEndGameState::update(uint32 X)
 {
 	Display::instance().draw(0,0, background);
-	Display::instance().draw(200,20,"X-CLONE");
-	hostButton->show();
+	Display::instance().draw(400,100,"FOXC", true);
+	//hostButton->show();
 	joinButton->show();
 	helpButton->show();
 	exitButton->show();

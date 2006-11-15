@@ -60,9 +60,12 @@ void Help::update(uint32 X)
 {
 	Display::instance().draw(0,0, background);
 	Display::instance().draw(20,20,"HELP MENU");
-	Display::instance().draw(20,50,"1- To shoot press 'f' and then choose the target");
-	Display::instance().draw(20,80,"2- To chat press 'ENTER' and then type your message");
-	Display::instance().draw(20,110,"3- to create a new player press 'n'");
+   Display::instance().draw(20,80,"Step 1: Find Dean, Nick, or Luis.");
+   Display::instance().draw(20,110,"Step 2: Ask that person your question.");
+
+	//Display::instance().draw(20,50,"1- To shoot press 'f' and then choose the target");
+	//Display::instance().draw(20,80,"2- To chat press 'ENTER' and then type your message");
+	//Display::instance().draw(20,110,"3- to create a new player press 'n'");
 	Display::instance().draw(20,170,"TO RETURN JUST CLICK ANYWHERE");
 }
 

@@ -35,7 +35,7 @@ void Display::init()
                               _screenHeight,
                               o.get<int>(COLOR_DEPTH),
                               SDL_HWSURFACE | SDL_DOUBLEBUF);
-   SDL_WM_SetCaption("X-CLONE", NULL);
+   SDL_WM_SetCaption("FOXC", NULL);
    _crosshair = loadImage( CROSSHAIR_IMAGE );
    _guiHands = loadImage( "resources/images/gui/br.png" );
    _guiInv = loadImage( "resources/images/gui/inventory_gui.png" );
